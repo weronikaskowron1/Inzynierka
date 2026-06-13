@@ -9,7 +9,6 @@ function Rezerwacje() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Rezerwacje</Text>
-      <Button onPress={() => navigation.goBack()}>Go back</Button>
     </View>
   );
 }

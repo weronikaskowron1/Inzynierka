@@ -1,6 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import { View } from 'react-native'
+
 import HomeScreen from '../Strony/HomeScreen';
 import Rezerwacje from '../Strony/Rezerwacje';
 import Ulubione from '../Strony/Ulubione';
@@ -16,21 +18,48 @@ export default function Nawigator() {
           let iconName: any = 'home-outline';
 
           if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home-outline';
+            iconName = 'home-outline';
           } else if (route.name === 'Rezerwacje') {
-            iconName = focused ? 'calendar' : 'calendar-outline';
+            iconName = 'calendar-clear-outline';
           } else if (route.name === 'Ulubione') {
-            iconName = focused ? 'heart' : 'heart-outline';
+            iconName = 'heart-outline';
           } else if (route.name === 'Profil') {
-            iconName = focused ? 'person' : 'person-outline';
+            iconName = 'person-outline';
           }
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return (
+            <View style={{ alignItems: 'center' }}>
+              <Ionicons name={iconName} size={size} color={color} />
+
+              {focused && ( //kółeczko
+                <View
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: 999,
+                    marginTop: 4,
+                    backgroundColor: '#5C8A24',
+                  }}
+                />
+              )}
+            </View>
+          );
         },
 
         tabBarShowLabel: false,
-        tabBarActiveTintColor: '#3A5616',
+        tabBarActiveTintColor: '#5C8A24',
         tabBarInactiveTintColor: '#999999',
+         tabBarStyle: {
+              height: 65,
+              paddingTop: 7,
+              paddingLeft: 10,
+              paddingRight: 10
+            },
+
+            tabBarItemStyle: {
+//               justifyContent: 'center',
+//               alignItems: 'center',
+            },
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />

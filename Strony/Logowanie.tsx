@@ -3,12 +3,13 @@ import { Button } from '@react-navigation/elements';
 
 import { useNavigation } from '@react-navigation/native';
 
-export default Ulubione;
-function Ulubione() {
+export default Logowanie;
+function Logowanie() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Ulubione</Text>
+      <Text>Logowanie</Text>
+      <Button onPress={() => navigation.goBack()}>Wróć</Button>
     </View>
   );
 }
