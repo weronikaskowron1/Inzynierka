@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Colors } from '../Themes/colors.ts';
 
 import { View } from 'react-native'
 
@@ -38,7 +39,7 @@ export default function Nawigator() {
                     height: 5,
                     borderRadius: 999,
                     marginTop: 4,
-                    backgroundColor: '#5C8A24',
+                    backgroundColor: Colors.green2,
                   }}
                 />
               )}
@@ -47,7 +48,7 @@ export default function Nawigator() {
         },
 
         tabBarShowLabel: false,
-        tabBarActiveTintColor: '#5C8A24',
+        tabBarActiveTintColor: Colors.green2,
         tabBarInactiveTintColor: '#999999',
          tabBarStyle: {
               height: 65,
