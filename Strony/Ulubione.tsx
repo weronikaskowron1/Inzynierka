@@ -2,38 +2,49 @@ import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import { Button } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import {Ionicons, Fontisto} from '@expo/vector-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 function ProfilFirmy({nazwaFirmy, idFirmy, profiloweFirmy, ocenaFirmy, polubione, odleglosc}) {
     const [czyPolubione, setPolubione] = useState(polubione);
+    useEffect(() => {
+      setPolubione(polubione);
+    }, [polubione]);
     return (
         <View style={styles.containerFirma}>
-            <Pressable style={styles.polubione} onPress={() => setPolubione(!polubione)}>
-              {polubione ? (
-                <Ionicons name="heart" style={styles.serduszko} size={25} />
+            <Pressable style={styles.polubione} onPress={() => setPolubione(prev => !prev)}>
+              {czyPolubione ? (
+                  <>
+                  <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                   <Ionicons name="heart" style={styles.serduszko} size={35} />
+                   <Ionicons name="heart" style={styles.serduszko_back} size={42}/>
+                   </View>
+                </>
               ) : (
-                <Ionicons name="heart-outline" style={styles.serduszko} size={25} />
+                <Ionicons name="heart-outline" style={styles.serduszko_blank} size={42} />
               )}
             </Pressable>
             <View style={styles.Stopka}>
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 10, marginTop: 45, width: 105, height: 70, backgroundColor: 'green', borderRadius: 5, overflow: 'hidden'}}>
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 0,
+                     width: '100%', height: '100%', backgroundColor: 'green', borderRadius: 5, overflow: 'hidden'}}>
                 {profiloweFirmy ? (
                   <Image
                     source={{ uri: {profiloweFirmy} }}
-                    style={{ width: 100, height: 100 }}
+                    style={{ width: '100%', height: '100%' }}
                   />
                 ) : (
-                  <Ionicons name="image-outline" size={30} color="gray" />
+                  <Ionicons name="image-outline" size={30} color="gray" style={{ position: 'absolute', top: '20%'}} />
                 )}
                 </View>
+                <View style={{backgroundColor: 'rgba(255, 255, 255, 0.8)',borderRadius: 2, position: 'absolute', top:'70%', width: '100%'}}>
                 <Text style={styles.nazwaFirmy}>{nazwaFirmy}</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View style={{flexDirection: 'row'}}>
                     <Fontisto name="star" style={styles.ocenaFirmy}></Fontisto>
                     <Text> {ocenaFirmy}</Text>
                 </View>
-                <Text size={20}>{odleglosc}</Text>
+                <Text size={20} style={{padding: 5}}>{odleglosc}</Text>
+                </View>
                 </View>
             </View>
         </View>
@@ -46,7 +57,7 @@ function Ulubione() {
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
       <Text>Najczęściej odwiedzane:</Text>
       <View style={{ flexDirection: 'row' }}>
-      <ProfilFirmy nazwaFirmy="Nazwa Firmy" idFirmy={1} profiloweFirmy="" ocenaFirmy={3.4} polubione={true} odleglosc="5km"/>
+      <ProfilFirmy nazwaFirmy="Nazwa Firmy" idFirmy={1} profiloweFirmy="" ocenaFirmy={3.4} polubione={false} odleglosc="5km"/>
       </View>
       <Text>Polubione:</Text>
     </ScrollView>
@@ -58,8 +69,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   containerFirma: {
-    width: 150,
-    height: 150
+    width: '55%',
+    height: '45%'
     },
   button: {
     alignItems: 'center',
@@ -77,11 +88,23 @@ const styles = StyleSheet.create({
   serduszko: {
       color: 'red',
       margin: 0,
+      position: 'absolute',
+      zIndex: 2
+      },
+  serduszko_back: {
+      color: 'white',
+      margin: 0,
+      zIndex: 1
+      },
+  serduszko_blank: {
+      color: 'gray',
+      margin: 0,
+      zIndex: 1
       },
   polubione: {
     position: 'absolute',
-    top: 0,
-    right: 10,
+    top: 7,
+    right: 12,
     zIndex: 1,
       },
   ocenaFirmy: {
@@ -94,11 +117,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   Stopka: {
-      width: 120,
-      height: 120,
+      width: '80%',
+      height: '100%',
       backgroundColor: 'white',
           padding: 10,
-          margin: 10,
+          margin: 15,
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 10,
