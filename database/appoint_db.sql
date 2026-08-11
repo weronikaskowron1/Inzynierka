@@ -13,10 +13,15 @@ create type user_type as enum(
 Create table if not exists users(
 	id serial primary key,
 	username varchar(50) unique not null,
+	name varchar(30) not null,
+	surname varchar(30) not null,
 	email varchar(255) unique not null,
 	password varchar(50) not null,
 	created_at timestamp not null default now(),
 	last_logged timestamp not null,
+	phone varchar(20) unique,
+	image_path varchar(255),
+	id_adress int references adresses(id) on delete cascade,
 	sex sex default 'inny'
 );
 
