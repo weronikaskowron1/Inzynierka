@@ -7,7 +7,7 @@ import { Colors } from '../../Themes/colors.ts';
 const NextVisitCard = ({ service = '', day = '', time = '', company = '' }) => {
   return (
     <LinearGradient
-      colors={[Colors.green3, Colors.green1]}
+      colors={[Colors.green2, Colors.green1]}
       locations={[0, 1]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
@@ -28,7 +28,7 @@ const NextVisitCard = ({ service = '', day = '', time = '', company = '' }) => {
           ]}>
           <Feather
             name="chevron-right"
-            size={22}
+            size={25}
             color="white"
           />
         </Pressable>
@@ -39,10 +39,10 @@ const NextVisitCard = ({ service = '', day = '', time = '', company = '' }) => {
 
 const styles = StyleSheet.create({
   visit_container: {
-    height: 70,
+    height: 80,
     width: '100%',
     backgroundColor: 'red',
-    borderRadius: 18,
+    borderRadius: 22,
   },
 
   container: {
@@ -55,9 +55,9 @@ const styles = StyleSheet.create({
 
   arrow_button: {
     backgroundColor: '#607A40',
-    height: 45,
-    width: 45,
-    borderRadius: 22.5,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
 
     alignItems: 'center',
     justifyContent: 'center',
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   service_type_text: {
     color: 'white',
     fontWeight: '700',
-    fontSize: 17,
+    fontSize: 18,
   },
 
   detail_container: {
@@ -77,17 +77,17 @@ const styles = StyleSheet.create({
 
   day_text: {
     color: '#CADF9C',
-    fontSize: 15,
+    fontSize: 16,
   },
 
   time_text: {
     color: '#CADF9C',
-    fontSize: 15,
+    fontSize: 16,
   },
 
   company_text: {
     color: '#CADF9C',
-    fontSize: 15,
+    fontSize: 16,
   },
 });
 
