@@ -1,14 +1,148 @@
-import { StyleSheet, Text, View } from 'react-native';
-// import { Button } from '@react-navigation/elements';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+
+import Welcome from '../Komponenty/HomeScreen/Welcome.tsx';
+import AlertIcon from '../Komponenty/HomeScreen/AlertIcon.tsx';
+import CategoryIcon from '../Komponenty/HomeScreen/CategoryIcon.tsx';
+import NextVisitCard from '../Komponenty/HomeScreen/NextVisitCard.tsx';
+import Searchbar from '../Komponenty/HomeScreen/Searchbar.tsx';
+import ServiceCard from '../Komponenty/HomeScreen/ServiceCard.tsx';
+import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
 
 import { useNavigation } from '@react-navigation/native';
 
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
+  const categories_icons = [
+    {
+      title: 'Fryzjer',
+      icon: 'scissors',
+      library: 'Feather',
+    },
+    {
+      title: 'Paznokcie',
+      icon: 'sparkles-outline',
+      library: 'Ionicons',
+    },
+    {
+      title: 'Kosmetyka',
+      icon: 'leaf-outline',
+      library: 'Ionicons',
+    },
+    {
+      title: 'Makijaż',
+      icon: 'paintbrush',
+      library: 'Octicons',
+    },
+  ];
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home jhg Screen</Text>
-    </View>
+    <ScrollView>
+      <View style={styles.body}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Welcome />
+            <AlertIcon />
+          </View>
+          <View style={styles.searcharbar}>
+            <Searchbar />
+          </View>
+          <View style={styles.categories_container}>
+            {categories_icons.map((item, index) => (
+              <CategoryIcon
+                key={index}
+                title={item.title}
+                icon={item.icon}
+                library={item.library}
+              />
+            ))}
+          </View>
+          <View style={styles.recommended_container}>
+            <Text style={styles.polecane_text}> Polecane salony </Text>
+            <WszystkieText />
+          </View>
+
+          <View style={styles.service_container}>
+            <ServiceCard
+              service_name="Studio Glam"
+              rating="5.0"
+              distance="2 km"
+            />
+            <ServiceCard
+              service_name="Hairlook"
+              rating="4.9"
+              distance="1.5 km"
+            />
+          </View>
+
+          <Text style={styles.nastepna_wizyta_text}>NASTĘPNA WIZYTA</Text>
+          <View style={styles.next_visits_container}>
+          <NextVisitCard
+            service="Manicure hybrydowy"
+            day="Jutro"
+            time="11:00"
+            company="Nails&Co."
+          />
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  body: {
+    flex: 1,
+    backgroundColor: '#FDFDF9',
+  },
+
+  container: {
+    margin: 20,
+  },
+
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  searcharbar: {
+    marginTop: 20,
+  },
+
+  categories_container: {
+    marginTop: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  recommended_container: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  polecane_text: {
+    fontWeight: '500',
+    fontSize: 18,
+  },
+
+  service_container: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  nastepna_wizyta_text: {
+    marginTop: 15,
+    marginBottom: 7,
+    color: '#A4A4A4',
+    fontWeight: '700',
+    fontSize: 12,
+  },
+
+  next_visits_container: {
+    gap: 10,
+  },
+});
