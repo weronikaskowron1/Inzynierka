@@ -9,16 +9,16 @@ const AlertIcon = () => {
         styles.container,
         pressed && pressed_styles.button_pressed,
       ]}>
-      <Feather name="bell" size={20} color="#5C8A24" />
+      <Feather name="bell" size={24} color="#5C8A24" />
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: 40,
-    height: 40,
-    borderRadius: 11,
+    width: 55,
+    height: 55,
+    borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EDF3DF',

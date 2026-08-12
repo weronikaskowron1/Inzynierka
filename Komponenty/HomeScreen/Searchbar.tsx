@@ -18,7 +18,7 @@ const Searchbar = () => {
       />
       <Ionicons
         name="search-outline"
-        size={20}
+        size={23}
         color="#A4A4A4"
         style={styles.icon}
       />
@@ -37,18 +37,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: 'white',
-    shadowColor: '#A4A4A4',
-    shadowOffset: { width: 1, height: 5 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
 
-    height: 45,
+    boxShadow: '0px 5px 10px rgba(164, 164, 164, 0.2)',
+
+    height: 50,
     width: '100%',
 
     color: '#A4A4A4',
     fontWeight: '400',
+    fontSize: 17,
 
-    paddingLeft: 42,
+    paddingLeft: 45,
 
     outlineStyle: 'none',
   },

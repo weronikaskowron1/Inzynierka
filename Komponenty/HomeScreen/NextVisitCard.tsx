@@ -3,13 +3,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 
 import { pressed_styles } from '../../Themes/buton_pressed.tsx'
-
+import { Colors } from '../../Themes/colors.ts';
 const NextVisitCard = ({ service = '', day = '', time = '', company = '' }) => {
   return (
     <LinearGradient
-      colors={['#69A129', '#3A5916']}
-      start={{ x: 1, y: -1 }}
-      end={{ x: 2, y: 2 }}
+      colors={[Colors.green3, Colors.green1]}
+      locations={[0, 1]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
       style={styles.visit_container}>
       <View style={styles.container}>
         <View style={styles.info_container}>
@@ -27,7 +28,7 @@ const NextVisitCard = ({ service = '', day = '', time = '', company = '' }) => {
           ]}>
           <Feather
             name="chevron-right"
-            size={20}
+            size={22}
             color="white"
           />
         </Pressable>
@@ -38,7 +39,7 @@ const NextVisitCard = ({ service = '', day = '', time = '', company = '' }) => {
 
 const styles = StyleSheet.create({
   visit_container: {
-    height: 65,
+    height: 70,
     width: '100%',
     backgroundColor: 'red',
     borderRadius: 18,
@@ -54,9 +55,9 @@ const styles = StyleSheet.create({
 
   arrow_button: {
     backgroundColor: '#607A40',
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    height: 45,
+    width: 45,
+    borderRadius: 22.5,
 
     alignItems: 'center',
     justifyContent: 'center',
@@ -67,6 +68,7 @@ const styles = StyleSheet.create({
   service_type_text: {
     color: 'white',
     fontWeight: '700',
+    fontSize: 17,
   },
 
   detail_container: {
@@ -75,17 +77,17 @@ const styles = StyleSheet.create({
 
   day_text: {
     color: '#CADF9C',
-    fontSize: 13,
+    fontSize: 15,
   },
 
   time_text: {
     color: '#CADF9C',
-    fontSize: 13,
+    fontSize: 15,
   },
 
   company_text: {
     color: '#CADF9C',
-    fontSize: 13,
+    fontSize: 15,
   },
 });
 

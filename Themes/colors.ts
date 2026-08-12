@@ -4,5 +4,7 @@ export const Colors = {
   green3: '#84BB31',
   green4: '#A6CB6A',
   green5: '#CADF9C',
-  green6: '#EDF3DF'
+  green6: '#EDF3DF',
+
+  backgroundColor: '#FDFDF9',
 };

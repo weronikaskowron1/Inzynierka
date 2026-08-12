@@ -32,25 +32,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatar: {
-    width: 45,
-    height: 45,
-    borderRadius: 15,
+    width: 60,
+    height: 60,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   avatarText: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: '700',
     color: '#3A5616',
   },
   greeting: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#A4A4A4',
     fontWeight: '500',
   },
   name: {
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: '700',
   },
 });

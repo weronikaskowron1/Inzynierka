@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#84BB31',
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: 17,
   },
 });
 

@@ -10,6 +10,8 @@ import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { Colors } from '../Themes/colors.ts';
+
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
@@ -36,7 +38,7 @@ function HomeScreen() {
     },
   ];
   return (
-    <ScrollView>
+//     <ScrollView>
       <View style={styles.body}>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -85,18 +87,19 @@ function HomeScreen() {
           </View>
         </View>
       </View>
-    </ScrollView>
+//     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: '#FDFDF9',
+    backgroundColor: Colors.backgroundColor,
   },
 
   container: {
-    margin: 20,
+    margin: 30,
+    marginTop: 70
   },
 
   header: {
@@ -107,17 +110,19 @@ const styles = StyleSheet.create({
   },
 
   searcharbar: {
-    marginTop: 20,
+    marginTop: 30,
   },
 
   categories_container: {
-    marginTop: 30,
+    marginTop: 40,
+    gap: 10,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
 
   recommended_container: {
-    marginTop: 20,
+    marginTop: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -125,21 +130,21 @@ const styles = StyleSheet.create({
 
   polecane_text: {
     fontWeight: '500',
-    fontSize: 18,
+    fontSize: 22,
   },
 
   service_container: {
-    marginTop: 10,
+    marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
 
   nastepna_wizyta_text: {
-    marginTop: 15,
-    marginBottom: 7,
+    marginTop: 20,
+    marginBottom: 10,
     color: '#A4A4A4',
     fontWeight: '700',
-    fontSize: 12,
+    fontSize: 15,
   },
 
   next_visits_container: {

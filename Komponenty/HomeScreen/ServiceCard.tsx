@@ -19,7 +19,7 @@ const ServiceCard = ({ service_name, rating, distance }) => {
           start={{ x: 1, y: -1 }}
           end={{ x: 2, y: 2 }}
           style={styles.image_container}>
-          <SimpleLineIcons name="picture" size={25} color="#A4A4A4" />
+          <SimpleLineIcons name="picture" size={30} color="#A4A4A4" />
         </LinearGradient>
       )}
 
@@ -28,7 +28,7 @@ const ServiceCard = ({ service_name, rating, distance }) => {
       <View style={styles.service_info}>
         <Text style={styles.service_name}>{service_name}</Text>
         <View style={styles.info_container}>
-          <FontAwesome name="star" size={12} color="#E9BB5A" />
+          <FontAwesome name="star" size={15} color="#E9BB5A" />
           <Text style={styles.rating}>{rating}</Text>
           <Text style={styles.distance}>{`\u00B7 ${distance}`}</Text>
         </View>
@@ -39,16 +39,13 @@ const ServiceCard = ({ service_name, rating, distance }) => {
 
 const styles = StyleSheet.create({
   service_container: {
-    height: 135,
-    width: 135,
+    height: 160,
+    width: 160,
 
     borderWidth: 0,
-    borderRadius: 10,
+    borderRadius: 15,
     borderColor: 'white',
-    shadowColor: '#A4A4A4',
-    shadowOffset: { width: 1, height: 5 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
+    boxShadow: '3px 10px 5px rgba(164, 164, 164, 0.2)',
   },
 
   image_container: {
@@ -70,6 +67,7 @@ const styles = StyleSheet.create({
 
   service_name: {
     fontWeight: '700',
+    fontSize: 17,
     color: '#4B4B4B',
   },
 
@@ -81,12 +79,14 @@ const styles = StyleSheet.create({
 
   rating: {
     fontWeight: '500',
+    fontSize: 15,
     color: '#4B4B4B',
   },
 
   distance: {
     color: '#A4A4A4',
     fontWeight: '400',
+    fontSize: 15,
   },
 });
 export default ServiceCard;

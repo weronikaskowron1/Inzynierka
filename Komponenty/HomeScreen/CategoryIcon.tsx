@@ -35,21 +35,21 @@ const styles = StyleSheet.create({
   },
 
   category: {
-    height: 60,
-    width: 60,
+    height: 70,
+    width: 70,
     backgroundColor: '#EDF3DF',
 
     justifyContent: 'center',
     alignItems: 'center',
 
-    borderRadius: 17,
+    borderRadius: 20,
   },
 
   text: {
     marginTop: 5,
     color: '#4B4B4B',
     fontWeight: 500,
-    fontSize: 13,
+    fontSize: 15,
   },
 });
 
