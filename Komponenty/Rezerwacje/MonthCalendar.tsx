@@ -1,8 +1,9 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
-import { Feather } from "@expo/vector-icons";
+
 import { useState } from "react";
 
 import { Colors } from "../../Themes/colors.ts";
+import DateChanger from "./DateChanger";
 
 const MonthCalendar = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -67,18 +68,7 @@ const MonthCalendar = () => {
   return (
     <View>
       <Text>{selectedDayIndex}</Text>
-      <View style={styles.calendar_switch_container}>
-        <Pressable style={styles.arrow} onPress={() => previousMonth()}>
-          <Feather name="chevron-left" size={20} color="#5C8A24" />
-        </Pressable>
-        <Text style={styles.date_text}>
-          {currentMonthText.charAt(0).toUpperCase() + currentMonthText.slice(1)}{" "}
-          {year}
-        </Text>
-        <Pressable style={styles.arrow} onPress={() => nextMonth()}>
-          <Feather name="chevron-right" size={20} color={Colors.green2} />
-        </Pressable>
-      </View>
+      <DateChanger previousSheet = {previousMonth} nextSheet = {nextMonth} currentMonthText={currentMonthText}/>
 
       <View style={styles.week}>
         {weekDays.map((item, index) => (

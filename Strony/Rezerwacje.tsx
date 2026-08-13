@@ -11,7 +11,7 @@ function Rezerwacje() {
   return (
       <View style={styles.body}>
         <View style={styles.container}>
-          <WeekCalendar />
+          <MonthCalendar />
         </View>
       </View>
   );
