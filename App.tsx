@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { Button } from '@react-navigation/elements';
-
+import { Colors } from './Themes/colors.ts';
 
 import Logowanie from './Strony/Logowanie.tsx'
 import Nawigator from './Komponenty/Nawigator.tsx'
@@ -56,7 +56,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
   },

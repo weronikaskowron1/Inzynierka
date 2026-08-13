@@ -14,7 +14,8 @@ const Tab = createBottomTabNavigator();
 export default function Nawigator() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route  }) => ({
+          headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName: any = 'home-outline';
 
