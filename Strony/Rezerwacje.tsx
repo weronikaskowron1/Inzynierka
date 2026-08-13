@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from '@react-navigation/elements';
 import MonthCalendar from '../Komponenty/Rezerwacje/MonthCalendar.tsx';
+import WeekCalendar from '../Komponenty/Rezerwacje/WeekCalendar.tsx';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,7 +11,7 @@ function Rezerwacje() {
   return (
       <View style={styles.body}>
         <View style={styles.container}>
-          <MonthCalendar />
+          <WeekCalendar />
         </View>
       </View>
   );
