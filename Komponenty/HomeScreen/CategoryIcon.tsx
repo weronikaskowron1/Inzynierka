@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Feather, Ionicons, Octicons } from "@expo/vector-icons";
 
-import { pressed_styles } from '../../Themes/buton_pressed.tsx'
+import { pressed_styles } from "../../Themes/buton_pressed.tsx";
 const iconLibraries = {
   Feather,
   Ionicons,
@@ -9,9 +9,9 @@ const iconLibraries = {
 };
 
 const CategoryIcon = ({
-  icon = 'leaf-outline',
-  title = '',
-  library = 'Ionicons',
+  icon = "leaf-outline",
+  title = "",
+  library = "Ionicons",
 }) => {
   const Icon = iconLibraries[library];
 
@@ -21,7 +21,8 @@ const CategoryIcon = ({
         style={({ pressed }) => [
           styles.category,
           pressed && pressed_styles.button_pressed,
-        ]}>
+        ]}
+      >
         <Icon name={icon} size={25} color="#5C8A24" style={styles.icon} />
       </Pressable>
       <Text style={styles.text}>{title}</Text>
@@ -31,23 +32,23 @@ const CategoryIcon = ({
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   category: {
     height: 70,
     width: 70,
-    backgroundColor: '#EDF3DF',
+    backgroundColor: "#EDF3DF",
 
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
 
     borderRadius: 20,
   },
 
   text: {
     marginTop: 5,
-    color: '#4B4B4B',
+    color: "#4B4B4B",
     fontWeight: 500,
     fontSize: 15,
   },

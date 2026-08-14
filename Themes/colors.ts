@@ -13,4 +13,5 @@ export const Colors = {
   graphite: '#1c1b1b',
   green6: '#EDF3DF',
   backgroundColor: '#FDFDF9',
+  grayText: '#A4A4A4',
 };
