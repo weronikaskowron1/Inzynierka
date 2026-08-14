@@ -3,7 +3,12 @@ import { Button } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import {Ionicons, Fontisto} from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-
+import { ServiceCard } from '../Komponenty/HomeScreen/ServiceCard.tsx'
+import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold } from '@expo-google-fonts/league-spartan';
+import { useFonts } from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Colors } from '../Themes/colors';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 function ProfilFirmy({nazwaFirmy, idFirmy, profiloweFirmy, ocenaFirmy, polubione, odleglosc}) {
     const [czyPolubione, setPolubione] = useState(polubione);
@@ -52,14 +57,16 @@ function ProfilFirmy({nazwaFirmy, idFirmy, profiloweFirmy, ocenaFirmy, polubione
     }
 
 function Ulubione() {
+  const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
+  const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
-      <Text>Najczęściej odwiedzane:</Text>
+    <ScrollView contentContainerStyle={{ flexGrow: 1, padding:'5%', paddingBottom:tabBarHeight+'5%', backgroundColor:Colors.creambackground }}>
+      <Text style={styles.textfont}>Najczęściej odwiedzane:</Text>
       <View style={{ flexDirection: 'row' }}>
       <ProfilFirmy nazwaFirmy="Nazwa Firmy" idFirmy={1} profiloweFirmy="" ocenaFirmy={3.4} polubione={false} odleglosc="5km"/>
       </View>
-      <Text>Polubione:</Text>
+      <Text style={styles.textfont}>Polubione:</Text>
     </ScrollView>
   );
 }
@@ -77,7 +84,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
   },
+         textfont:
+            {
+                fontSize: 23,
 
+                fontFamily: 'LeagueSpartan_500Medium',
+                color: Colors.graphite,
+                },
   text: {
     fontSize: 20,
   },

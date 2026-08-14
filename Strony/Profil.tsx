@@ -3,11 +3,10 @@ import { Button } from '@react-navigation/elements';
 import { SimpleLineIcons, FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Colors } from '../Themes/colors';
-import { Phone, Mail } from 'lucide-react-native';
+import { Phone, Mail, CalendarCheck } from 'lucide-react-native';
 import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold } from '@expo-google-fonts/league-spartan';
 import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
-import { CalendarCheck } from 'lucide-react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 import Logowanie from './Strony/Logowanie.tsx';
@@ -29,14 +28,14 @@ function ZdjecieProfilowe({photopath,navigation,imie}) {
                                 start={{ x: 0, y: 0 }}
                                 end={{ x: 1, y: 1 }}
                                 style={{justifyContent:'center', alignItems:'center', borderRadius:20, aspectRatio:1,width:'100%'}}>
-                        <Text style={{color:Colors.green1,fontSize: 40,fontFamily: 'LeagueSpartan_700Bold', paddingLeft:'5%'}}>{imie.slice(0,1)}</Text>
+                        <Text style={{color:Colors.green1,fontSize: 30,fontFamily: 'LeagueSpartan_700Bold', paddingLeft:'5%'}}>{imie.slice(0,1)}</Text>
                         </LinearGradient>
                       </View>
                       )
           }
 <View style={styles.tloaparatu}>
 <Pressable style={styles.aparat} onPress={() => {navigation.navigate('Logowanie')}} >
-    <SimpleLineIcons name="camera" size={18} color={Colors.gray}/>
+    <SimpleLineIcons name="camera" size={16} color={Colors.green2}/>
   </Pressable>
 </View>
       </View>
@@ -149,7 +148,7 @@ function Profil() {
   return (
       <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: Colors.creambackground, paddingBottom: tabBarHeight + 80, } }>
       <View style={styles.containerProfile}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', marginTop:'8%'}}>
               <ZdjecieProfilowe imie='Kuba'/>
               <View style={{flexDirection: 'column', alignItems: 'left', justifyContent: 'top', marginLeft: '3%'}}>
                   <Text style={styles.username}>{imie} {nazwisko}</Text>
@@ -164,27 +163,27 @@ function Profil() {
               </View>
           </View>
       </View>
-      <View style={[styles.container, {flexDirection:'row', height:'17%', justifyContent:'center'}]}>
-            <View style={{ flexDirection:'column', alignItems:'center', justifyContent:'center',width:'45%'}}>
-                <CalendarCheck size={35} strokeWidth={1.4} color={Colors.green2}/>
-                <Text style={[styles.textbold,{fontSize:18}]}>{odbyte_wizyty}</Text>
-                <Text style={[styles.textundergray,{fontSize:18}]}>Wizyty</Text>
+      <View style={[styles.container, {flexDirection:'row', height:'10%', width:'90%', justifyContent:'center'}]}>
+            <View style={{ flexDirection:'column', alignItems:'center', justifyContent:'center',width:'45%', marginTop:'3%', marginBottom:'3%'}}>
+                <CalendarCheck size={22} strokeWidth={1.4} color={Colors.green2} style={{marginBottom:'-1%'}}/>
+                <Text style={[styles.textbold,{fontSize:16}]}>{odbyte_wizyty}</Text>
+                <Text style={[styles.textundergray,{fontSize:16, marginLeft:'0.5%'}]}>Wizyty</Text>
             </View>
             <View style={{justifyContent: 'center', alignItems:'center', height:'100%', width:'5%'}}>
             <View style={{height:'80%', width: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
 
             </View>
             <View style={{ flexDirection:'column', alignItems:'center', justifyContent:'center', width:'45%'}}>
-                <Ionicons name="heart-outline" size={35} color={Colors.green2}/>
-                <Text style={[styles.textbold,{fontSize:18}]}>{polubione_obiekty}</Text>
-                <Text style={[styles.textundergray,{fontSize:18}]}>Ulubione</Text>
+                <Ionicons name="heart-outline" size={22} color={Colors.green2} style={{marginBottom:'-1%'}}/>
+                <Text style={[styles.textbold,{fontSize:16}]}>{polubione_obiekty}</Text>
+                <Text style={[styles.textundergray,{fontSize:16, marginLeft:'0.5%'}]}>Ulubione</Text>
             </View>
       </View>
         <NavigationContainer/>
 
-        <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection: 'row', width: '90%', height: '8%', alignItems: 'center', justifyContent: 'center' , borderWidth:2, borderColor: Colors.lightgray, backgroundColor:Colors.greenishwhite, borderRadius:15, marginTop:'3%' }}>
+        <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection: 'row', width: '90%', height: '7%', alignItems: 'center', justifyContent: 'center' , borderWidth:2, borderColor: Colors.lightgray, backgroundColor:Colors.greenishwhite, borderRadius:15, marginTop:'3%' }}>
         <Feather name="log-out" size={25} color={Colors.green2} style={{paddingRight:'3%'}}/>
-        <Text style={{fontSize:15,color: Colors.green2, fontFamily: 'LeagueSpartan_500Medium'}}>Wyloguj się</Text>
+        <Text style={{fontSize:17,color: Colors.green2, fontFamily: 'LeagueSpartan_500Medium'}}>Wyloguj się</Text>
         </Pressable>
       </ScrollView>
   );
@@ -196,10 +195,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '30%',
+        width: '25%',
         padding:'3%',
-        marginTop: '3%',
-        marginRight: '3%',
+        marginTop: '4%',
+        marginRight: '2%',
         marginLeft: '5%',
         aspectRatio: 1,
         marginBottom: 0
@@ -221,7 +220,7 @@ const styles = StyleSheet.create({
     containerProfile:
         {
         width:'100%',
-        height: '18%',
+        height: '21%',
         flexDirection: 'column'
     },
     tloIconki:
@@ -253,11 +252,11 @@ const styles = StyleSheet.create({
          width: '35%',
          aspectRatio: 1,
          borderRadius: 999,
-         backgroundColor: 'white',
+         backgroundColor: Colors.white,
          alignItems: 'center',
          justifyContent: 'center',
          borderWidth:1,
-         borderColor:Colors.gray
+         borderColor:Colors.green2
        },
    text:
    {
@@ -275,8 +274,8 @@ const styles = StyleSheet.create({
        },
    username:
    {
-       fontSize: 24,
-       marginTop: '18%',
+       fontSize: 21,
+       marginTop: '16%',
        fontFamily: 'LeagueSpartan_700Bold',
        color: Colors.graphite,
        },
@@ -284,7 +283,8 @@ const styles = StyleSheet.create({
    {
        fontSize:18,
        color: Colors.graphite,
-       fontFamily: 'LeagueSpartan_600SemiBold'
+       fontFamily: 'LeagueSpartan_600SemiBold',
+       marginBottom: '-2%'
        },
    textundergray:
       {
