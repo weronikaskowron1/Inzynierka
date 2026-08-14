@@ -1,0 +1,95 @@
+import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { useState } from "react";
+
+import { Colors } from "../../Themes/colors.ts";
+
+import DateChanger from "./DateChanger";
+
+const WeekCalendar = () => {
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth());
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const weekday = (new Date().getDay() + 6) % 7;
+  const today = new Date().getDate();
+
+  const daysInPreviousMonth = new Date(year, month, 0).getDate();
+
+  const currentMonthText = new Date(year, month).toLocaleString("pl-PL", {
+    month: "long",
+  });
+  const weekDays = ["PON", "WT", "ŚR", "CZW", "PT", "SB", "ND"];
+
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+
+  const calendarDays = [];
+
+  for (let i = 0; i < 7; i++) {
+    let dayNumber = today - weekday + i;
+    if (dayNumber <= 0) {
+      dayNumber = daysInPreviousMonth + dayNumber;
+    }
+    if (dayNumber > daysInMonth) {
+      dayNumber = dayNumber - daysInMonth;
+    }
+    calendarDays.push(dayNumber);
+  }
+
+  return (
+    <View>
+    <DateChanger  />
+      <View style={styles.week}>
+        {weekDays.map((item, index) => (
+          <Text style={styles.weekDays} key={index}>
+            {item}
+          </Text>
+        ))}
+      </View>
+
+      <View style={styles.calendar}>
+        {calendarDays.map((item, index) => (
+          <Pressable key={index} style={styles.day}>
+            <View>
+              <Text style={styles.dayText}>{item}</Text>
+            </View>
+          </Pressable>
+        ))}
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  calendar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  week: {
+    flexDirection: "row",
+    marginBottom: -4,
+  },
+
+  weekDays: {
+    textAlign: "center",
+    width: "14.2857%",
+
+    fontSize: 13,
+    fontWeight: "500",
+    color: Colors.grayText,
+  },
+
+  day: {
+    width: "14.2857%",
+    height: 45,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  dayText: {
+    fontSize: 22,
+    fontWeight: "500",
+    color: "#333",
+  },
+});
+export default WeekCalendar;
