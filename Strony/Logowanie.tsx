@@ -1,37 +1,70 @@
 import { StyleSheet, Text, View, Image, Dimensions,TextInput,TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import {useState} from 'react'
+import { Colors } from '../Themes/colors.ts';
+import {Ionicons} from '@expo/vector-icons';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export default function Logowanie() {
   const navigation = useNavigation();
   const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+  const [showPassword,setShowPassword]=useState(false);
+  const [rememberMe,setRememberMe]=useState(true);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image
-          source={require('../assets/logo.png')}
-          style={styles.logo}
-          resizeMode="contain"
-        />
+        <View style={styles.logoConteiner}>
+          <Image
+            source={require('../assets/logo.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+        </View>
         <Text style={styles.headerText}>Witaj ponownie</Text>
         <Text style={styles.normalText}>Zaloguj się, aby zarządzać swoimi wizytami.</Text>
         <Text style={styles.textDarkSmall}>Adres e-mail</Text>
-        <TextInput
-          style={styles.inputEmail}
-          placeholder="kuba@appoint.pl"
-          value={email}
-          onChangeText={setEmail}/>
+        <View style={styles.emailWrapper}>
+          <Ionicons
+            name="mail-outline"
+            size={screenWidth * 0.05}
+            color="#999999"
+            style={{ marginRight: screenWidth * 0.02 }}
+          />
+          <TextInput style={styles.inputEmail}
+            placeholder="kuba@appoint.pl"
+            value={email}
+            onChangeText={setEmail}/>
+        </View>
+          <Text style={styles.textDarkSmall}>Hasło</Text>
+        <View style={styles.passwordWrapper}>
+             <Ionicons
+               name="lock-closed-outline"
+               size={screenWidth * 0.05}
+               color="#999999"
+               style={{ marginRight: screenWidth * 0.01 }}
+              />
+            <TextInput
+              style={styles.inputPassword}
+              placeholder="• • • • • • • •"
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
 
-      </View>
+            />
 
-      <View style={styles.content}>
-        <Text style={styles.normalText}>Logowanie</Text>
-        <Button onPress={() => navigation.goBack()}>Wróć</Button>
+            <TouchableOpacity onPress={()=>setShowPassword(!showPassword)}>
+
+              <Ionicons
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={screenWidth*0.05}
+                color="#999999"
+             />
+            </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -40,7 +73,7 @@ export default function Logowanie() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fdfd9',
+    backgroundColor: Colors.backgroundColor,
     paddingTop: screenHeight * 0.06,
   },
   header: {
@@ -52,10 +85,10 @@ const styles = StyleSheet.create({
     //gap: screenHeight * 0.02,
   },
   logo: {
-    width: screenWidth * 0.15,
-    height: screenWidth * 0.15,
-    borderRadius: (screenWidth * 0.12) / 2,
-    marginBottom:screenHeight*0.025
+    width: screenWidth * 0.13,
+    height: screenWidth * 0.13,
+    //borderRadius: (screenWidth * 0.12) / 2,
+    //marginBottom:screenHeight*0.025
 
   },
   headerText: {
@@ -82,14 +115,87 @@ const styles = StyleSheet.create({
   },
   inputEmail: {
     width:'100%',
-    paddingVertical: screenHeight * 0.015,
-    paddingHorizontal: screenWidth * 0.03,
-    borderWidth: 1.5,
-    borderColor: '#bfbfbf',
-    borderRadius: 10,
-    fontSize: screenWidth * 0.045,
+    fontSize: screenWidth * 0.05,
     color: '#000',
-    marginTop: screenHeight * 0.01,
   },
+  emailWrapper: {
+    width:'100%',
+    flexDirection:'row',
+    alignItems:"center",
+    borderRadius: 20,
+    paddingLeft: screenWidth * 0.02,
+    paddingRight: screenWidth * 0.12,
+    marginTop: screenHeight * 0.01,
+    marginBottom:screenHeight*0.02,
+    paddingVertical: screenHeight * 0.0040,
 
+    backgroundColor: 'white',
+    shadowColor: Colors.graphite,
+    shadowOffset: {width:0, height:3},
+    shadowOpacity: 0.50,
+    shadowRadius:9,
+    elevation:2,
+    borderWidth:1,
+    borderColor: '#F1F0EC',
+  },
+  inputPassword: {
+    width:'100%',
+    //paddingVertical: screenHeight * 0.015,
+    fontSize: screenWidth * 0.05,
+    color: '#000',
+  },
+  passwordWrapper: {
+    width:'100%',
+    flexDirection:'row',
+    alignItems:"center",
+    borderWidth: 1,
+    borderColor: '#bfbfbf',
+    borderRadius: 20,
+    //height: screenHeight * 0.045,
+    //paddingHorizontal: screenWidth*0.03,
+    paddingLeft: screenWidth * 0.02,
+    paddingRight: screenWidth * 0.14,
+    marginTop: screenHeight * 0.01,
+    marginBottom:screenHeight*0.02,
+    paddingVertical: screenHeight * 0.0040,
+
+    backgroundColor: 'white',
+    shadowColor: Colors.graphite,
+    shadowOffset: {width:0, height:3},
+    shadowOpacity: 0.50,
+    shadowRadius:9,
+    elevation:2,
+    borderWidth:1,
+    borderColor: '#F1F0EC',
+  },
+    container1:
+    {
+        width:'90%',
+        backgroundColor: 'white',
+        borderRadius :25,
+        shadowColor: Colors.graphite,
+        shadowOffset: {width:0, height:4},
+        shadowOpacity: 0.10,
+        shadowRadius:6,
+        elevation:2,
+        borderWidth:1,
+        borderColor: '#F1F0EC',
+        margin: '3%'
+    },
+  logoConteiner: {
+
+    width: screenWidth * 0.16,
+    height: screenWidth * 0.16,
+    borderWidth: 1,
+    borderColor: '#bfbfbf',
+    borderRadius: 20,
+    backgroundColor: 'white',
+    shadowColor: Colors.graphite,
+    shadowOffset: {width:0, height:3},
+    shadowOpacity: 0.50,
+    shadowRadius:9,
+    elevation:2,
+    borderWidth:1,
+    borderColor: '#F1F0EC',
+  },
 });
