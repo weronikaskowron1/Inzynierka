@@ -29,7 +29,7 @@ app.get("/api/users", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Błąd serwera" });
   }
-});+
+});
 
 app.listen(PORT, () => {
   console.log(`Backend działa na http://localhost:${PORT}`);
