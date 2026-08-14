@@ -68,7 +68,7 @@ const MonthCalendar = () => {
   return (
     <View>
       <Text>{selectedDayIndex}</Text>
-      <DateChanger previousSheet = {previousMonth} nextSheet = {nextMonth} currentMonthText={currentMonthText}/>
+      <DateChanger previousSheet = {previousMonth} nextSheet = {nextMonth} currentMonthText={currentMonthText} currentYear={year}/>
 
       <View style={styles.week}>
         {weekDays.map((item, index) => (

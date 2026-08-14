@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   search: {
     backgroundColor: 'white',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 20,
     borderColor: 'white',
 
     boxShadow: '0px 5px 10px rgba(164, 164, 164, 0.2)',

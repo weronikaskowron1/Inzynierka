@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { Colors } from "../../Themes/colors.ts";
 
+import DateChanger from "./DateChanger";
+
 const WeekCalendar = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
@@ -36,6 +38,7 @@ const WeekCalendar = () => {
 
   return (
     <View>
+    <DateChanger  />
       <View style={styles.week}>
         {weekDays.map((item, index) => (
           <Text style={styles.weekDays} key={index}>
