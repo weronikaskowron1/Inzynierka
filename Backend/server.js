@@ -4,7 +4,7 @@ require("dotenv").config();
 const { Pool } = require("pg");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.enc.PORT;
 
 app.use(cors());
 app.use(express.json());
