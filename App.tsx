@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { Button } from '@react-navigation/elements';
 import { Colors } from './Themes/colors.ts';
@@ -13,9 +14,11 @@ import Nawigator from './Komponenty/Nawigator.tsx'
 
 const Stack = createNativeStackNavigator();
 
-function RootStack() {
-  return (
 
+function RootStack() {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={{backgroundColor: 'white', paddingBottom: insets.bottom, paddingTop: insets.top, height: '100%', width: '100%'}}>
     <Stack.Navigator
      screenOptions={{
             headerShown: false,
@@ -33,16 +36,18 @@ function RootStack() {
         options={{ title: 'Logowanie' }}
         />
      </Stack.Navigator>
+     </View>
   );
 }
 
 
 export default function App() {
   return (
-    <NavigationContainer>
-       <RootStack />
-    </NavigationContainer>
-
+    <SafeAreaProvider>
+        <NavigationContainer>
+           <RootStack />
+        </NavigationContainer>
+    </SafeAreaProvider>
 
 
   );

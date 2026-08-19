@@ -5,6 +5,13 @@ export const Colors = {
   green4: '#A6CB6A',
   green5: '#CADF9C',
   green6: '#EDF3DF',
-
+  gray: '#babfbc',
+  lightgray: '#F1F0EC',
+  greenishwhite:'#F7F8F2',
+  creambackground:'#FCFBF9',
+  white: '#FDFDFB',
+  graphite: '#1c1b1b',
+  green6: '#EDF3DF',
   backgroundColor: '#FDFDF9',
+  grayText: '#A4A4A4',
 };
