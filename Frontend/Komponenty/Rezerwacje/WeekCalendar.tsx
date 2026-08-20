@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Text, View, StyleSheet, Pressable, ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 
@@ -23,6 +23,22 @@ const WeekCalendar = () => {
     month: "long",
   });
   const weekDays = ["PON", "WT", "ŚR", "CZW", "PT", "SB", "ND"];
+  const hours = [
+    "07:00",
+    "08:00",
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+  ];
 
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
 
@@ -56,8 +72,7 @@ const WeekCalendar = () => {
     }
 
     if (newLastDay <= 0) {
-      newLastDay += daysInPreviousMonth; //dfewhjfujw
-
+      newLastDay += daysInPreviousMonth;
     }
 
     setFirstDayWeek(newFirstDay);
@@ -84,7 +99,6 @@ const WeekCalendar = () => {
 
     if (newLastDay > daysInMonth) {
       newLastDay -= daysInMonth;
-
     }
 
     setFirstDayWeek(newFirstDay);
@@ -94,7 +108,7 @@ const WeekCalendar = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <DateChanger
         previousSheet={previousWeek}
         nextSheet={nextWeek}
@@ -119,11 +133,39 @@ const WeekCalendar = () => {
           </Pressable>
         ))}
       </View>
+      <View style={styles.scroll}>
+        <ScrollView style={styles.calendarContainer}>
+          {hours.map((hour) => (
+            <View key={hour} style={styles.row}>
+              <Text style={styles.hourText}>{hour}</Text>
+
+              {weekDays.map((day, index) => (
+                <View
+                  key={`${day}-${hour}`}
+                  style={[
+                    styles.cell,
+                    index === weekDays.length - 1 && styles.right_border,
+                  ]}
+                />
+              ))}
+            </View>
+          ))}
+        </ScrollView>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
+
+  scroll: {
+    flex: 1,
+    width: "100%",
+  },
+
   calendar: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -137,7 +179,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: "14.2857%",
 
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: "500",
     color: Colors.grayText,
   },
@@ -150,9 +192,51 @@ const styles = StyleSheet.create({
   },
 
   dayText: {
-    fontSize: 22,
-    fontWeight: "500",
+    fontSize: 18,
+    fontWeight: "700",
     color: "#333",
+  },
+
+  calendarContainer: {
+    flex: 1,
+    width: "100%",
+    overflow: "visible",
+    paddingHorizontal: 0,
+  },
+
+  row: {
+    width: "100%",
+    height: 70,
+    flexDirection: "row",
+    position: "relative",
+
+    borderTopWidth: 1,
+    borderTopColor: "#E5E5E5",
+    borderStyle: "dashed",
+  },
+
+  cell: {
+    flex: 1,
+    borderLeftWidth: 1,
+    borderLeftColor: "#E5E5E5",
+  },
+
+  right_border: {
+    flex: 1,
+    borderRightWidth: 1,
+    borderRightColor: "#E5E5E5",
+  },
+
+  hourText: {
+    position: "absolute",
+
+    fontSize: 9,
+    fontWeight: "500",
+    left: -28,
+
+    color: "#555",
+
+    transform: [{ translateY: -10 }],
   },
 });
 export default WeekCalendar;
