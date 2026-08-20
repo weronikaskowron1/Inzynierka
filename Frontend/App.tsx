@@ -11,6 +11,8 @@ import { Colors } from './Themes/colors.ts';
 
 import Logowanie from './Strony/Logowanie.tsx'
 import Nawigator from './Komponenty/Nawigator.tsx'
+import Rejestracja from './Strony/Rejestracja.tsx';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +36,11 @@ function RootStack() {
         name="Logowanie"
         component={Logowanie}
         options={{ title: 'Logowanie' }}
+        />
+        <Stack.Screen
+        name="Rejestracja"
+        component={Rejestracja}
+        options={{ title: 'Rejestracja' }}
         />
      </Stack.Navigator>
      </View>
