@@ -56,7 +56,7 @@ const WeekCalendar = () => {
     }
 
     if (newLastDay <= 0) {
-      newLastDay += daysInPreviousMonth;
+      newLastDay += daysInPreviousMonth; //dfewhjfujw
 
     }
 
