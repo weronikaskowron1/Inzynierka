@@ -19,7 +19,7 @@ const WeekCalendar = () => {
 
   const daysInPreviousMonth = new Date(year, month, 0).getDate();
 
-  const currentMonthText = new Date(year, month).toLocaleString("pl-PL", {
+  let currentMonthText = new Date(year, month).toLocaleString("pl-PL", {
     month: "long",
   });
   const weekDays = ["PON", "WT", "ŚR", "CZW", "PT", "SB", "ND"];
@@ -40,20 +40,57 @@ const WeekCalendar = () => {
   }
 
   const previousWeek = () => {
-    if (month === 0) {
-      setMonth(11);
-      setYear((prevYear) => prevYear - 1);
-    } else {
-      setMonth((prevMonth) => prevMonth - 1);
+    let newFirstDay = firstDayWeek - 7;
+    let newLastDay = lastDayWeek - 7;
+    let newMonth = month;
+    let newYear = year;
+
+    if (newFirstDay <= 0) {
+      newFirstDay += daysInPreviousMonth;
+      if (month === 0) {
+        newMonth = 11;
+        newYear = year - 1;
+      } else {
+        newMonth = month - 1;
+      }
     }
+
+    if (newLastDay <= 0) {
+      newLastDay += daysInPreviousMonth;
+
+    }
+
+    setFirstDayWeek(newFirstDay);
+    setLastDayWeek(newLastDay);
+    setMonth(newMonth);
+    setYear(newYear);
   };
 
   const nextWeek = () => {
-    //     if (month === 11) {
-    //       setMonth(0);
-    //       setYear((prevYear) => prevYear + 1);
-    //     } else {
-    setFirstDayWeek((firstDayWeek) => firstDayWeek + 7);
+    let newFirstDay = firstDayWeek + 7;
+    let newLastDay = lastDayWeek + 7;
+    let newMonth = month;
+    let newYear = year;
+
+    if (newFirstDay > daysInMonth) {
+      newFirstDay -= daysInMonth;
+      if (month === 11) {
+        newMonth = 0;
+        newYear = year + 1;
+      } else {
+        newMonth = month + 1;
+      }
+    }
+
+    if (newLastDay > daysInMonth) {
+      newLastDay -= daysInMonth;
+
+    }
+
+    setFirstDayWeek(newFirstDay);
+    setLastDayWeek(newLastDay);
+    setMonth(newMonth);
+    setYear(newYear);
   };
 
   return (
@@ -63,7 +100,7 @@ const WeekCalendar = () => {
         nextSheet={nextWeek}
         currentMonthText={currentMonthText}
         currentYear={year}
-        currentWeek={`${firstDayWeek}-${lastDayWeek}`}
+        currentWeek={`${calendarDays[0]}-${calendarDays[6]}`}
       />
       <View style={styles.week}>
         {weekDays.map((item, index) => (
