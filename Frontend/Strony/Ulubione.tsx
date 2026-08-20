@@ -48,7 +48,7 @@ function ProfilFirmy({nazwaFirmy, idFirmy, profiloweFirmy, ocenaFirmy, polubione
                     <Fontisto name="star" style={styles.ocenaFirmy}></Fontisto>
                     <Text> {ocenaFirmy}</Text>
                 </View>
-                <Text size={20} style={{padding: 5}}>{odleglosc}</Text>
+               <Text size={20} style={{padding: 5}}>{odleglosc}</Text>
                 </View>
                 </View>
             </View>

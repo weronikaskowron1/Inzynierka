@@ -14,6 +14,9 @@ const WeekCalendar = () => {
   const weekday = (new Date().getDay() + 6) % 7;
   const today = new Date().getDate();
 
+  const [firstDayWeek, setFirstDayWeek] = useState(today - weekday);
+  const [lastDayWeek, setLastDayWeek] = useState(today - weekday + 6);
+
   const daysInPreviousMonth = new Date(year, month, 0).getDate();
 
   const currentMonthText = new Date(year, month).toLocaleString("pl-PL", {
@@ -26,7 +29,7 @@ const WeekCalendar = () => {
   const calendarDays = [];
 
   for (let i = 0; i < 7; i++) {
-    let dayNumber = today - weekday + i;
+    let dayNumber = firstDayWeek + i;
     if (dayNumber <= 0) {
       dayNumber = daysInPreviousMonth + dayNumber;
     }
@@ -36,9 +39,32 @@ const WeekCalendar = () => {
     calendarDays.push(dayNumber);
   }
 
+  const previousWeek = () => {
+    if (month === 0) {
+      setMonth(11);
+      setYear((prevYear) => prevYear - 1);
+    } else {
+      setMonth((prevMonth) => prevMonth - 1);
+    }
+  };
+
+  const nextWeek = () => {
+    //     if (month === 11) {
+    //       setMonth(0);
+    //       setYear((prevYear) => prevYear + 1);
+    //     } else {
+    setFirstDayWeek((firstDayWeek) => firstDayWeek + 7);
+  };
+
   return (
     <View>
-    <DateChanger  />
+      <DateChanger
+        previousSheet={previousWeek}
+        nextSheet={nextWeek}
+        currentMonthText={currentMonthText}
+        currentYear={year}
+        currentWeek={`${firstDayWeek}-${lastDayWeek}`}
+      />
       <View style={styles.week}>
         {weekDays.map((item, index) => (
           <Text style={styles.weekDays} key={index}>
