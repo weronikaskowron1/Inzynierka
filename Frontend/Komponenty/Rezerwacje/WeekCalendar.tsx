@@ -109,29 +109,31 @@ const WeekCalendar = () => {
 
   return (
     <View style={styles.container}>
-      <DateChanger
-        previousSheet={previousWeek}
-        nextSheet={nextWeek}
-        currentMonthText={currentMonthText}
-        currentYear={year}
-        currentWeek={`${calendarDays[0]}-${calendarDays[6]}`}
-      />
-      <View style={styles.week}>
-        {weekDays.map((item, index) => (
-          <Text style={styles.weekDays} key={index}>
-            {item}
-          </Text>
-        ))}
-      </View>
+      <View style={styles.header_container}>
+        <DateChanger
+          previousSheet={previousWeek}
+          nextSheet={nextWeek}
+          currentMonthText={currentMonthText}
+          currentYear={year}
+          currentWeek={`${calendarDays[0]} \u2014 ${calendarDays[6]}`}
+        />
+        <View style={styles.week}>
+          {weekDays.map((item, index) => (
+            <Text style={styles.weekDays} key={index}>
+              {item}
+            </Text>
+          ))}
+        </View>
 
-      <View style={styles.calendar}>
-        {calendarDays.map((item, index) => (
-          <Pressable key={index} style={styles.day}>
-            <View>
-              <Text style={styles.dayText}>{item}</Text>
-            </View>
-          </Pressable>
-        ))}
+        <View style={styles.calendar}>
+          {calendarDays.map((item, index) => (
+            <Pressable key={index} style={styles.day}>
+              <View>
+                <Text style={styles.dayText}>{item}</Text>
+              </View>
+            </Pressable>
+          ))}
+        </View>
       </View>
       <View style={styles.scroll}>
         <ScrollView style={styles.calendarContainer}>
@@ -158,7 +160,11 @@ const WeekCalendar = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     width: "100%",
+  },
+  header_container: {
+    marginLeft: 30,
   },
 
   scroll: {
@@ -200,8 +206,9 @@ const styles = StyleSheet.create({
   calendarContainer: {
     flex: 1,
     width: "100%",
-    overflow: "visible",
-    paddingHorizontal: 0,
+    paddingLeft: 30,
+    paddingTop: 10,
+    marginTop: -7,
   },
 
   row: {
@@ -229,14 +236,13 @@ const styles = StyleSheet.create({
 
   hourText: {
     position: "absolute",
-
+    left: -30,
+    width: 26,
+    textAlign: "right",
     fontSize: 9,
     fontWeight: "500",
-    left: -28,
-
     color: "#555",
-
-    transform: [{ translateY: -10 }],
+    transform: [{ translateY: -8 }],
   },
 });
 export default WeekCalendar;
