@@ -14,6 +14,6 @@ app.use('/api/salony',getStudios);
 
 //PostApi
 
-app.listen(PORT, () => {
+app.listen(PORT,"0.0.0.0", () => {
   console.log(`Backend działa na http://localhost:${PORT}`);
 });
