@@ -14,6 +14,8 @@ const WeekCalendar = () => {
   const weekday = (new Date().getDay() + 6) % 7;
   const today = new Date().getDate();
 
+  const [selectedDayIndex, setSelectedDayIndex] = useState(weekday);
+
   const [firstDayWeek, setFirstDayWeek] = useState(today - weekday);
   const [lastDayWeek, setLastDayWeek] = useState(today - weekday + 6);
 
@@ -39,8 +41,6 @@ const WeekCalendar = () => {
     "19:00",
     "20:00",
   ];
-
-  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
 
   const calendarDays = [];
 
@@ -79,6 +79,7 @@ const WeekCalendar = () => {
     setLastDayWeek(newLastDay);
     setMonth(newMonth);
     setYear(newYear);
+    setSelectedDayIndex(-1);
   };
 
   const nextWeek = () => {
@@ -105,6 +106,7 @@ const WeekCalendar = () => {
     setLastDayWeek(newLastDay);
     setMonth(newMonth);
     setYear(newYear);
+    setSelectedDayIndex(-1);
   };
 
   return (
@@ -127,9 +129,20 @@ const WeekCalendar = () => {
 
         <View style={styles.calendar}>
           {calendarDays.map((item, index) => (
-            <Pressable key={index} style={styles.day}>
+            <Pressable
+              key={index}
+              style={styles.day}
+              onPress={() => setSelectedDayIndex(index)}
+            >
               <View>
-                <Text style={styles.dayText}>{item}</Text>
+                <Text
+                  style={
+                    (styles.dayText,
+                    index == selectedDayIndex && styles.day_selected)
+                  }
+                >
+                  {item}
+                </Text>
               </View>
             </Pressable>
           ))}
@@ -147,6 +160,7 @@ const WeekCalendar = () => {
                   style={[
                     styles.cell,
                     index === weekDays.length - 1 && styles.right_border,
+                    index == selectedDayIndex && styles.cell_selected,
                   ]}
                 />
               ))}
@@ -203,6 +217,20 @@ const styles = StyleSheet.create({
     color: "#333",
   },
 
+  day_selected: {
+    backgroundColor: Colors.green2,
+    color: "white",
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+
+    textAlign: "center",
+    textAlignVertical: "center",
+  },
+  cell_selected: {
+    backgroundColor: Colors.green6_opacity,
+  },
+
   calendarContainer: {
     flex: 1,
     width: "100%",
@@ -213,7 +241,7 @@ const styles = StyleSheet.create({
 
   row: {
     width: "100%",
-    height: 70,
+    height: 60,
     flexDirection: "row",
     position: "relative",
 

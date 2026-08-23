@@ -11,7 +11,7 @@ export const Colors = {
   creambackground:'#FCFBF9',
   white: '#FDFDFB',
   graphite: '#1c1b1b',
-  green6: '#EDF3DF',
   backgroundColor: '#FDFDF9',
   grayText: '#A4A4A4',
+  green6_opacity: 'rgba(237, 243, 223, 0.3)',
 };
