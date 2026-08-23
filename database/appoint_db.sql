@@ -136,7 +136,7 @@ Create table if not exists reservations(
     id_employee int references employees(id) on delete cascade,
     id_user int references users(id) on delete cascade,
     data timestamp not null,
-    description varchar(255) default null
+description varchar(255) default null
 );
 
 -- KATEGORIE
