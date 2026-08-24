@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet, Pressable, ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 
 import { Colors } from "../../Themes/colors.ts";
@@ -134,16 +135,25 @@ const WeekCalendar = () => {
               style={styles.day}
               onPress={() => setSelectedDayIndex(index)}
             >
-              <View>
+              <LinearGradient
+                colors={
+                  index == selectedDayIndex
+                    ? [Colors.green2, Colors.green3]
+                    : ["transparent", "transparent"]
+                }
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.day_selected}
+              >
                 <Text
                   style={
-                    (styles.dayText,
-                    index == selectedDayIndex && styles.day_selected)
+                    [styles.dayText,
+                    index == selectedDayIndex && styles.day_selected]
                   }
                 >
                   {item}
                 </Text>
-              </View>
+              </LinearGradient>
             </Pressable>
           ))}
         </View>
@@ -192,7 +202,7 @@ const styles = StyleSheet.create({
   },
   week: {
     flexDirection: "row",
-    marginBottom: -4,
+    marginBottom: -2,
   },
 
   weekDays: {
@@ -212,20 +222,22 @@ const styles = StyleSheet.create({
   },
 
   dayText: {
-    fontSize: 18,
-    fontWeight: "700",
     color: "#333",
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: "center",
+    textAlignVertical: "center",
   },
 
   day_selected: {
-    backgroundColor: Colors.green2,
     color: "white",
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 999,
 
-    textAlign: "center",
-    textAlignVertical: "center",
+    justifyContent: 'center',
+    alignItems: 'center'
+
   },
   cell_selected: {
     backgroundColor: Colors.green6_opacity,
