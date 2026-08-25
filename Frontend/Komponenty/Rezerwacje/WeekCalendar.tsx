@@ -138,7 +138,7 @@ const WeekCalendar = () => {
               <LinearGradient
                 colors={
                   index == selectedDayIndex
-                    ? [Colors.green2, Colors.green3]
+                    ? [Colors.green1, Colors.green2]
                     : ["transparent", "transparent"]
                 }
                 start={{ x: 0, y: 0 }}
@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    marginTop: 20,
   },
   header_container: {
     marginLeft: 30,
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
 
   },
   cell_selected: {
-    backgroundColor: Colors.green6_opacity,
+    backgroundColor: Colors.green7,
   },
 
   calendarContainer: {

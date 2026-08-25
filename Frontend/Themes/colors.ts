@@ -5,6 +5,7 @@ export const Colors = {
   green4: '#A6CB6A',
   green5: '#CADF9C',
   green6: '#EDF3DF',
+  green7: '#F9FAF1',
   gray: '#babfbc',
   light_gray: '#F1F0EC',
   greenishwhite:'#F7F8F2',
@@ -13,5 +14,4 @@ export const Colors = {
   graphite: '#1c1b1b',
   backgroundColor: '#FDFDF9',
   grayText: '#A4A4A4',
-  green6_opacity: 'rgba(237, 243, 223, 0.3)',
 };

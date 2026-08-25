@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Colors } from "../../Themes/colors.ts";
 
-const CalendarToggle = () => {
+const CalendarToggle = ({calendarType, setCalendarType}) => {
   const [selectedMonthCalendar, setSelectedMonthCalendar] = useState(false);
   const [selectedWeekCalendar, setSelectedWeekCalendar] = useState(true);
   return (
@@ -14,13 +14,14 @@ const CalendarToggle = () => {
           onPress={() => {
             setSelectedWeekCalendar(true);
             setSelectedMonthCalendar(false);
+            setCalendarType('week');
           }}
           style={styles.selected_container}
         >
           <LinearGradient
             colors={
               selectedWeekCalendar
-                ? [Colors.green2, Colors.green3]
+                ? [Colors.green1, Colors.green2]
                 : ["transparent", "transparent"]
             }
             start={{ x: 0, y: 0 }}
@@ -34,13 +35,14 @@ const CalendarToggle = () => {
           onPress={() => {
             setSelectedWeekCalendar(false);
             setSelectedMonthCalendar(true);
+            setCalendarType('month');
           }}
           style={styles.selected_container}
         >
           <LinearGradient
             colors={
               selectedMonthCalendar
-                ? [Colors.green2, Colors.green3]
+                ? [Colors.green1, Colors.green2]
                 : ["transparent", "transparent"]
             }
             start={{ x: 0, y: 0 }}

@@ -12,7 +12,7 @@ const DateChanger = ({
   return (
     <View style={styles.calendar_switch_container}>
       <Pressable style={styles.arrow} onPress={() => previousSheet()}>
-        <Feather name="chevron-left" size={20} color="#5C8A24" />
+        <Feather name="chevron-left" size={20} color={Colors.green1} />
       </Pressable>
       <Text style={styles.date_text}>
         {currentWeek}{" "}
@@ -43,6 +43,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  arrow: {
+    backgroundColor: Colors.green7,
+    borderRadius: 999,
+    height: 30,
+    width: 20,
+
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   date_text: {
     fontWeight: "500",

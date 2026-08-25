@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import Welcome from '../Komponenty/HomeScreen/Welcome.tsx';
-import AlertIcon from '../Komponenty/HomeScreen/AlertIcon.tsx';
+import AlertIcon from '../Komponenty/Buttons/AlertIcon.tsx';
 import CategoryIcon from '../Komponenty/HomeScreen/CategoryIcon.tsx';
 import NextVisitCard from '../Komponenty/HomeScreen/NextVisitCard.tsx';
 import Searchbar from '../Komponenty/HomeScreen/Searchbar.tsx';
@@ -11,6 +11,7 @@ import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
 import { useNavigation } from '@react-navigation/native';
 
 import { Colors } from '../Themes/colors.ts';
+import  { styles as GlobalStyles } from '../Themes/global_styles.tsx';
 
 export default HomeScreen;
 function HomeScreen() {
@@ -39,11 +40,11 @@ function HomeScreen() {
   ];
   return (
 //     <ScrollView>
-      <View style={styles.body}>
-        <View style={styles.container}>
+      <View style={GlobalStyles.body}>
+        <View style={GlobalStyles.container}>
           <View style={styles.header}>
             <Welcome />
-            <AlertIcon />
+            <AlertIcon name="bell"/>
           </View>
           <View style={styles.searcharbar}>
             <Searchbar />
@@ -92,16 +93,6 @@ function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    backgroundColor: Colors.backgroundColor,
-  },
-
-  container: {
-    margin: 30,
-    marginTop: 70
-  },
-
   header: {
     display: 'flex',
     flexDirection: 'row',
