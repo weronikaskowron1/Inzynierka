@@ -8,6 +8,7 @@ import Searchbar from '../Komponenty/HomeScreen/Searchbar.tsx';
 import ServiceCard from '../Komponenty/HomeScreen/ServiceCard.tsx';
 import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
 
+
 import { useNavigation } from '@react-navigation/native';
 
 import { Colors } from '../Themes/colors.ts';
@@ -39,12 +40,11 @@ function HomeScreen() {
     },
   ];
   return (
-//     <ScrollView>
-      <View style={GlobalStyles.body}>
+      <ScrollView style={GlobalStyles.body}>
         <View style={GlobalStyles.container}>
           <View style={styles.header}>
             <Welcome />
-            <AlertIcon name="bell"/>
+            <AlertIcon />
           </View>
           <View style={styles.searcharbar}>
             <Searchbar />
@@ -60,6 +60,7 @@ function HomeScreen() {
             ))}
           </View>
           <View style={styles.recommended_container}>
+
             <Text style={styles.polecane_text}> Polecane salony </Text>
             <WszystkieText />
           </View>
@@ -87,8 +88,7 @@ function HomeScreen() {
           />
           </View>
         </View>
-      </View>
-//     </ScrollView>
+      </ScrollView>
   );
 }
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   nastepna_wizyta_text: {
     marginTop: 20,
     marginBottom: 10,
-    color: '#A4A4A4',
+    color: Colors.lightgrayText,
     fontWeight: '700',
     fontSize: 15,
   },

@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 10,
   },
 
   dayText: {
@@ -237,7 +238,8 @@ const styles = StyleSheet.create({
     borderRadius: 999,
 
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+
 
   },
   cell_selected: {

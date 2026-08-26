@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Button } from "@react-navigation/elements";
-import AlertIcon from "../Komponenty/Buttons/AlertIcon.tsx";
+import FilterIcon from "../Komponenty/Buttons/FilterIcon.tsx";
 import MonthCalendar from "../Komponenty/Rezerwacje/MonthCalendar.tsx";
 import WeekCalendar from "../Komponenty/Rezerwacje/WeekCalendar.tsx";
 import CalendarToggle from "../Komponenty/Rezerwacje/CalendarToggle.tsx";
@@ -18,8 +18,8 @@ function Rezerwacje() {
       <View style={styles.container}>
         <View style={{ marginLeft: 30 }}>
           <View style={styles.header}>
-            <Text style={styles.moje_wizyty_text}>Moje wizyty</Text>
-            <AlertIcon name="sliders" />
+            <Text style={GlobalStyles.header_text}>Moje wizyty</Text>
+            <FilterIcon />
           </View>
           <CalendarToggle
             calendarType={calendarType}
@@ -53,8 +53,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-  moje_wizyty_text: {
-    fontSize: 25,
-    fontWeight: "700",
-  },
+
 });

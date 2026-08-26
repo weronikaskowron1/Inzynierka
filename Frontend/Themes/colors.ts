@@ -6,12 +6,16 @@ export const Colors = {
   green5: '#CADF9C',
   green6: '#EDF3DF',
   green7: '#F9FAF1',
+
   gray: '#babfbc',
   light_gray: '#F1F0EC',
+  lightgrayText: '#A4A4A4',
+
+  backgroundColor: '#FDFDF9',
+
   greenishwhite:'#F7F8F2',
-  creambackground:'#FCFBF9',
+
   white: '#FDFDFB',
   graphite: '#1c1b1b',
-  backgroundColor: '#FDFDF9',
-  grayText: '#A4A4A4',
+
 };

@@ -2,6 +2,8 @@ import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { pressed_styles } from '../../Themes/buton_pressed.tsx'
 
+import { Colors } from '../../Themes/colors.ts';
+
 const Welcome = () => {
   const name: string = 'Weronika';
   return (
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   },
   greeting: {
     fontSize: 16,
-    color: '#A4A4A4',
+    color: Colors.lightgrayText,
     fontWeight: '500',
   },
   name: {

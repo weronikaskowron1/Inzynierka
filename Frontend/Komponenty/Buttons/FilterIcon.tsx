@@ -4,7 +4,7 @@ import { pressed_styles } from "../../Themes/buton_pressed.tsx";
 
 import { Colors } from "../../Themes/colors.ts";
 
-const AlertIcon = ({size = 45 }) => {
+const FilterIcon = ({size = 45 }) => {
   return (
     <Pressable
       style={({ pressed }) => [
@@ -16,7 +16,7 @@ const AlertIcon = ({size = 45 }) => {
         pressed && pressed_styles.button_pressed,
       ]}
     >
-      <Feather name="bell" size={24} color="#5C8A24" />
+      <Feather name="sliders" size={24} color="#5C8A24" />
     </Pressable>
   );
 };
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.green6,
   },
 });
-export default AlertIcon;
+export default FilterIcon;
