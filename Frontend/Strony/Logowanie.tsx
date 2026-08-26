@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import {StyleSheet,Text,View,Image,Dimensions,TextInput,TouchableOpacity,} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -117,8 +109,7 @@ export default function Logowanie() {
         <View style={styles.ZarejestrujContainer}>
           <Text style={styles.normalText}>Nie masz konta?</Text>
           <TouchableOpacity
-            onPress={() => console.log("Kliknieto zarejestruj się")}
-          >
+            onPress={() => navigation.navigate("Rejestracja")}>
             <Text style={styles.textClick}>Zarejestruj się</Text>
           </TouchableOpacity>
         </View>
