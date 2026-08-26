@@ -9,12 +9,36 @@ import ServiceCard from '../Komponenty/HomeScreen/ServiceCard.tsx';
 import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
 
 import { useNavigation } from '@react-navigation/native';
+import { useState, useEffect } from "react";
 
 import { Colors } from '../Themes/colors.ts';
+
+const API_URL = process.env.API_URL;
 
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
+
+  const [salony, setSalony] = useState([]);
+
+
+  const getSalony = async () => {
+    try {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/salony`);
+
+      const data = await response.json();
+
+      console.log("Dane:", data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getSalony();
+  }, []);
+
+  console.log(process.env.EXPO_PUBLIC_API_URL);
   const categories_icons = [
     {
       title: 'Fryzjer',
