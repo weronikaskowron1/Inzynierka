@@ -43,7 +43,7 @@ export default function Rejestracja() {
         <View style={styles.headerContainer}>
             <View style={styles.CofnijContainer}>
               <TouchableOpacity
-                 onPress={() => console.log("Kliknieto cofnij")}>
+                 onPress={() => navigation.navigate("Logowanie")}>
                  <View style={styles.BackButtonConteiner}>
                      <Ionicons
                         name="chevron-back"
@@ -197,7 +197,7 @@ export default function Rejestracja() {
           <View style={styles.ZarejestrujContainer}>
             <Text style={styles.normalText}>Masz już konto?</Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Rejestracja")}>
+              onPress={() => navigation.navigate("Logowanie")}>
               <Text style={styles.textClick}>Zaloguj się</Text>
             </TouchableOpacity>
           </View>
@@ -422,61 +422,6 @@ export default function Rejestracja() {
       fontSize: screenWidth * 0.04,
       color: "#999999",
       opacity: 0.7,
-    },
-    iconAppleGoogle: {
-      //width:'100%',
-      width: screenWidth * 0.38,
-      height: screenWidth * 0.14,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      borderWidth: 1,
-      borderColor: "#bfbfbf",
-      borderRadius: 16,
-      gap: screenWidth * 0.04,
-      //paddingLeft: screenWidth * 0.04,
-      //paddingRight: screenWidth * 0.14,
-      //marginTop: screenHeight * 0.01,
-      //marginBottom:screenHeight*0.08,
-      //paddingVertical: screenHeight * 0.0040,
-      backgroundColor: "white",
-      shadowColor: Colors.graphite,
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.5,
-      shadowRadius: 9,
-      elevation: 2,
-      borderWidth: 1,
-      borderColor: "#F1F0EC",
-    },
-    AppleGoogleContainer: {
-      width: "100%",
-      flexDirection: "row",
-      //alignItems: 'center',
-      justifyContent: "center",
-      gap: screenWidth * 0.05,
-      //paddingVertical: screenHeight * 0.015,
-      fontSize: screenWidth * 0.05,
-      color: "#000",
-      //marginBottom: screenHeight * 0.09,
-      //paddingLeft: screenWidth * 0.09,
-    },
-    logoApple: {
-      width: screenWidth * 0.07,
-      height: screenWidth * 0.07,
-      //borderRadius: (screenWidth * 0.12) / 2,
-      //marginBottom:screenHeight*0.025
-    },
-    logoGoogle: {
-      width: screenWidth * 0.06,
-      height: screenWidth * 0.06,
-      //borderRadius: (screenWidth * 0.12) / 2,
-      //marginBottom:screenHeight*0.025
-    },
-    TextAppleGoogle: {
-      fontSize: screenWidth * 0.04,
-      color: "black",
-      //opacity:0.7,
-      fontWeight: "500",
     },
     ZarejestrujContainer: {
       width: "100%",
