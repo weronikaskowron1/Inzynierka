@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
 import { useState, useEffect } from "react";
 import { Ionicons, Fontisto } from "@expo/vector-icons";
 
+import { Colors } from '../../Themes/colors.ts';
+
 const HeartIcon = ({ polubione = false }) => {
   const [czyPolubione, setPolubione] = useState(polubione);
   useEffect(() => {
@@ -26,7 +28,8 @@ const HeartIcon = ({ polubione = false }) => {
 };
 const styles = StyleSheet.create({
   serduszko: {
-    color: "red",
+    color: "#ed5151",
+    borderColor: 'gray',
   },
   serduszko_blank: {
     color: "gray",
