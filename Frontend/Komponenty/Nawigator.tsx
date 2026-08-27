@@ -25,7 +25,7 @@ export default function Nawigator() {
             iconName = 'calendar-clear-outline';
           } else if (route.name === 'Ulubione') {
             iconName = 'heart-outline';
-          } else if (route.name === 'Profil') {
+          } else if (route.name === 'ProfilNawigacja') {
             iconName = 'person-outline';
           }
 
@@ -67,7 +67,7 @@ export default function Nawigator() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Rezerwacje" component={Rezerwacje} />
       <Tab.Screen name="Ulubione" component={Ulubione} />
-      <Tab.Screen name="Profil" component={ProfilNawigator} />
+      <Tab.Screen name="ProfilNawigacja" component={ProfilNawigator} />
     </Tab.Navigator>
   );
 }

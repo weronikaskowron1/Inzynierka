@@ -14,4 +14,6 @@ export const Colors = {
   green6: '#EDF3DF',
   backgroundColor: '#FDFDF9',
   grayText: '#A4A4A4',
+  pink: '#FBDFDE',
+  red: '#A90B05',
 };

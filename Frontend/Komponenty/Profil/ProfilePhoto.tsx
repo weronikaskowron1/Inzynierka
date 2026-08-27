@@ -35,7 +35,6 @@ export default function ZdjecieProfilowe({photopath,navigation,imie}) {
 const styles = StyleSheet.create({
     containerImage:
     {
-        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         width: '25%',

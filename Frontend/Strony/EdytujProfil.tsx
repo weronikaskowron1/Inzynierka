@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View, ScrollView, TextInput, Image, Pressable } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Phone, Mail, CalendarCheck } from 'lucide-react-native';
+import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold } from '@expo-google-fonts/league-spartan';
+import { useFonts } from 'expo-font';
 
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from "react";
 
 import { Colors } from '../Themes/colors';
-import Profil from './Strony/Profil.tsx';
-
+import ZdjecieProfilowe from '../Komponenty/Profil/ProfilePhoto';
 
 
 export default function EdytujProfil() {
@@ -29,8 +32,8 @@ export default function EdytujProfil() {
     useEffect(() => {
       GetProfileInfo();
     }, []);
-  const [imie, setImie] = useState("bjbjb");
-  const [nazwisko, setNazwisko] = useState("bjbjb");
+   const [imie, setImie] = useState("Kuba");
+   const [nazwisko, setNazwisko] = useState("nazwisko");
   const [mail, setMail] = useState("bjbjb");
   const [numertel, setNumerTel] = useState("bjbjb");
   const [miasto, setMiasto] = useState("bjbjb");
@@ -45,7 +48,27 @@ export default function EdytujProfil() {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: Colors.creambackground, paddingBottom: 20 + 80, } }>
+              <View style={{height:'9%',width:'90%',flexDirection:'row', alignItems:'center', justifyContent: 'left',marginBottom:'0%'}}>
+                              <Pressable onPress={()=>navigation.navigate('UstawieniaKonta')} style={{height:'100%',aspectRatio:1,alignItems:'left', justifyContent: 'center', marginTop:'2%'}}>
+                                  <AntDesign name='arrow-left' size={24} color={Colors.green2} style={{}}/>
+                              </Pressable>
+                              <Text style={[styles.textbold, {fontSize: 20,width:'62%', left:'14%'}]}>Dane Osobowe</Text>
+                              <Pressable onPress={()=>navigation.navigate('Profil')} style={{height:'100%',aspectRatio:1,alignItems:'right', justifyContent: 'center', marginTop:'2%'}}>
+                              <Text style={[styles.text, {left:'27%', position:'absolute', color:Colors.green2}]}>Zapisz</Text>
+                              </Pressable>
+                          </View>
+              <View style={styles.containerProfile}>
+                        <View style={{flexDirection: 'row'}}>
+                            <ZdjecieProfilowe imie='Kuba'/>
+                            <View style={{flexDirection: 'column', alignItems: 'left', justifyContent: 'top', marginLeft: '3%'}}>
+                                <Text style={styles.username}>{imie} {nazwisko}</Text>
+                                <Text style={styles.text2}>Dołączono ....</Text>
+                            </View>
+                        </View>
+                    </View>
               <View style={styles.container}>
+              <Text style={styles.text}>Informacje Podstawowe:</Text>
+              <View style={styles.container_input}>
                     {(userType=="user" ) ?
                         (
                     <>
@@ -68,6 +91,9 @@ export default function EdytujProfil() {
                     <TextInput placeholder="Numer telefonu" value={numertel} onChangeText={setNumerTel}/>
                     <Text>Mail:</Text>
                     <TextInput placeholder="Mail" value={mail} onChangeText={setMail}/>
+                </View>
+              <Text style={styles.text}>Informacje Dodatkowe:</Text>
+              <View style={styles.container_input}>
                     <Text>Miasto:</Text>
                     <TextInput placeholder="Miasto" value={miasto} onChangeText={setMail}/>
                     <Text>Ulica:</Text>
@@ -78,15 +104,7 @@ export default function EdytujProfil() {
                     <TextInput placeholder="Numer mieszkania (opcjonalnie)" value={mieszkanie} onChangeText={setMieszkanie}/>
                     <Text>Kod pocztowy:</Text>
                     <TextInput placeholder="Kod pocztowy" value={kodpocztowy} onChangeText={setKodPocztowy}/>
-                    <Pressable>
-                        <Text>Zmień hasło</Text>
-                    </Pressable>
-                    <Pressable>
-                        <Text>Usuń konto</Text>
-                    </Pressable>
-                    <Pressable>
-                        <Text>Zapisz zmiany</Text>
-                    </Pressable>
+              </View>
 
               </View>
         </ScrollView>
@@ -99,5 +117,71 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
+    width:'90%'
   },
+  containerProfile:
+      {
+      width:'100%',
+      height: '21%',
+  },
+ text2:
+ {
+     fontSize: 18,
+     paddingBottom: '0%',
+     fontFamily: 'LeagueSpartan_400Regular',
+     color: 'gray',
+     },
+ username:
+ {
+     fontSize: 21,
+     marginTop: '16%',
+     fontFamily: 'LeagueSpartan_700Bold',
+     color: Colors.graphite,
+     },
+   textbold:
+   {
+       fontSize:18,
+       color: Colors.graphite,
+       fontFamily: 'LeagueSpartan_600SemiBold',
+       marginBottom: '-2%'
+       },
+  text:
+  {
+      fontSize: 18,
+      fontFamily: 'LeagueSpartan_500Medium',
+      color: Colors.graphite,
+      },
+  container_input:
+  {
+      width:'100%',
+      backgroundColor: 'white',
+      borderRadius :25,
+      shadowColor: Colors.graphite,
+      shadowOffset: {width:0, height:4},
+      shadowOpacity: 0.10,
+      shadowRadius:6,
+      elevation:2,
+      borderWidth:1,
+      borderColor: Colors.lightgray,
+      margin: '3%'
+  },
+  tloIconki:
+  {
+      borderRadius:15,
+      alignItems:'center',
+      justifyContent:'center',
+      backgroundColor: Colors.green6,
+      aspectRatio:1,
+      width:'12%',
+      marginRight:'4%',
+      marginLeft: '4%',
+      marginTop:'1%'
+      },
+ textundergray:
+    {
+        fontSize: 15,
+        paddingBottom: '0%',
+        fontFamily: 'LeagueSpartan_500Medium',
+        color: 'gray',
+        },
 });

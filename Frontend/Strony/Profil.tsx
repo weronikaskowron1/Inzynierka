@@ -60,7 +60,7 @@ export default function Profil() {
       </View>
         <NavigationContainer navigation={navigation}/>
 
-        <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection: 'row', width: '90%', height: '7%', alignItems: 'center', justifyContent: 'center' , borderWidth:2, borderColor: Colors.lightgray, backgroundColor:Colors.greenishwhite, borderRadius:15, marginTop:'3%' }}>
+        <Pressable onPress={() => navigation.navigate('Logowanie')} style={styles.buttonwylogujsie}>
         <Feather name="log-out" size={25} color={Colors.green2} style={{paddingRight:'3%'}}/>
         <Text style={{fontSize:17,color: Colors.green2, fontFamily: 'LeagueSpartan_500Medium'}}>Wyloguj się</Text>
         </Pressable>
@@ -124,4 +124,17 @@ const styles = StyleSheet.create({
           fontFamily: 'LeagueSpartan_500Medium',
           color: 'gray',
           },
+   buttonwylogujsie:
+   {
+      flexDirection: 'row',
+      width: '90%',
+      height: '7%',
+      alignItems: 'center',
+      justifyContent: 'center' ,
+      borderWidth:2,
+      borderColor: Colors.lightgray,
+      backgroundColor:Colors.greenishwhite,
+      borderRadius:15,
+      marginTop:'3%'
+      },
 })
