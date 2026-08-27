@@ -4,20 +4,13 @@ import { pressed_styles } from '../../Themes/buton_pressed.tsx'
 
 import { Colors } from '../../Themes/colors.ts';
 
+import AvatarIcon from '../Buttons/AvatarIcon.tsx';
+
 const Welcome = () => {
   const name: string = 'Weronika';
   return (
     <View style={styles.container}>
-      <Pressable
-        style={({ pressed }) => [pressed && pressed_styles.button_pressed]}>
-        <LinearGradient
-          colors={['#CADF9C', '#A6CB6A']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.avatar}>
-          <Text style={styles.avatarText}>{name.charAt(0)}</Text>
-        </LinearGradient>
-      </Pressable>
+      <AvatarIcon />
 
       <View>
         <Text style={styles.greeting}>Cześć,</Text>

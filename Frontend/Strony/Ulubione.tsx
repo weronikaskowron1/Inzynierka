@@ -11,6 +11,8 @@ import { styles as GlobalStyles } from "../Themes/global_styles.tsx";
 
 import FilterIcon from "../Komponenty/Buttons/FilterIcon.tsx";
 import Searchbar from "../Komponenty/HomeScreen/Searchbar.tsx";
+import ServiceCardUlubione from "../Komponenty/Ulubione/ServiceCardUlubione.tsx";
+import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
 
 function Ulubione() {
   const navigation = useNavigation();
@@ -24,6 +26,29 @@ function Ulubione() {
         <Searchbar placeholder_text="Szukaj salonu" />
         <View style={styles.text_container}>
           <Text style={styles.ulubione_salony_text}>Ulubione salony</Text>
+          <WszystkieText />
+        </View>
+        <View style={styles.service_container}>
+          <ServiceCardUlubione
+            service_name="Hairlook"
+            rating="4.9"
+            distance="1.5 km"
+          />
+          <ServiceCardUlubione
+            service_name="Hairlook"
+            rating="4.9"
+            distance="1.5 km"
+          />
+          <ServiceCardUlubione
+            service_name="Hairlook"
+            rating="4.9"
+            distance="1.5 km"
+          />
+          <ServiceCardUlubione
+            service_name="Hairlook"
+            rating="4.9"
+            distance="1.5 km"
+          />
         </View>
       </View>
     </ScrollView>
@@ -38,14 +63,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-    text_container: {
-        flexDirection: 'row',
-        marginTop: 20,
-        },
+  text_container: {
+    flexDirection: "row",
+    marginTop: 20,
+    justifyContent: 'space-between',
+  },
   ulubione_salony_text: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: Colors.gray,
+    fontSize: 18,
+    fontWeight: "500",
+    color: Colors.grayText,
+  },
+  service_container: {
+    marginTop: 20,
+    gap: 35,
   },
 });
 

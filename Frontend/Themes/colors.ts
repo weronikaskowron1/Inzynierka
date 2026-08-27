@@ -9,7 +9,9 @@ export const Colors = {
 
   gray: '#babfbc',
   light_gray: '#F1F0EC',
+
   lightgrayText: '#A4A4A4',
+  grayText: "#4B4B4B",
 
   backgroundColor: '#FDFDF9',
 

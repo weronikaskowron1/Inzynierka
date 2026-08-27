@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   },
 
   header_text: {
-    fontSize: 25,
+    fontSize: 29,
     fontWeight: "700",
   },
 });
