@@ -62,7 +62,7 @@ function HomeScreen() {
     },
   ];
   return (
-//     <ScrollView>
+     <ScrollView>
       <View style={styles.body}>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -111,7 +111,7 @@ function HomeScreen() {
           </View>
         </View>
       </View>
-//     </ScrollView>
+     </ScrollView>
   );
 }
 

@@ -7,9 +7,7 @@ import { useState, useEffect } from "react";
 import { Colors } from '../Themes/colors';
 import Profil from './Strony/Profil.tsx';
 
-
-
-export default function EdytujProfil() {
+export default function UstawieniaKonta() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
   const ip = 2;

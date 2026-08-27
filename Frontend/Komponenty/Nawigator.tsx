@@ -7,7 +7,7 @@ import { View } from 'react-native'
 import HomeScreen from '../Strony/HomeScreen';
 import Rezerwacje from '../Strony/Rezerwacje';
 import Ulubione from '../Strony/Ulubione';
-import Profil from '../Strony/Profil';
+import ProfilNawigator from "./ProfilNawigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -67,7 +67,7 @@ export default function Nawigator() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Rezerwacje" component={Rezerwacje} />
       <Tab.Screen name="Ulubione" component={Ulubione} />
-      <Tab.Screen name="Profil" component={Profil} />
+      <Tab.Screen name="Profil" component={ProfilNawigator} />
     </Tab.Navigator>
   );
 }

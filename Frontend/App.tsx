@@ -11,6 +11,8 @@ import { Colors } from './Themes/colors.ts';
 
 import Logowanie from './Strony/Logowanie.tsx'
 import Nawigator from './Komponenty/Nawigator.tsx'
+import EdytujProfil from './Strony/EdytujProfil.tsx';
+import WszystkieSalony from './Strony/WszystkieSalony'
 
 const Stack = createNativeStackNavigator();
 

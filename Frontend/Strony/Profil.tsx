@@ -1,138 +1,17 @@
-import { StyleSheet, Text, View, Image, Pressable, ScrollView } from 'react-native';
-import { Button } from '@react-navigation/elements';
-import { SimpleLineIcons, FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, Pressable, ScrollView } from 'react-native';
+import { FontAwesome, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Colors } from '../Themes/colors';
 import { Phone, Mail, CalendarCheck } from 'lucide-react-native';
 import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold } from '@expo-google-fonts/league-spartan';
 import { useFonts } from 'expo-font';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
+import ZdjecieProfilowe from '../Komponenty/Profil/ProfilePhoto';
 import Logowanie from './Strony/Logowanie.tsx';
+import NavigationContainer from '../Komponenty/Profil/KontenerNawigacji';
 
-function ZdjecieProfilowe({photopath,navigation,imie}) {
-    const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
-
-    return (
-      <View style={styles.containerImage}>
-      { photopath ?
-          <Image
-            source={{ uri: photopath }}
-            style={{ width: '100%', height: '100%', borderRadius: 20, overflow: 'hidden'}}
-          /> :
-                      (
-                      <View style={{width: '100%', height: '100%'}}>
-                      <LinearGradient
-                                colors={[Colors.green5, Colors.green4]}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 1 }}
-                                style={{justifyContent:'center', alignItems:'center', borderRadius:20, aspectRatio:1,width:'100%'}}>
-                        <Text style={{color:Colors.green1,fontSize: 30,fontFamily: 'LeagueSpartan_700Bold', paddingLeft:'5%'}}>{imie.slice(0,1)}</Text>
-                        </LinearGradient>
-                      </View>
-                      )
-          }
-<View style={styles.tloaparatu}>
-<Pressable style={styles.aparat} onPress={() => {navigation.navigate('Logowanie')}} >
-    <SimpleLineIcons name="camera" size={16} color={Colors.green2}/>
-  </Pressable>
-</View>
-      </View>
-    );}
-
-function NavigationContainer() {
-    const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
-    return (
-        <View style={[styles.container,{flexDirection:'column'}]}>
-              <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
-              <View style={styles.tloIconki}>
-                    <Feather name="user" size={22} color={Colors.green2} />
-              </View>
-              <View style={{flexDirection:'column'}}>
-              <Text style={styles.textbold}>Dane osobowe</Text>
-              <Text style={styles.textundergray}>Edytuj swoje dane</Text>
-              </View>
-              <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
-              </Pressable>
-             <View style={{alignItems: 'center', width:'100%'}}>
-              <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
-              </View>
-
-                <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
-                <View style={styles.tloIconki}>
-                      <Feather name="bell" size={22} color={Colors.green2} />
-                </View>
-                <View style={{flexDirection:'column'}}>
-                <Text style={styles.textbold}>Powiadomienia</Text>
-                <Text style={styles.textundergray}>Zarządzaj alertami</Text>
-                </View>
-                <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
-                </Pressable>
-               <View style={{alignItems: 'center', width:'100%'}}>
-                <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
-                </View>
-
-
-                <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
-                <View style={styles.tloIconki}>
-                      <AntDesign name="credit-card" size={22} color={Colors.green2} />
-                </View>
-                <View style={{flexDirection:'column'}}>
-                <Text style={styles.textbold}>Płatności</Text>
-                <Text style={styles.textundergray}>Metody płatności i historia</Text>
-                </View>
-                <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
-                </Pressable>
-               <View style={{alignItems: 'center', width:'100%'}}>
-                <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
-                </View>
-
-
-              <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
-              <View style={styles.tloIconki}>
-                    <MaterialCommunityIcons name="shield-check-outline" size={22} color={Colors.green2} />
-              </View>
-              <View style={{flexDirection:'column'}}>
-              <Text style={styles.textbold}>Prywatność</Text>
-              <Text style={styles.textundergray}>Zarządzaj danymi i zgodami</Text>
-              </View>
-              <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
-              </Pressable>
-             <View style={{alignItems: 'center', width:'100%'}}>
-              <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
-              </View>
-
-
-              <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
-              <View style={styles.tloIconki}>
-                    <Feather name="help-circle" size={22} color={Colors.green2} />
-              </View>
-              <View style={{flexDirection:'column'}}>
-              <Text style={styles.textbold}>Wsparcie</Text>
-              <Text style={styles.textundergray}>Najczęstsze pytania i kontakt</Text>
-              </View>
-              <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
-              </Pressable>
-             <View style={{alignItems: 'center', width:'100%'}}>
-              <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
-              </View>
-
-              <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
-              <View style={styles.tloIconki}>
-                    <Feather name="info" size={22} color={Colors.green2} />
-              </View>
-              <View style={{flexDirection:'column'}}>
-              <Text style={styles.textbold}>Infomacje</Text>
-              <Text style={styles.textundergray}>Regulamin i infomacje o aplikacji</Text>
-              </View>
-              <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
-              </Pressable>
-        </View>
-        );
-    }
-
-function Profil() {
+export default function Profil() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
   const imie = 'Kuba';
@@ -179,7 +58,7 @@ function Profil() {
                 <Text style={[styles.textundergray,{fontSize:16, marginLeft:'0.5%'}]}>Ulubione</Text>
             </View>
       </View>
-        <NavigationContainer/>
+        <NavigationContainer navigation={navigation}/>
 
         <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection: 'row', width: '90%', height: '7%', alignItems: 'center', justifyContent: 'center' , borderWidth:2, borderColor: Colors.lightgray, backgroundColor:Colors.greenishwhite, borderRadius:15, marginTop:'3%' }}>
         <Feather name="log-out" size={25} color={Colors.green2} style={{paddingRight:'3%'}}/>
@@ -190,19 +69,6 @@ function Profil() {
 }
 
 const styles = StyleSheet.create({
-    containerImage:
-    {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '25%',
-        padding:'3%',
-        marginTop: '4%',
-        marginRight: '2%',
-        marginLeft: '5%',
-        aspectRatio: 1,
-        marginBottom: 0
-        },
     container:
     {
         width:'90%',
@@ -223,41 +89,6 @@ const styles = StyleSheet.create({
         height: '21%',
         flexDirection: 'column'
     },
-    tloIconki:
-    {
-        borderRadius:15,
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor: Colors.green6,
-        aspectRatio:1,
-        width:'12%',
-        marginRight:'4%',
-        marginLeft: '4%',
-        marginTop:'1%'
-        },
-    tloaparatu:
-    {
-        width: '100%',
-        aspectRatio: 1,
-        position: 'absolute',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1,
-      },
-    aparat:
-    {
-         position: 'absolute',
-         bottom: '-5%',
-         right: '-9%',
-         width: '35%',
-         aspectRatio: 1,
-         borderRadius: 999,
-         backgroundColor: Colors.white,
-         alignItems: 'center',
-         justifyContent: 'center',
-         borderWidth:1,
-         borderColor:Colors.green2
-       },
    text:
    {
        fontSize: 16,
@@ -294,5 +125,3 @@ const styles = StyleSheet.create({
           color: 'gray',
           },
 })
-
-export default Profil;
