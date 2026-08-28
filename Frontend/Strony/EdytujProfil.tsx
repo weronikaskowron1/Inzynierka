@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, TextInput, Image, Pressable } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons, Ionicons, Fontisto } from '@expo/vector-icons';
 import { Phone, Mail, CalendarCheck } from 'lucide-react-native';
 import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold } from '@expo-google-fonts/league-spartan';
 import { useFonts } from 'expo-font';
@@ -42,17 +42,17 @@ export default function EdytujProfil() {
   const [ulica, setUlica] = useState("bjbjb");
   const [kodpocztowy, setKodPocztowy] = useState("bjbjb");
   const [nazwa, setNazwa] = useState("bjbjb");
-  const [nip, setNIP] = useState("bjbjb");
+  const [nip, setNIP] = useState("nipnimm33");
 
   const [userType,setUserType]=useState("user")
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: Colors.creambackground, paddingBottom: 20 + 80, } }>
-              <View style={{height:'9%',width:'90%',flexDirection:'row', alignItems:'center', justifyContent: 'left',marginBottom:'0%'}}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: Colors.creambackground, paddingBottom: 50 } }>
+              <View style={{height:'9%',width:'100%',flexDirection:'row', alignItems:'center', justifyContent: 'center',marginBottom:'0%'}}>
                               <Pressable onPress={()=>navigation.navigate('UstawieniaKonta')} style={{height:'100%',aspectRatio:1,alignItems:'left', justifyContent: 'center', marginTop:'2%'}}>
                                   <AntDesign name='arrow-left' size={24} color={Colors.green2} style={{}}/>
                               </Pressable>
-                              <Text style={[styles.textbold, {fontSize: 20,width:'62%', left:'14%'}]}>Dane Osobowe</Text>
+                              <Text style={[styles.textbold, {fontSize: 20,width:'56%', left:'12%'}]}>Dane Osobowe</Text>
                               <Pressable onPress={()=>navigation.navigate('Profil')} style={{height:'100%',aspectRatio:1,alignItems:'right', justifyContent: 'center', marginTop:'2%'}}>
                               <Text style={[styles.text, {left:'27%', position:'absolute', color:Colors.green2}]}>Zapisz</Text>
                               </Pressable>
@@ -63,50 +63,115 @@ export default function EdytujProfil() {
                             <View style={{flexDirection: 'column', alignItems: 'left', justifyContent: 'top', marginLeft: '3%'}}>
                                 <Text style={styles.username}>{imie} {nazwisko}</Text>
                                 <Text style={styles.text2}>Dołączono ....</Text>
+                                {userType === "employer" && (
+                                    <Text style={styles.text2}>NIP: {nip}</Text>
+                                )}
                             </View>
                         </View>
                     </View>
-              <View style={styles.container}>
               <Text style={styles.text}>Informacje Podstawowe:</Text>
+              <View style={styles.container}>
               <View style={styles.container_input}>
                     {(userType=="user" ) ?
                         (
                     <>
-                    <Text>Imię:</Text>
-                    <TextInput placeholder="Imię" value={imie} onChangeText={setImie}/>
-                    <Text>Nazwisko:</Text>
-                    <TextInput placeholder="Nazwisko" value={nazwisko} onChangeText={setNazwisko}/>
+                    <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                    <View style={styles.tloIconki}>
+                        <Feather name="user" size={22} color={Colors.green2} />
+                    </View>
+                    <View style={{flexDirection:'column', justifyContent:'left'}}>
+                    <Text style={styles.textundergray_input}>Imię</Text>
+                    <TextInput style={styles.textbold_input} placeholder="Imię" value={imie} onChangeText={setImie}/>
+                    </View>
+                    </View>
+                    <View style={{alignItems: 'center', width:'100%'}}>
+                    <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                    </View>
+                    <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                    <View style={styles.tloIconki}>
+                        <Feather name="user" size={22} color={Colors.green2} />
+                    </View>
+                    <View style={{flexDirection:'column', justifyContent:'left'}}>
+                    <Text style={styles.textundergray_input}>Nazwisko</Text>
+                    <TextInput style={styles.textbold_input} placeholder="Nazwisko" value={nazwisko} onChangeText={setNazwisko}/>
+                    </View>
+                    </View>
+                    <View style={{alignItems: 'center', width:'100%'}}>
+                    <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                    </View>
                     </>
                     ) :
                     (
                         <>
-                        <Text>Nazwa zakładu:</Text>
-                        <TextInput placeholder="Nazwa zakładu" value={nazwa} onChangeText={setNazwa}/>
-                        <Text>NIP: </Text>
-                        <Text>{nip}</Text>
+                        <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                        <View style={styles.tloIconki}>
+                            <Feather name="user" size={22} color={Colors.green2} />
+                        </View>
+                        <View style={{flexDirection:'column', justifyContent:'left'}}>
+                        <Text style={styles.textundergray_input}>Nazwa zakładu</Text>
+                        <TextInput style={styles.textbold_input} placeholder="Nazwa zakładu" value={nazwa} onChangeText={setNazwa}/>
+                        </View>
+                        </View>
+                        <View style={{alignItems: 'center', width:'100%'}}>
+                        <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                        </View>
                         </>
                         )
                     }
-                    <Text>Numer telefonu:</Text>
-                    <TextInput placeholder="Numer telefonu" value={numertel} onChangeText={setNumerTel}/>
-                    <Text>Mail:</Text>
-                    <TextInput placeholder="Mail" value={mail} onChangeText={setMail}/>
+
+                    <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                    <View style={styles.tloIconki}>
+                        <Phone size={22} color={Colors.green2} />
+                    </View>
+                    <View style={{flexDirection:'column', justifyContent:'left'}}>
+                    <Text style={styles.textundergray_input}>Numer telefonu</Text>
+                    <TextInput style={styles.textbold_input} placeholder="Numer telefonu" value={numertel} onChangeText={setNumerTel}/>
+                    </View>
+                    </View>
+                    <View style={{alignItems: 'center', width:'100%'}}>
+                    <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                    </View>
+
+                    <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                    <View style={styles.tloIconki}>
+                        <Mail size={22} color={Colors.green2} />
+                    </View>
+                    <View style={{flexDirection:'column', justifyContent:'left'}}>
+                    <Text style={styles.textundergray_input}>Mail</Text>
+                    <TextInput style={styles.textbold_input} placeholder="Mail" value={mail} onChangeText={setMail}/>
+                    </View>
+                    </View>
+                </View>
                 </View>
               <Text style={styles.text}>Informacje Dodatkowe:</Text>
+              <View style={styles.container}>
               <View style={styles.container_input}>
-                    <Text>Miasto:</Text>
-                    <TextInput placeholder="Miasto" value={miasto} onChangeText={setMail}/>
-                    <Text>Ulica:</Text>
-                    <TextInput placeholder="Ulica" value={ulica} onChangeText={setUlica}/>
-                    <Text>Numer budynku:</Text>
-                    <TextInput placeholder="Numer budynku" value={budynek} onChangeText={setBudynek}/>
-                    <Text>Numer mieszkania:</Text>
-                    <TextInput placeholder="Numer mieszkania (opcjonalnie)" value={mieszkanie} onChangeText={setMieszkanie}/>
-                    <Text>Kod pocztowy:</Text>
-                    <TextInput placeholder="Kod pocztowy" value={kodpocztowy} onChangeText={setKodPocztowy}/>
+                      <Pressable onPress={() => navigation.navigate('UstawieniaKonta')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+                      <View style={styles.tloIconki}>
+                            <Ionicons name="home-outline" size={22} color={Colors.green2} />
+                      </View>
+                      <View style={{flexDirection:'column'}}>
+                      <Text style={styles.textbold}>Adres zamieszkania</Text>
+                      <Text style={styles.textundergray}>Dodaj adres</Text>
+                      </View>
+                      <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
+                      </Pressable>
+                     <View style={{alignItems: 'center', width:'100%'}}>
+                      <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                      </View>
+                      <Pressable onPress={() => navigation.navigate('UstawieniaKonta')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+                      <View style={styles.tloIconki}>
+                          <Fontisto name="intersex" size={22} color={Colors.green2} />
+                      </View>
+                      <View style={{flexDirection:'column'}}>
+                      <Text style={styles.textbold}>Płeć</Text>
+                      <Text style={styles.textundergray}>Ustaw płeć</Text>
+                      </View>
+                      <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
+                      </Pressable>
+              </View>
               </View>
 
-              </View>
         </ScrollView>
         );
     }
@@ -117,12 +182,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
     justifyContent: 'center',
-    width:'90%'
+    width:'100%'
   },
   containerProfile:
       {
       width:'100%',
-      height: '21%',
+      height: '19%',
   },
  text2:
  {
@@ -150,10 +215,11 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontFamily: 'LeagueSpartan_500Medium',
       color: Colors.graphite,
+      marginLeft:'5%'
       },
   container_input:
   {
-      width:'100%',
+      width:'90%',
       backgroundColor: 'white',
       borderRadius :25,
       shadowColor: Colors.graphite,
@@ -184,4 +250,21 @@ const styles = StyleSheet.create({
         fontFamily: 'LeagueSpartan_500Medium',
         color: 'gray',
         },
+textbold_input:
+    {
+       fontSize:20,
+       color: Colors.graphite,
+       fontFamily: 'LeagueSpartan_600SemiBold',
+       marginTop: -10,
+       marginLeft:-5,
+   },
+textundergray_input:
+   {
+       fontSize: 14,
+       paddingBottom: '0%',
+       fontFamily: 'LeagueSpartan_500Medium',
+       color: 'gray',
+       paddingTop:10,
+       marginBottom:0
+       },
 });
