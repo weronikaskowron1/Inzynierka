@@ -36,7 +36,8 @@ function Rezerwacje() {
           </View>
         )}
         <View style={styles.visits_container}>
-        <VisitMonthCalendar />
+          <VisitMonthCalendar />
+        </View>
       </View>
     </View>
   );
