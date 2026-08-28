@@ -4,6 +4,7 @@ import AlertIcon from "../Komponenty/Buttons/AlertIcon.tsx";
 import MonthCalendar from "../Komponenty/Rezerwacje/MonthCalendar.tsx";
 import WeekCalendar from "../Komponenty/Rezerwacje/WeekCalendar.tsx";
 import CalendarToggle from "../Komponenty/Rezerwacje/CalendarToggle.tsx";
+import VisitMonthCalendar from "../Komponenty/Rezerwacje/VisitMonthCalendar.tsx";
 
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -34,6 +35,8 @@ function Rezerwacje() {
             <MonthCalendar />
           </View>
         )}
+        <View style={styles.visits_container}>
+        <VisitMonthCalendar />
       </View>
     </View>
   );
