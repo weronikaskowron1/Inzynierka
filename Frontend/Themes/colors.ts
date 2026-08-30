@@ -5,13 +5,19 @@ export const Colors = {
   green4: '#A6CB6A',
   green5: '#CADF9C',
   green6: '#EDF3DF',
+  green7: '#F9FAF1',
+
   gray: '#babfbc',
-  lightgray: '#F1F0EC',
+  light_gray: '#F1F0EC',
+
+  lightgrayText: '#A4A4A4',
+  grayText: "#4B4B4B",
+
+  backgroundColor: '#FDFDF9',
+
   greenishwhite:'#F7F8F2',
-  creambackground:'#FCFBF9',
+
   white: '#FDFDFB',
   graphite: '#1c1b1b',
-  green6: '#EDF3DF',
-  backgroundColor: '#FDFDF9',
-  grayText: '#A4A4A4',
+
 };

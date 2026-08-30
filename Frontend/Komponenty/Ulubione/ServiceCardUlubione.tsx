@@ -2,18 +2,15 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SimpleLineIcons, FontAwesome } from "@expo/vector-icons";
 import HeartIcon from "../Buttons/HeartIcon.tsx";
+import AvatarIcon from "../Buttons/AvatarIcon.tsx";
 
 import { pressed_styles } from "../../Themes/buton_pressed.tsx";
-import { Colors } from '../../Themes/colors.ts';
+import { Colors } from "../../Themes/colors.ts";
 
-const ServiceCard = ({ service_name, rating, distance }) => {
+const ServiceCardUlubione = ({ service_name, rating, distance }) => {
   let image_uploaded = false;
   return (
     <View style={styles.container}>
-      <View style={styles.heart_container}>
-        <HeartIcon />
-      </View>
-
       <Pressable
         style={({ pressed }) => [
           styles.service_container,
@@ -21,14 +18,14 @@ const ServiceCard = ({ service_name, rating, distance }) => {
         ]}
       >
         {!image_uploaded && (
-          <LinearGradient
-            colors={[Colors.green6, Colors.green5]}
-            start={{ x: 1, y: -1 }}
-            end={{ x: 2, y: 2 }}
-            style={styles.image_container}
-          >
-            <SimpleLineIcons name="picture" size={30} color={Colors.lightgrayText} />
-          </LinearGradient>
+          <AvatarIcon
+            name={service_name}
+            color1={Colors.green6}
+            color2={Colors.green6}
+            text_color={Colors.green2}
+            size={70}
+            text_size={30}
+          />
         )}
 
         {image_uploaded && <View style={styles.image_container} />}
@@ -41,6 +38,9 @@ const ServiceCard = ({ service_name, rating, distance }) => {
             <Text style={styles.distance}>{`\u00B7 ${distance}`}</Text>
           </View>
         </View>
+        <View style={styles.heart_container}>
+          <HeartIcon />
+        </View>
       </Pressable>
     </View>
   );
@@ -49,24 +49,27 @@ const ServiceCard = ({ service_name, rating, distance }) => {
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    width: 160,
-    height: 160,
+    width: "100%",
+    height: 70,
   },
 
   service_container: {
+    flexDirection: "row",
+    padding: 10,
+    paddingRight: 15,
+    alignItems: "center",
     borderWidth: 0,
     borderRadius: 15,
     borderColor: "white",
-    boxShadow: "3px 10px 5px rgba(164, 164, 164, 0.2)",
+    boxShadow: "0px 0px 7px rgba(164, 164, 164, 0.2)",
   },
 
   image_container: {
-    height: "60%",
-    alignItems: "center",
+    width: 70,
+    height: 70,
+    borderRadius: 20,
     justifyContent: "center",
-
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    alignItems: "center",
 
     backgroundColor: "red", //tymczasowe
   },
@@ -79,11 +82,12 @@ const styles = StyleSheet.create({
 
   service_name: {
     fontWeight: "700",
-    fontSize: 17,
+    fontSize: 19,
     color: "#4B4B4B",
   },
 
   info_container: {
+    marginTop: 4,
     flexDirection: "row",
     alignItems: "center",
     gap: 7,
@@ -91,21 +95,18 @@ const styles = StyleSheet.create({
 
   rating: {
     fontWeight: "500",
-    fontSize: 15,
+    fontSize: 16,
     color: "#4B4B4B",
   },
 
   distance: {
     color: Colors.lightgrayText,
     fontWeight: "400",
-    fontSize: 15,
+    fontSize: 16,
   },
 
   heart_container: {
-    position: "absolute",
-    top: -9,
-    right: -10,
-    zIndex: 10,
+    marginLeft: "auto",
   },
 });
-export default ServiceCard;
+export default ServiceCardUlubione;

@@ -1,17 +1,19 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import Welcome from '../Komponenty/HomeScreen/Welcome.tsx';
-import AlertIcon from '../Komponenty/HomeScreen/AlertIcon.tsx';
+import AlertIcon from '../Komponenty/Buttons/AlertIcon.tsx';
 import CategoryIcon from '../Komponenty/HomeScreen/CategoryIcon.tsx';
 import NextVisitCard from '../Komponenty/HomeScreen/NextVisitCard.tsx';
 import Searchbar from '../Komponenty/HomeScreen/Searchbar.tsx';
 import ServiceCard from '../Komponenty/HomeScreen/ServiceCard.tsx';
 import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
 
+
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from "react";
 
 import { Colors } from '../Themes/colors.ts';
+import  { styles as GlobalStyles } from '../Themes/global_styles.tsx';
 
 const API_URL = process.env.API_URL;
 
@@ -62,9 +64,8 @@ function HomeScreen() {
     },
   ];
   return (
-//     <ScrollView>
-      <View style={styles.body}>
-        <View style={styles.container}>
+      <ScrollView style={GlobalStyles.body}>
+        <View style={GlobalStyles.container}>
           <View style={styles.header}>
             <Welcome />
             <AlertIcon />
@@ -83,6 +84,7 @@ function HomeScreen() {
             ))}
           </View>
           <View style={styles.recommended_container}>
+
             <Text style={styles.polecane_text}> Polecane salony </Text>
             <WszystkieText />
           </View>
@@ -110,22 +112,11 @@ function HomeScreen() {
           />
           </View>
         </View>
-      </View>
-//     </ScrollView>
+      </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    backgroundColor: Colors.backgroundColor,
-  },
-
-  container: {
-    margin: 30,
-    marginTop: 70
-  },
-
   header: {
     display: 'flex',
     flexDirection: 'row',
@@ -166,7 +157,7 @@ const styles = StyleSheet.create({
   nastepna_wizyta_text: {
     marginTop: 20,
     marginBottom: 10,
-    color: '#A4A4A4',
+    color: Colors.lightgrayText,
     fontWeight: '700',
     fontSize: 15,
   },
