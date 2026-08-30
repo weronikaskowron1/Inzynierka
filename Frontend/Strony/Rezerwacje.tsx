@@ -58,4 +58,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
+  visits_container: {
+    marginTop: 30,
+    marginLeft: 30,
+  },
 });
