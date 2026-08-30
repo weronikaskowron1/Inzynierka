@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 //importy
 import getStudios from "./Api/GetApi/GetStudios.js";
+import getVisitCards from "./Api/GetApi/GetVisitCards.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -11,6 +12,7 @@ app.use(express.json());
 
 //GetApi
 app.use('/api/salony',getStudios);
+app.use('/api/visitcards', getVisitCards );
 
 //PostApi
 
