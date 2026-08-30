@@ -11,7 +11,7 @@ web-build/
 expo-env.d.ts
 
 #Secrets
-.env
+Backend/.env
 
 # Native
 .kotlin/
