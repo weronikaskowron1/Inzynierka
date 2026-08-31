@@ -9,6 +9,7 @@ import Rezerwacje from '../Strony/Rezerwacje';
 import Ulubione from '../Strony/Ulubione';
 import Profil from '../Strony/Profil';
 
+
 const Tab = createBottomTabNavigator();
 
 export default function Nawigator() {

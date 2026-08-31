@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     justifyContent: "center",
     gap: screenWidth * 0.02,
-    //paddingVertical: screenHeight * 0.03,
+    //paddingVertical: screenHeight * -0.,
     fontSize: screenWidth * 0.05,
     color: "#000",
     //marginBottom: screenHeight * 0.09,

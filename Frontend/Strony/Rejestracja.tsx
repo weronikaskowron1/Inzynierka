@@ -1,4 +1,4 @@
-import {StyleSheet,Text,View,Image,Dimensions,TextInput,TouchableOpacity,} from "react-native";
+import {StyleSheet,Text,ScrollView,Image,Dimensions,TextInput,TouchableOpacity,View} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -16,9 +16,12 @@ export default function Rejestracja() {
   const navigation = useNavigation();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [checked, setChecked] = useState(false);
   const [birthDate, setBirthDate] = useState(null);
@@ -40,169 +43,217 @@ export default function Rejestracja() {
 
   return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.headerContainer}>
-            <View style={styles.CofnijContainer}>
-              <TouchableOpacity
-                 onPress={() => navigation.navigate("Logowanie")}>
-                 <View style={styles.BackButtonConteiner}>
+          <ScrollView>
+            <View style={styles.headerContainer}>
+                <View style={styles.CofnijContainer}>
+                  <TouchableOpacity
+                     onPress={() => navigation.navigate("Logowanie")}>
+                     <View style={styles.BackButtonConteiner}>
+                         <Ionicons
+                            name="chevron-back"
+                            size={screenWidth * 0.07}
+                            color="#2F5D3A"
+                     />
+                     </View>
+                  </TouchableOpacity>
+                  <View style={styles.logoConteinerSmall}>
+                    <Image
+                      source={require("../assets/logo.png")}
+                      style={styles.logoSmall}
+                      resizeMode="contain"
+                    />
+                  </View>
+                </View>
+              <Text style={styles.headerText}>Załóż konto</Text>
+              <Text style={[styles.normalText,{marginBottom: screenHeight * 0.02}]}>
+                Kilka kroków i umawiasz następną wizytę
+              </Text>
+              <View style={[styles.content1,{gap: screenHeight * 0.17}]}>
+                <Text style={styles.textDarkSmall}>Imię</Text>
+                <Text style={styles.textDarkSmall}>Nazwisko</Text>
+              </View>
+              <View style={[styles.content1,{gap:screenWidth*0.04}]}>
+                  <View style={styles.NameSurnameWrapper}>
                      <Ionicons
-                        name="chevron-back"
-                        size={screenWidth * 0.07}
-                        color="#2F5D3A"
-                 />
-                 </View>
-              </TouchableOpacity>
-              <View style={styles.logoConteinerSmall}>
-                <Image
-                  source={require("../assets/logo.png")}
-                  style={styles.logoSmall}
-                  resizeMode="contain"
+                       name="person-outline"
+                       size={screenWidth * 0.05}
+                       color="#999999"
+                       style={{ marginRight: screenWidth * 0.02 }}
+                     />
+                     <TextInput
+                        style={styles.inputNameSurname}
+                        placeholder="Imię"
+                        value={name}
+                        onChangeText={setName}
+                     />
+                  </View>
+                  <View style={styles.NameSurnameWrapper}>
+                     <TextInput
+                         style={styles.inputNameSurname}
+                         placeholder="Nazwisko"
+                         value={surname}
+                         onChangeText={setSurname}
+                     />
+                  </View>
+              </View>
+              <Text style={styles.textDarkSmall}>Numer telefonu</Text>
+              <View style={styles.emailWrapper}>
+                <Ionicons
+                  name="call-outline"
+                  size={screenWidth * 0.05}
+                  color="#999999"
+                  style={{ marginRight: screenWidth * 0.02 }}
+                />
+                <TextInput
+                  style={styles.inputEmail}
+                  placeholder="798 345 123"
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
                 />
               </View>
-            </View>
-          <Text style={styles.headerText}>Załóż konto</Text>
-          <Text style={[styles.normalText,{marginBottom: screenHeight * 0.02}]}>
-            Kilka kroków i umawiasz następną wizytę
-          </Text>
-          <View style={[styles.content1,{gap: screenHeight * 0.17}]}>
-            <Text style={styles.textDarkSmall}>Imię</Text>
-            <Text style={styles.textDarkSmall}>Nazwisko</Text>
-          </View>
-          <View style={[styles.content1,{gap:screenWidth*0.04}]}>
-              <View style={styles.NameSurnameWrapper}>
+              <Text style={styles.textDarkSmall}>Data Urodzenia</Text>
+              <View style={styles.emailWrapper}>
                  <Ionicons
-                   name="mail-outline"
-                   size={screenWidth * 0.05}
-                   color="#999999"
-                   style={{ marginRight: screenWidth * 0.02 }}
+                    name="calendar-outline"
+                    size={screenWidth * 0.05}
+                    color="#999999"
+                    style={{ marginRight: screenWidth * 0.02 }}
                  />
-                 <TextInput
-                    style={styles.inputNameSurname}
-                    placeholder="Imię"
-                    value={name}
-                    onChangeText={setName}
-                 />
+                 <TouchableOpacity
+                    onPress={() => setShowBirthPicker(true)}>
+                     <Text style={styles.inputEmail}>
+                       {birthDate ? birthDate.toLocaleDateString() : "4/6/2004"}
+                     </Text>
+                   </TouchableOpacity>
               </View>
-              <View style={styles.NameSurnameWrapper}>
-                 <TextInput
-                     style={styles.inputNameSurname}
-                     placeholder="Nazwisko"
-                     value={surname}
-                     onChangeText={setSurname}
-                 />
-              </View>
-          </View>
-          <Text style={styles.textDarkSmall}>Data Urodzenia</Text>
-          <View style={styles.emailWrapper}>
-             <Ionicons
-                name="calendar-outline"
-                size={screenWidth * 0.05}
-                color="#999999"
-                style={{ marginRight: screenWidth * 0.02 }}
-             />
-             <TouchableOpacity
-                onPress={() => setShowBirthPicker(true)}>
-                 <Text style={styles.inputEmail}>
-                   {birthDate ? birthDate.toLocaleDateString() : "4/6/2004"}
-                 </Text>
-               </TouchableOpacity>
-          </View>
-           {showBirthPicker && (
-               <DateTimePicker
-                   value={birthDate || new Date(2000,0,1)}
-                   mode="date"
-                   display="spinner"
-                   maximumDate={new Date()}
-                   onChange={(event,selected)=>{
-                       setShowBirthPicker(false);
-                           if (selected) setBirthDate(selected);
-                                }}/>
-           )}
-          <Text style={styles.textDarkSmall}>Adres e-mail</Text>
-          <View style={styles.emailWrapper}>
-            <Ionicons
-              name="mail-outline"
-              size={screenWidth * 0.05}
-              color="#999999"
-              style={{ marginRight: screenWidth * 0.02 }}
-            />
-            <TextInput
-              style={styles.inputEmail}
-              placeholder="kuba@appoint.pl"
-              value={email}
-              onChangeText={setEmail}
-            />
-          </View>
-          <Text style={styles.textDarkSmall}>Hasło</Text>
-          <View style={styles.passwordWrapper}>
-            <Ionicons
-              name="lock-closed-outline"
-              size={screenWidth * 0.05}
-              color="#999999"
-              style={{ marginRight: screenWidth * 0.01 }}
-            />
-            <TextInput
-              style={styles.inputPassword}
-              placeholder="• • • • • • • •"
-              secureTextEntry={!showPassword}
-              value={password}
-              onChangeText={setPassword}
-            />
-
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Ionicons
-                name={showPassword ? "eye-off-outline" : "eye-outline"}
-                size={screenWidth * 0.05}
-                color="#999999"
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.passwordStrengthContainer}>
-            {[0,1,2,3].map((i)=>(
-                <View
-                key={i}
-                style={[
-                    styles.strengthSegment,
-                    {backgroundColor: i<getPasswordStrength(password)?strengthColors[i]:"#E5E5E5"}
-                    ]}
+               {showBirthPicker && (
+                   <DateTimePicker
+                       value={birthDate || new Date(2000,0,1)}
+                       mode="date"
+                       display="spinner"
+                       maximumDate={new Date()}
+                       onChange={(event,selected)=>{
+                           setShowBirthPicker(false);
+                               if (selected) setBirthDate(selected);
+                                    }}/>
+               )}
+              <Text style={styles.textDarkSmall}>Adres e-mail</Text>
+              <View style={styles.emailWrapper}>
+                <Ionicons
+                  name="mail-outline"
+                  size={screenWidth * 0.05}
+                  color="#999999"
+                  style={{ marginRight: screenWidth * 0.02 }}
                 />
-                ))}
-                <Text style={styles.strengthLabel}>
-                    {["Słabe","OK","Średnie","Dobre","Świetne"][getPasswordStrength(password)]}
-                </Text>
+                <TextInput
+                  style={styles.inputEmail}
+                  placeholder="kuba@appoint.pl"
+                  value={email}
+                  onChangeText={setEmail}
+                />
+              </View>
+              <Text style={styles.textDarkSmall}>Hasło</Text>
+              <View style={styles.passwordWrapper}>
+                <Ionicons
+                  name="lock-closed-outline"
+                  size={screenWidth * 0.05}
+                  color="#999999"
+                  style={{ marginRight: screenWidth * 0.01 }}
+                />
+                <TextInput
+                  style={styles.inputPassword}
+                  placeholder="• • • • • • • •"
+                  secureTextEntry={!showPassword}
+                  value={password}
+                  onChangeText={setPassword}
+                />
+
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                  <Ionicons
+                    name={showPassword ? "eye-off-outline" : "eye-outline"}
+                    size={screenWidth * 0.05}
+                    color="#999999"
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.textDarkSmall}>Powtórz hasło</Text>
+              <View style={styles.passwordWrapper}>
+                <Ionicons
+                  name="lock-closed-outline"
+                  size={screenWidth * 0.05}
+                  color="#999999"
+                  style={{ marginRight: screenWidth * 0.01 }}
+                />
+                <TextInput
+                  style={styles.inputPassword}
+                  placeholder="• • • • • • • •"
+                  secureTextEntry={!showPassword2}
+                  value={password2}
+                  onChangeText={setPassword2}
+                />
+
+                <TouchableOpacity onPress={() => setShowPassword2(!showPassword2)}>
+                  <Ionicons
+                    name={showPassword2 ? "eye-off-outline" : "eye-outline"}
+                    size={screenWidth * 0.05}
+                    color="#999999"
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.passwordStrengthContainer}>
+                {[0,1,2,3].map((i)=>(
+                    <View
+                    key={i}
+                    style={[
+                        styles.strengthSegment,
+                        {backgroundColor: i<getPasswordStrength(password)?strengthColors[i]:"#E5E5E5"}
+                        ]}
+                    />
+                    ))}
+                    <Text style={styles.strengthLabel}>
+                        {["Słabe","OK","Średnie","Dobre","Świetne"][getPasswordStrength(password)]}
+                    </Text>
+                </View>
+              <View style={styles.checkbox}>
+                <Checkbox
+                  value={checked}
+                  onValueChange={setChecked}
+                  color={checked ? "#81b525ff" : "#ccc"}
+                  style={styles.checkboxBox}
+                />
+                <Text style={styles.normalText}>Akceptuję</Text>
+                <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
+                  <Text style={styles.textClick}>Regulamin</Text>
+                </TouchableOpacity>
+                <Text style={styles.normalText}>oraz</Text>
+                <TouchableOpacity onPress={() => console.log("Home")}>
+                   <Text style={[styles.textClick,{marginBottom: screenHeight * 0.004}]}>Politykę</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.checkbox}>
+                <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
+                   <Text style={[styles.textClick,{paddingLeft: screenWidth * 0.07},{marginBottom: screenHeight * 0.03}]}>Prywatności.</Text>
+                </TouchableOpacity>
+              </View>
+
+              <LoginCard service="Utwórz konto" />
+              <View style={styles.ZarejestrujContainer}>
+                <Text style={styles.normalText}>Masz już konto?</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Logowanie")}>
+                  <Text style={styles.textClick}>Zaloguj się</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.FirmaContainer}>
+                 <Text style={styles.normalText}>Prowadzisz działalność?</Text>
+                     <TouchableOpacity
+                        onPress={() => navigation.navigate("Logowanie")}>
+                        <Text style={styles.textClick}>Zarejestruj firmę</Text>
+                     </TouchableOpacity>
+              </View>
+
             </View>
-          <View style={styles.checkbox}>
-            <Checkbox
-              value={checked}
-              onValueChange={setChecked}
-              color={checked ? "#81b525ff" : "#ccc"}
-              style={styles.checkboxBox}
-            />
-            <Text style={styles.normalText}>Akceptuję</Text>
-            <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
-              <Text style={styles.textClick}>Regulamin</Text>
-            </TouchableOpacity>
-            <Text style={styles.normalText}>oraz</Text>
-            <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
-               <Text style={[styles.textClick,{marginBottom: screenHeight * 0.004}]}>Politykę</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.checkbox}>
-            <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
-               <Text style={[styles.textClick,{paddingLeft: screenWidth * 0.07},{marginBottom: screenHeight * 0.03}]}>Prywatności.</Text>
-            </TouchableOpacity>
-          </View>
-
-          <LoginCard service="Utwórz konto" />
-          <View style={styles.ZarejestrujContainer}>
-            <Text style={styles.normalText}>Masz już konto?</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Logowanie")}>
-              <Text style={styles.textClick}>Zaloguj się</Text>
-            </TouchableOpacity>
-          </View>
-
-        </View>
+          </ScrollView>
       </SafeAreaView>
     );
   }
@@ -212,6 +263,9 @@ export default function Rejestracja() {
       flex: 1,
       backgroundColor: Colors.backgroundColor,
       //paddingTop: screenHeight * 0.02,
+      paddingTop: screenHeight * -0.03,
+      //paddingVertical: screenHeight * 0.02,
+
     },
 
     headerContainer: {
@@ -224,8 +278,9 @@ export default function Rejestracja() {
       paddingHorizontal: screenWidth * 0.07,
       paddingBottom: screenHeight * 0.02,
       //gap: screenHeight * 0.02,
-      transform: [{ translateY: -20 }],
+      //transform: [{ translateY: -20 }],
       //minHeight: screenHeight * 1.01,
+      //paddingVertical: screenHeight * 0.001,
     },
     logo: {
       width: screenWidth * 0.08,
@@ -433,7 +488,21 @@ export default function Rejestracja() {
       fontSize: screenWidth * 0.05,
       color: "#000",
       //marginTop: "auto",
-      marginTop: screenHeight * 0.06,
+      marginTop: screenHeight * 0.04,
+      //paddingLeft: screenWidth * 0.09,
+      //marginTop: "auto",
+    },
+    FirmaContainer: {
+      width: "100%",
+      flexDirection: "row",
+      //alignItems: 'center',
+      justifyContent: "center",
+      gap: screenWidth * 0.02,
+      //paddingVertical: screenHeight * 0.03,
+      fontSize: screenWidth * 0.05,
+      color: "#000",
+      //marginTop: "auto",
+      marginTop: screenHeight * 0.01,
       //paddingLeft: screenWidth * 0.09,
       //marginTop: "auto",
     },
