@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Colors } from "../../Themes/colors.ts";
 import DateChanger from "./DateChanger";
 
-const MonthCalendar = () => {
+const MonthCalendar = ({ setSelectedDate }) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -30,18 +30,21 @@ const MonthCalendar = () => {
       calendarDays.push({
         day: daysInPreviousMonth + dayNumber,
         currentMonth: false,
+        date: new Date(year, month, dayNumber),
       });
     } else if (dayNumber > daysInMonth) {
       // następny miesiąc
       calendarDays.push({
         day: dayNumber - daysInMonth,
         currentMonth: false,
+        date: new Date(year, month, dayNumber),
       });
     } else {
       // obecny miesiąc
       calendarDays.push({
         day: dayNumber,
         currentMonth: true,
+        date: new Date(year, month, dayNumber),
       });
     }
   }
@@ -93,7 +96,10 @@ const MonthCalendar = () => {
           <Pressable
             key={index}
             style={styles.day}
-            onPress={() => setSelectedDayIndex(index)}
+            onPress={() => {
+              setSelectedDayIndex(index);
+              setSelectedDate(item.date);
+            }}
           >
             <LinearGradient
               colors={

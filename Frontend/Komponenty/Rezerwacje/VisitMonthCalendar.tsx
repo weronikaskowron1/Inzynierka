@@ -9,11 +9,21 @@ import ThreeDotsIcon from "./ThreeDotsIcon.tsx";
 
 const VisitMonthCalendar = ({
   service = "",
-  day = "",
-  time = "",
+  date = null,
   company = "",
   duration = "",
 }) => {
+  const visitDate = date ? new Date(date) : null;
+  const day = visitDate?.toLocaleDateString("pl-PL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
+  const time = visitDate?.toLocaleTimeString("pl-PL", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   return (
     <Pressable
       style={({ pressed }) => [
@@ -26,15 +36,15 @@ const VisitMonthCalendar = ({
         <Text style={styles.time_text}>9:00</Text>
       </View>
       <View style={styles.info_container}>
-        <Text style={styles.service_text}>Peeling chemiczny</Text>
-        <Text style={styles.company_text}>Studio Glam</Text>
+        <Text style={styles.service_text}>{service}</Text>
+        <Text style={styles.company_text}>{company}</Text>
         <View style={styles.duration_container}>
           <MaterialCommunityIcons
             name="clock-time-four-outline"
             size={12}
             color={Colors.green1}
           />
-          <Text style={styles.duration_text}>60 min</Text>
+          <Text style={styles.duration_text}>{duration}</Text>
         </View>
       </View>
     </Pressable>
@@ -67,7 +77,6 @@ const styles = StyleSheet.create({
   info_container: {
     flex: 4,
     paddingLeft: 10,
-
   },
   service_text: {
     fontWeight: "500",
