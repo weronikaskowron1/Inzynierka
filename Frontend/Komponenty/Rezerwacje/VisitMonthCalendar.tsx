@@ -44,7 +44,7 @@ const VisitMonthCalendar = ({
             size={12}
             color={Colors.green1}
           />
-          <Text style={styles.duration_text}>{duration}</Text>
+          <Text style={styles.duration_text}>{duration} min</Text>
         </View>
       </View>
     </Pressable>

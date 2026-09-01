@@ -36,8 +36,12 @@ function Rezerwacje() {
     } catch (error) {
       console.error("Błąd pobierania rezerwacji:", error);
     }
-
   };
+
+ for (const reservation of reservations) {
+     let visitDate = reservation ? new Date(reservation) : null;
+   console.log(visitDate);
+ }
   return (
     <View style={GlobalStyles.body}>
       <View style={styles.container}>
@@ -56,7 +60,7 @@ function Rezerwacje() {
           <WeekCalendar />
         ) : (
           <View style={{ marginLeft: 30, marginTop: 20 }}>
-            <MonthCalendar setSelectedDate={setSelectedDate}/>
+            <MonthCalendar setSelectedDate={setSelectedDate} reservations={reservations} />
             <Text>{selectedDate.toLocaleDateString("pl-PL")}</Text>
           </View>
         )}
@@ -64,7 +68,8 @@ function Rezerwacje() {
           <FlatList
             data={reservations.filter(
               (item) =>
-                new Date(item.data).toDateString() === selectedDate.toDateString()
+                new Date(item.data).toDateString() ===
+                selectedDate.toDateString(),
             )}
             renderItem={({ item }) => (
               <VisitMonthCalendar
