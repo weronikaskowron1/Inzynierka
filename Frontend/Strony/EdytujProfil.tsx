@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, Image, Pressable, Modal } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons, Ionicons, Fontisto } from '@expo/vector-icons';
 import { Phone, Mail, CalendarCheck } from 'lucide-react-native';
@@ -9,21 +9,42 @@ import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from "react";
 
 import { Colors } from '../Themes/colors';
-import ZdjecieProfilowe from '../Komponenty/Profil/ProfilePhoto';
 
 
 export default function EdytujProfil() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
   const ip = 2;
-    const [profilinfo, setProfilInfo] = useState([]);
+  const user_type="user";
+    const [profilinfo, setProfilInfo] = useState({
+            id: 2,
+            name: "",
+            surname: "",
+            email: "",
+            password: "",
+            created_at: "",
+            last_logged: "",
+            phone: "",
+            image_path: "",
+            sex: "",
+            street: "",
+            building_number: "",
+            apartment_number: "",
+            postal_code: "",
+            city: ""
+        });
     const GetProfileInfo = async () => {
-      try {
-        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/profil/${ip}`);
+        try{
+        const url =
+        user_type === "user"
+          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
+          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
 
+        const response = await fetch(url);
         const data = await response.json();
 
         console.log("Dane:", data);
+        setProfilInfo(data[0]);
       } catch (error) {
         console.error(error);
       }
@@ -32,17 +53,11 @@ export default function EdytujProfil() {
     useEffect(() => {
       GetProfileInfo();
     }, []);
-   const [imie, setImie] = useState("Kuba");
-   const [nazwisko, setNazwisko] = useState("nazwisko");
-  const [mail, setMail] = useState("bjbjb");
-  const [numertel, setNumerTel] = useState("bjbjb");
-  const [miasto, setMiasto] = useState("bjbjb");
-  const [mieszkanie, setMieszkanie] = useState("bjbjb");
-  const [budynek, setBudynek] = useState("bjbjb");
-  const [ulica, setUlica] = useState("bjbjb");
-  const [kodpocztowy, setKodPocztowy] = useState("bjbjb");
-  const [nazwa, setNazwa] = useState("bjbjb");
+const [showGender, setShowGender] = useState(false);
   const [nip, setNIP] = useState("nipnimm33");
+  const [changenumer, setChangeNumer] = useState(false);
+  const [changemail, setChangeMail] = useState(false);
+  const [plec, setPlec] = useState("Ustaw płeć");
 
   const [userType,setUserType]=useState("user")
 
@@ -57,18 +72,6 @@ export default function EdytujProfil() {
                               <Text style={[styles.text, {left:'27%', position:'absolute', color:Colors.green2}]}>Zapisz</Text>
                               </Pressable>
                           </View>
-              <View style={styles.containerProfile}>
-                        <View style={{flexDirection: 'row'}}>
-                            <ZdjecieProfilowe imie='Kuba'/>
-                            <View style={{flexDirection: 'column', alignItems: 'left', justifyContent: 'top', marginLeft: '3%'}}>
-                                <Text style={styles.username}>{imie} {nazwisko}</Text>
-                                <Text style={styles.text2}>Dołączono ....</Text>
-                                {userType === "employer" && (
-                                    <Text style={styles.text2}>NIP: {nip}</Text>
-                                )}
-                            </View>
-                        </View>
-                    </View>
               <Text style={styles.text}>Informacje Podstawowe:</Text>
               <View style={styles.container}>
               <View style={styles.container_input}>
@@ -76,24 +79,24 @@ export default function EdytujProfil() {
                         (
                     <>
                     <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
-                    <View style={styles.tloIconki}>
-                        <Feather name="user" size={22} color={Colors.green2} />
+                    <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                        <Feather name="user" size={25} color={Colors.graphite} />
                     </View>
                     <View style={{flexDirection:'column', justifyContent:'left'}}>
                     <Text style={styles.textundergray_input}>Imię</Text>
-                    <TextInput style={styles.textbold_input} placeholder="Imię" value={imie} onChangeText={setImie}/>
+                    <TextInput style={styles.textbold_input} placeholder="Imię" value={profilinfo.name} onChangeText={(text)=>{setProfilInfo({...profilinfo,name:text})}}/>
                     </View>
                     </View>
                     <View style={{alignItems: 'center', width:'100%'}}>
                     <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                     </View>
                     <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
-                    <View style={styles.tloIconki}>
-                        <Feather name="user" size={22} color={Colors.green2} />
+                    <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                        <Feather name="user" size={25} color={Colors.graphite} />
                     </View>
                     <View style={{flexDirection:'column', justifyContent:'left'}}>
                     <Text style={styles.textundergray_input}>Nazwisko</Text>
-                    <TextInput style={styles.textbold_input} placeholder="Nazwisko" value={nazwisko} onChangeText={setNazwisko}/>
+                    <TextInput style={styles.textbold_input} placeholder="Nazwisko" value={profilinfo.surname} onChangeText={(text)=>{setProfilInfo({...profilinfo,surname:text})}}/>
                     </View>
                     </View>
                     <View style={{alignItems: 'center', width:'100%'}}>
@@ -104,12 +107,12 @@ export default function EdytujProfil() {
                     (
                         <>
                         <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
-                        <View style={styles.tloIconki}>
-                            <Feather name="user" size={22} color={Colors.green2} />
+                        <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                            <Feather name="user" size={25} color={Colors.graphite} />
                         </View>
                         <View style={{flexDirection:'column', justifyContent:'left'}}>
                         <Text style={styles.textundergray_input}>Nazwa zakładu</Text>
-                        <TextInput style={styles.textbold_input} placeholder="Nazwa zakładu" value={nazwa} onChangeText={setNazwa}/>
+                        <TextInput style={styles.textbold_input} placeholder="Nazwa zakładu" value={profilinfo.name} onChangeText={(text)=>{setProfilInfo({...profilinfo,name:text})}}/>
                         </View>
                         </View>
                         <View style={{alignItems: 'center', width:'100%'}}>
@@ -120,25 +123,69 @@ export default function EdytujProfil() {
                     }
 
                     <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
-                    <View style={styles.tloIconki}>
-                        <Phone size={22} color={Colors.green2} />
+                    <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                        <Phone size={25} color={Colors.graphite} />
                     </View>
                     <View style={{flexDirection:'column', justifyContent:'left'}}>
                     <Text style={styles.textundergray_input}>Numer telefonu</Text>
-                    <TextInput style={styles.textbold_input} placeholder="Numer telefonu" value={numertel} onChangeText={setNumerTel}/>
+                    { (changenumer) ?
+                    <TextInput style={styles.textbold_input} placeholder="Numer telefonu" value={profilinfo.phone} onChangeText={(text)=>{setProfilInfo({...profilinfo,phone:text})}}/>
+                       :
+                    <Text style={[styles.textbold_input,{padding:10, paddingLeft:4, paddingBottom:11, color:Colors.graphite}]}>{profilinfo.phone}</Text>
+                        }
                     </View>
+                    <Pressable onPress={()=>setChangeNumer(prev=>!prev)} style={{right:'7%', position: 'absolute',marginTop:'2%'}}>
+                    <Feather name='edit-3' size={20} color='gray'/>
+                    </Pressable>
                     </View>
                     <View style={{alignItems: 'center', width:'100%'}}>
                     <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                     </View>
 
                     <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
-                    <View style={styles.tloIconki}>
-                        <Mail size={22} color={Colors.green2} />
+                    <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                        <Mail size={25} color={Colors.graphite} />
                     </View>
                     <View style={{flexDirection:'column', justifyContent:'left'}}>
                     <Text style={styles.textundergray_input}>Mail</Text>
-                    <TextInput style={styles.textbold_input} placeholder="Mail" value={mail} onChangeText={setMail}/>
+                    { (changemail) ?
+                    <TextInput style={styles.textbold_input} placeholder="Mail" value={profilinfo.email} onChangeText={(text)=>{setProfilInfo({...profilinfo,email:text})}}/>
+                    :
+                    <Text style={[styles.textbold_input,{padding:10, paddingLeft:4, paddingBottom:11, color:Colors.graphite}]}>{profilinfo.email}</Text>
+                    }
+                    </View>
+                    <Pressable onPress={()=>setChangeMail(prev=>!prev)} style={{right:'7%', position: 'absolute',marginTop:'2%'}}>
+                    <Feather name='edit-3' size={20} color='gray'/>
+                    </Pressable>
+                    </View>
+                    {(userType=="employer" ) &&
+                        (
+                            <>
+                            <View style={{alignItems: 'center', width:'100%'}}>
+                            <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                            </View>
+                            <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                            <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                                <Ionicons name="business" size={25} color={Colors.graphite} />
+                            </View>
+                            <View style={{flexDirection:'column', justifyContent:'left'}}>
+                            <Text style={styles.textundergray_input}>NIP</Text>
+                            <Text style={[styles.textbold_input,{padding:10, paddingLeft:4, paddingBottom:11, color:Colors.graphite}]}>{nip}</Text>
+                            </View>
+                            </View>
+                            </>
+                            )
+                        }
+                    <View style={{alignItems: 'center', width:'100%'}}>
+                    <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                    </View>
+                    <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                    <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                        <FontAwesome name="calendar-check-o" size={25} color={Colors.graphite} />
+                    </View>
+                    <View style={{flexDirection:'column', justifyContent:'left'}}>
+                    <Text style={styles.textundergray_input}>Dołączono</Text>
+                    <Text style={[styles.textbold_input,{padding:10, paddingLeft:4, paddingBottom:11, color:Colors.graphite}]}>{profilinfo.created_at.split("T")[0]}</Text>
                     </View>
                     </View>
                 </View>
@@ -146,7 +193,7 @@ export default function EdytujProfil() {
               <Text style={styles.text}>Informacje Dodatkowe:</Text>
               <View style={styles.container}>
               <View style={styles.container_input}>
-                      <Pressable onPress={() => navigation.navigate('UstawieniaKonta')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+                      <Pressable onPress={() => navigation.navigate('DodajAdres')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
                       <View style={styles.tloIconki}>
                             <Ionicons name="home-outline" size={22} color={Colors.green2} />
                       </View>
@@ -159,16 +206,43 @@ export default function EdytujProfil() {
                      <View style={{alignItems: 'center', width:'100%'}}>
                       <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                       </View>
-                      <Pressable onPress={() => navigation.navigate('UstawieniaKonta')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+                      <Pressable onPress={() => setShowGender(true)} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
                       <View style={styles.tloIconki}>
                           <Fontisto name="intersex" size={22} color={Colors.green2} />
                       </View>
                       <View style={{flexDirection:'column'}}>
                       <Text style={styles.textbold}>Płeć</Text>
-                      <Text style={styles.textundergray}>Ustaw płeć</Text>
+                      <Text style={styles.textundergray}>{profilinfo.sex}</Text>
                       </View>
-                      <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
+                      <FontAwesome6 name='chevron-down' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
                       </Pressable>
+                       <Modal visible={showGender} transparent animationType="fade" onRequestClose={() => setShowGender(false)}>
+                         <Pressable style={styles.modalTlo} onPress={() => setShowGender(false)}>
+                           <Pressable style={styles.genderContainer} onPress={(e) => e.stopPropagation()}>
+                             <Text style={[styles.textbold, {fontSize: 25, fontFamily:'LeagueSpartan_700Bold', paddingBottom:'4%'}]}>Wybierz płeć</Text>
+                             <Pressable style={styles.genderOption} onPress={()=>{setProfilInfo({...profilinfo,sex:"mezczyzna"}); setShowGender(false);}} >
+                               <Text style={styles.text}>Mężczyzna</Text>
+                             </Pressable>
+
+                             <View style={{alignItems: 'center', width:'100%'}}>
+                             <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                             </View>
+
+                             <Pressable style={styles.genderOption} onPress={() => {setProfilInfo({...profilinfo,sex:"kobieta"}); setShowGender(false);}}>
+                               <Text style={styles.text}>Kobieta</Text>
+                             </Pressable>
+
+                             <View style={{alignItems: 'center', width:'100%'}}>
+                             <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                             </View>
+
+                             <Pressable style={styles.genderOption} onPress={() => {setProfilInfo({...profilinfo,sex:"inne"}); setShowGender(false);}}>
+                               <Text style={styles.text}>Inna</Text>
+                             </Pressable>
+
+                           </Pressable>
+                         </Pressable>
+                       </Modal>
               </View>
               </View>
 
@@ -178,16 +252,14 @@ export default function EdytujProfil() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.backgroundColor,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'top',
     width:'100%'
   },
   containerProfile:
       {
-      width:'100%',
-      height: '19%',
+      width:'90%',
   },
  text2:
  {
@@ -199,7 +271,6 @@ const styles = StyleSheet.create({
  username:
  {
      fontSize: 21,
-     marginTop: '16%',
      fontFamily: 'LeagueSpartan_700Bold',
      color: Colors.graphite,
      },
@@ -253,7 +324,7 @@ const styles = StyleSheet.create({
 textbold_input:
     {
        fontSize:20,
-       color: Colors.graphite,
+       color: Colors.green2,
        fontFamily: 'LeagueSpartan_600SemiBold',
        marginTop: -10,
        marginLeft:-5,
@@ -267,4 +338,19 @@ textundergray_input:
        paddingTop:10,
        marginBottom:0
        },
+modalTlo: {
+     flex: 1,
+     backgroundColor: 'rgba(0,0,0,0.4)', //Tlo jest przezroczyste
+     justifyContent: 'center',
+     alignItems: 'center',
+   },
+genderContainer: {
+     width: '90%',
+     backgroundColor: 'white',
+     borderRadius: 15,
+     padding: 20,
+   },
+genderOption: {
+     paddingVertical: 18
+   },
 });

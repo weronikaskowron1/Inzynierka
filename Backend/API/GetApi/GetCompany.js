@@ -6,10 +6,10 @@ router.get("/:id", async (req, res) => {
 try {
     const id = req.params.id;
     const results = await DbConnection.query(`
-    SELECT * FROM users u
-    JOIN adresses a
-    ON u.id_adress=a.id
-    WHERE u.id = $1;
+    SELECT co.id FROM companies co
+    JOIN categories ca
+    ON id_category=ca.id
+    WHERE co.id = $1;
     `,[req.params.id]);
     res.json(results.rows);
 } catch (err) {
