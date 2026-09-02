@@ -131,7 +131,6 @@ const MonthCalendar = ({ setSelectedDate, reservations = [] }) => {
           </Pressable>
         ))}
       </View>
-      <Text>{reservations[0].data}</Text>
     </View>
   );
 };

@@ -9,6 +9,7 @@ import VisitMonthCalendar from "../Komponenty/Rezerwacje/VisitMonthCalendar.tsx"
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import { styles as GlobalStyles } from "../Themes/global_styles.tsx";
+import { Colors } from "../Themes/colors.ts";
 
 export default Rezerwacje;
 function Rezerwacje() {
@@ -22,7 +23,7 @@ function Rezerwacje() {
   }, []);
   const getReservations = async () => {
     try {
-      const userId = 1;
+      const userId = 2;
 
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_API_URL}/api/visitcards/user/${userId}`,
@@ -38,10 +39,19 @@ function Rezerwacje() {
     }
   };
 
- for (const reservation of reservations) {
-     let visitDate = reservation ? new Date(reservation) : null;
-   console.log(visitDate);
- }
+  for (const reservation of reservations) {
+    let visitDate = reservation ? new Date(reservation) : null;
+    console.log(visitDate);
+  }
+  const formattedDate = selectedDate.toLocaleDateString("pl-PL", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+
+  const displayDate =
+    formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+
   return (
     <View style={GlobalStyles.body}>
       <View style={styles.container}>
@@ -60,8 +70,11 @@ function Rezerwacje() {
           <WeekCalendar />
         ) : (
           <View style={{ marginLeft: 30, marginTop: 20 }}>
-            <MonthCalendar setSelectedDate={setSelectedDate} reservations={reservations} />
-            <Text>{selectedDate.toLocaleDateString("pl-PL")}</Text>
+            <MonthCalendar
+              setSelectedDate={setSelectedDate}
+              reservations={reservations}
+            />
+            <Text style={styles.displayDate_text}>{displayDate}</Text>
           </View>
         )}
         <View style={styles.visits_container}>
@@ -100,9 +113,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
+displayDate_text: {
+    marginTop: 20,
+    fontSize: 17,
+    fontWeight: '500',
+    color: Colors.green2
+
+    },
 
   visits_container: {
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 30,
+    gap: 5
   },
 });
