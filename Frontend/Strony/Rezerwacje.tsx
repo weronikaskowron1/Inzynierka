@@ -5,6 +5,7 @@ import MonthCalendar from "../Komponenty/Rezerwacje/MonthCalendar.tsx";
 import WeekCalendar from "../Komponenty/Rezerwacje/WeekCalendar.tsx";
 import CalendarToggle from "../Komponenty/Rezerwacje/CalendarToggle.tsx";
 import VisitMonthCalendar from "../Komponenty/Rezerwacje/VisitMonthCalendar.tsx";
+import VisitWeekCalendar from "../Komponenty/Rezerwacje/VisitWeekCalendar.tsx";
 
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
@@ -67,7 +68,7 @@ function Rezerwacje() {
         </View>
 
         {calendarType === "week" ? (
-          <WeekCalendar />
+          <WeekCalendar reservations={reservations} />
         ) : (
           <View style={{ marginLeft: 30, marginTop: 20 }}>
             <MonthCalendar
@@ -75,25 +76,26 @@ function Rezerwacje() {
               reservations={reservations}
             />
             <Text style={styles.displayDate_text}>{displayDate}</Text>
+            <View style={styles.visits_container}>
+              <FlatList
+                data={reservations.filter(
+                  (item) =>
+                    new Date(item.data).toDateString() ===
+                    selectedDate.toDateString(),
+                )}
+                renderItem={({ item }) => (
+                  <VisitMonthCalendar
+                    service={item.service_name}
+                    date={item.data}
+                    company={item.company_name}
+                    duration={item.duration}
+                  />
+                )}
+              />
+            </View>
+
           </View>
         )}
-        <View style={styles.visits_container}>
-          <FlatList
-            data={reservations.filter(
-              (item) =>
-                new Date(item.data).toDateString() ===
-                selectedDate.toDateString(),
-            )}
-            renderItem={({ item }) => (
-              <VisitMonthCalendar
-                service={item.service_name}
-                date={item.data}
-                company={item.company_name}
-                duration={item.duration}
-              />
-            )}
-          />
-        </View>
       </View>
     </View>
   );
@@ -113,17 +115,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-displayDate_text: {
+  displayDate_text: {
     marginTop: 20,
     fontSize: 17,
-    fontWeight: '500',
-    color: Colors.green2
-
-    },
+    fontWeight: "500",
+    color: Colors.green2,
+  },
 
   visits_container: {
     marginTop: 20,
     marginLeft: 30,
-    gap: 5
+    gap: 5,
   },
 });

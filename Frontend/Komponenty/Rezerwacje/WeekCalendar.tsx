@@ -6,8 +6,9 @@ import { useState } from "react";
 import { Colors } from "../../Themes/colors.ts";
 
 import DateChanger from "./DateChanger";
+import VisitWeekCalendar from "./VisitWeekCalendar.tsx";
 
-const WeekCalendar = () => {
+const WeekCalendar = ({ reservations = [] }) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -146,10 +147,10 @@ const WeekCalendar = () => {
                 style={styles.day_selected}
               >
                 <Text
-                  style={
-                    [styles.dayText,
-                    index == selectedDayIndex && styles.day_selected]
-                  }
+                  style={[
+                    styles.dayText,
+                    index == selectedDayIndex && styles.day_selected,
+                  ]}
                 >
                   {item}
                 </Text>
@@ -172,7 +173,16 @@ const WeekCalendar = () => {
                     index === weekDays.length - 1 && styles.right_border,
                     index == selectedDayIndex && styles.cell_selected,
                   ]}
-                />
+                >
+                  {index === 2 && hour === "10:00" && (
+                    <VisitWeekCalendar
+                      service="Bla bla "
+                      date={reservations[0]?.data}
+                      company={reservations[0]?.company_name}
+                      duration={reservations[0]?.duration}
+                    />
+                  )}
+                </View>
               ))}
             </View>
           ))}
@@ -226,7 +236,7 @@ const styles = StyleSheet.create({
   dayText: {
     color: "#333",
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     textAlign: "center",
     textAlignVertical: "center",
   },
@@ -237,10 +247,8 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 999,
 
-    justifyContent: 'center',
-    alignItems: 'center',
-
-
+    justifyContent: "center",
+    alignItems: "center",
   },
   cell_selected: {
     backgroundColor: Colors.green7,
