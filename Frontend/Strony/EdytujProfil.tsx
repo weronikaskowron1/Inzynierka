@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, ScrollView, TextInput, Image, Pressable, Modal } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons, Ionicons, Fontisto } from '@expo/vector-icons';
+import { FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons, Ionicons, Fontisto, Entypo} from '@expo/vector-icons';
 import { Phone, Mail, CalendarCheck } from 'lucide-react-native';
 import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold } from '@expo-google-fonts/league-spartan';
 import { useFonts } from 'expo-font';
 
 import { useNavigation } from '@react-navigation/native';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 import { Colors } from '../Themes/colors';
 
@@ -17,11 +17,14 @@ export default function EdytujProfil() {
   const ip = 3;
   const [userType,setUserType]=useState("employer");
   const [showGender, setShowGender] = useState(false);
+  const [showCategories, setShowCategories] = useState(false);
   const [nip, setNIP] = useState("nipnimm33");
   const [changenumer, setChangeNumer] = useState(false);
   const [changemail, setChangeMail] = useState(false);
+  const [changewebsite, setChangeWebsite] = useState(false);
   const [plec, setPlec] = useState("Ustaw płeć");
   const [profilinfo, setProfilInfo] = useState({created_at: ""});
+  const [categories, setCategories] = useState([]);
     const GetProfileInfo = async () => {
         try{
         const url =
@@ -63,8 +66,28 @@ export default function EdytujProfil() {
       }
     };
 
+    const GetCategories = async () => {
+        try{
+        const url =
+        userType === "employer"
+          ? `${process.env.EXPO_PUBLIC_API_URL}/api/kategorie`
+          : null;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        console.log("Kategeorie:", data);
+        setCategories(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     useEffect(() => {
       GetProfileInfo();
+    }, []);
+    useEffect(() => {
+    GetCategories();
     }, []);
 
     return (
@@ -124,6 +147,26 @@ export default function EdytujProfil() {
                         <View style={{alignItems: 'center', width:'100%'}}>
                         <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                         </View>
+
+                        <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                        <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                            <MaterialCommunityIcons name='web' size={25} color={Colors.graphite} />
+                        </View>
+                        <View style={{flexDirection:'column', justifyContent:'left'}}>
+                        <Text style={styles.textundergray_input}>Strona internetowa</Text>
+                        { (changewebsite) ?
+                        <TextInput style={styles.textbold_input} placeholder="Adres strony" value={profilinfo.website} onChangeText={(text)=>{setProfilInfo({...profilinfo,website:text})}}/>
+                           :
+                        <Text style={[styles.textbold_input,{padding:10, paddingLeft:4, paddingBottom:11, color:Colors.graphite}]}>{profilinfo.website}</Text>
+                            }
+                        </View>
+                        <Pressable onPress={()=>setChangeWebsite(prev=>!prev)} style={{right:'7%', position: 'absolute',marginTop:'2%'}}>
+                        <Feather name='edit-3' size={20} color='gray'/>
+                        </Pressable>
+                        </View>
+                        <View style={{alignItems: 'center', width:'100%'}}>
+                        <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                        </View>
                         </>
                         )
                     }
@@ -176,7 +219,20 @@ export default function EdytujProfil() {
                             </View>
                             <View style={{flexDirection:'column', justifyContent:'left'}}>
                             <Text style={styles.textundergray_input}>NIP</Text>
-                            <Text style={[styles.textbold_input,{padding:10, paddingLeft:4, paddingBottom:11, color:Colors.graphite}]}>{nip}</Text>
+                            <Text style={[styles.textbold_input,{padding:10, paddingLeft:4, paddingBottom:11, color:Colors.graphite}]}>{profilinfo.nip}</Text>
+                            </View>
+                            </View>
+
+                            <View style={{alignItems: 'center', width:'100%'}}>
+                            <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                            </View>
+                            <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
+                            <View style={[styles.tloIconki,{backgroundColor:"white"}]}>
+                                <MaterialCommunityIcons name="file-document-outline" size={29} color={Colors.graphite} />
+                            </View>
+                            <View style={{flexDirection:'column', justifyContent:'left'}}>
+                            <Text style={styles.textundergray_input}>Regon</Text>
+                            <Text style={[styles.textbold_input,{padding:10, paddingLeft:4, paddingBottom:11, color:Colors.graphite}]}>{profilinfo.regon}</Text>
                             </View>
                             </View>
                             </>
@@ -212,6 +268,10 @@ export default function EdytujProfil() {
                      <View style={{alignItems: 'center', width:'100%'}}>
                       <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                       </View>
+
+                      {(userType==='user') ?
+                          (
+                          <>
                       <Pressable onPress={() => setShowGender(true)} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
                       <View style={styles.tloIconki}>
                           <Fontisto name="intersex" size={22} color={Colors.green2} />
@@ -256,6 +316,48 @@ export default function EdytujProfil() {
                            </Pressable>
                          </Pressable>
                        </Modal>
+                           </>)
+                        :
+                        (
+                            <>
+                        <Pressable onPress={() => setShowCategories(true)} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+                        <View style={styles.tloIconki}>
+                        <Entypo name="scissors" size={22} color={Colors.green2} />
+                        </View>
+                        <View style={{flexDirection:'column'}}>
+                        <Text style={styles.textbold}>Kategoria salonu</Text>
+                        { (profilinfo.category!=null) ?
+                        <Text style={styles.textundergray}>{profilinfo.category}</Text>
+                        :
+                        <Text style={styles.textundergray}>Dodaj kategorie swojego salonu</Text>
+                        }
+                        </View>
+                        <FontAwesome6 name='chevron-down' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
+                        </Pressable>
+                        <Modal visible={showCategories} transparent animationType="fade" onRequestClose={() => setShowCategories(false)}>
+                        <Pressable style={styles.modalTlo} onPress={() => setShowCategories(false)}>
+                        <Pressable style={styles.genderContainer} onPress={(e) => e.stopPropagation()}>
+                        <Text style={[styles.textbold, {fontSize: 25, fontFamily:'LeagueSpartan_700Bold', paddingBottom:'4%'}]}>Wybierz kategorie</Text>
+
+                        { categories.map(kategoria => (
+                            <>
+                                <React.Fragment key={kategoria.id}>
+                                <Pressable style={styles.genderOption} onPress={()=>{setProfilInfo({...profilinfo,category:kategoria.name}); setShowCategories(false);}} >
+                                  <Text style={styles.text}>{kategoria.name}</Text>
+                                </Pressable>
+
+                                <View style={{alignItems: 'center', width:'100%'}}>
+                                <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                                </View>
+                                </React.Fragment>
+                            </>
+                            ))}
+                        </Pressable>
+                        </Pressable>
+                        </Modal>
+                        </>
+                        )
+                        }
               </View>
               </View>
 

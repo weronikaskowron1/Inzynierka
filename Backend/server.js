@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import getStudios from "./Api/GetApi/GetStudios.js";
 import getCompany from "./Api/GetApi/GetCompany.js";
 import getUser from "./Api/GetApi/GetUser.js";
+import getCategories from "./Api/GetApi/GetCategories.js";
 import putUser from "./Api/PutApi/PutUser.js";
 import putAdressUser from "./Api/PutApi/PutAdressUser.js";
 import DeleteUser from "./Api/DeleteApi/DeleteUser.js";
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/api/salony',getStudios);
 app.use('/api/uzytkownicy',getUser);
 app.use('/api/firmy',getCompany);
+app.use('/api/kategorie',getCategories);
 
 //PostApi
 
