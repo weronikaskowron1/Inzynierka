@@ -14,19 +14,10 @@ import { Colors } from '../Themes/colors';
 export default function DodajAdres() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
-  const ip = 2;
+  const ip = 3;
   const user_type="user";
     const [profilinfo, setProfilInfo] = useState({
             id: 2,
-            name: "",
-            surname: "",
-            email: "",
-            password: "",
-            created_at: "",
-            last_logged: "",
-            phone: "",
-            image_path: "",
-            sex: "",
             street: "",
             building_number: "",
             apartment_number: "",
@@ -44,12 +35,35 @@ export default function DodajAdres() {
         const data = await response.json();
 
         console.log("Dane:", data);
-        setProfilInfo(data[0]);
+              setProfilInfo(data[0]);
       } catch (error) {
         console.error(error);
       }
     };
 
+    const UpdateAdress = async (updatedData = profilinfo) => {
+      try {
+        const url =
+          user_type === "user"
+            ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/adres/${ip}`
+            : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/adres/${ip}`;
+
+        const response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedData),
+        });
+
+        const data = await response.json();
+
+        console.log("Zaktualizowano adres:", data);
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     useEffect(() => {
       GetProfileInfo();
@@ -62,7 +76,7 @@ export default function DodajAdres() {
                                   <AntDesign name='arrow-left' size={24} color={Colors.green2} style={{}}/>
                               </Pressable>
                               <Text style={[styles.textbold, {fontSize: 20,width:'56%', left:'21%'}]}>Adres</Text>
-                              <Pressable onPress={()=>navigation.navigate('Profil')} style={{height:'100%',aspectRatio:1,alignItems:'right', justifyContent: 'center', marginTop:'2%'}}>
+                              <Pressable onPress={()=>{UpdateAdress(); navigation.navigate('EdytujProfil');}} style={{height:'100%',aspectRatio:1,alignItems:'right', justifyContent: 'center', marginTop:'2%'}}>
                               <Text style={[styles.text, {left:'27%', position:'absolute', color:Colors.green2}]}>Zapisz</Text>
                               </Pressable>
                           </View>

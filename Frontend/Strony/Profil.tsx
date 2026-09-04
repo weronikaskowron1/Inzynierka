@@ -6,6 +6,7 @@ import { Phone, Mail, CalendarCheck } from 'lucide-react-native';
 import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold } from '@expo-google-fonts/league-spartan';
 import { useFonts } from 'expo-font';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useState, useEffect } from "react";
 
 import ZdjecieProfilowe from '../Komponenty/Profil/ProfilePhoto';
 import Logowanie from './Strony/Logowanie.tsx';
@@ -14,15 +15,34 @@ import NavigationContainer from '../Komponenty/Profil/KontenerNawigacji';
 export default function Profil() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
-  const imie = 'Kuba';
-  const nazwisko = 'nazwisko';
-  const email = 'email';
-  const numer_telefonu = 'numer_telefonu';
-  const data_dolaczenia = 'data_dolaczenia';
-  const adres = 'adres';
   const odbyte_wizyty = 30;
   const polubione_obiekty = 15;
   const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
+    const ip = 3;
+    const user_type="user";
+      const [profilinfo, setProfilInfo] = useState({
+              created_at: "",
+          });
+      const GetProfileInfo = async () => {
+          try{
+          const url =
+          user_type === "user"
+            ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
+            : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+
+          const response = await fetch(url);
+          const data = await response.json();
+
+          console.log("Dane:", data[0]);
+          setProfilInfo(data[0]);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+        useEffect(() => {
+          GetProfileInfo();
+        }, []);
+
 
   return (
       <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: Colors.creambackground, paddingBottom: tabBarHeight + 80, } }>
@@ -30,14 +50,14 @@ export default function Profil() {
           <View style={{flexDirection: 'row', marginTop:'8%'}}>
               <ZdjecieProfilowe imie='Kuba'/>
               <View style={{flexDirection: 'column', alignItems: 'left', justifyContent: 'top', marginLeft: '3%'}}>
-                  <Text style={styles.username}>{imie} {nazwisko}</Text>
+                  <Text style={styles.username}>{profilinfo.name} {profilinfo.surname}</Text>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Phone size={15} color={Colors.gray} style={{marginRight:'4%', marginTop:'3%'}}/>
-                  <Text style={styles.text2}>{numer_telefonu}</Text>
+                  <Text style={styles.text2}>{profilinfo.phone}</Text>
                   </View>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Mail size={15} color={Colors.gray} style={{marginRight:'4%', marginTop:'3%'}}/>
-                  <Text style={styles.text2}>{email}</Text>
+                  <Text style={styles.text2}>{profilinfo.email}</Text>
                   </View>
               </View>
           </View>
@@ -106,7 +126,7 @@ const styles = StyleSheet.create({
    username:
    {
        fontSize: 21,
-       marginTop: '16%',
+       marginTop: 27,
        fontFamily: 'LeagueSpartan_700Bold',
        color: Colors.graphite,
        },

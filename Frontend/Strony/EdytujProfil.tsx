@@ -14,37 +14,50 @@ import { Colors } from '../Themes/colors';
 export default function EdytujProfil() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
-  const ip = 2;
-  const user_type="user";
-    const [profilinfo, setProfilInfo] = useState({
-            id: 2,
-            name: "",
-            surname: "",
-            email: "",
-            password: "",
-            created_at: "",
-            last_logged: "",
-            phone: "",
-            image_path: "",
-            sex: "",
-            street: "",
-            building_number: "",
-            apartment_number: "",
-            postal_code: "",
-            city: ""
-        });
+  const ip = 3;
+  const [userType,setUserType]=useState("employer");
+  const [showGender, setShowGender] = useState(false);
+  const [nip, setNIP] = useState("nipnimm33");
+  const [changenumer, setChangeNumer] = useState(false);
+  const [changemail, setChangeMail] = useState(false);
+  const [plec, setPlec] = useState("Ustaw płeć");
+  const [profilinfo, setProfilInfo] = useState({created_at: ""});
     const GetProfileInfo = async () => {
         try{
         const url =
-        user_type === "user"
+        userType === "user"
           ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
           : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
 
         const response = await fetch(url);
         const data = await response.json();
 
-        console.log("Dane:", data);
+        console.log("Dane:", data[0]);
         setProfilInfo(data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const UpdateProfilInfo = async () => {
+      try {
+        const url =
+          userType === "user"
+            ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
+            : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+
+        const response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(profilinfo),
+        });
+
+        const data = await response.json();
+
+        console.log("Zaktualizowano:", data);
+
       } catch (error) {
         console.error(error);
       }
@@ -53,13 +66,6 @@ export default function EdytujProfil() {
     useEffect(() => {
       GetProfileInfo();
     }, []);
-const [showGender, setShowGender] = useState(false);
-  const [nip, setNIP] = useState("nipnimm33");
-  const [changenumer, setChangeNumer] = useState(false);
-  const [changemail, setChangeMail] = useState(false);
-  const [plec, setPlec] = useState("Ustaw płeć");
-
-  const [userType,setUserType]=useState("user")
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: Colors.creambackground, paddingBottom: 50 } }>
@@ -68,14 +74,14 @@ const [showGender, setShowGender] = useState(false);
                                   <AntDesign name='arrow-left' size={24} color={Colors.green2} style={{}}/>
                               </Pressable>
                               <Text style={[styles.textbold, {fontSize: 20,width:'56%', left:'12%'}]}>Dane Osobowe</Text>
-                              <Pressable onPress={()=>navigation.navigate('Profil')} style={{height:'100%',aspectRatio:1,alignItems:'right', justifyContent: 'center', marginTop:'2%'}}>
+                              <Pressable onPress={()=>{UpdateProfilInfo(); navigation.navigate('Profil');}} style={{height:'100%',aspectRatio:1,alignItems:'right', justifyContent: 'center', marginTop:'2%'}}>
                               <Text style={[styles.text, {left:'27%', position:'absolute', color:Colors.green2}]}>Zapisz</Text>
                               </Pressable>
                           </View>
               <Text style={styles.text}>Informacje Podstawowe:</Text>
               <View style={styles.container}>
               <View style={styles.container_input}>
-                    {(userType=="user" ) ?
+                    {(userType==="user" ) ?
                         (
                     <>
                     <View style={{flexDirection:'row', alignItems: 'center', margin:'1%'}}>
@@ -212,7 +218,14 @@ const [showGender, setShowGender] = useState(false);
                       </View>
                       <View style={{flexDirection:'column'}}>
                       <Text style={styles.textbold}>Płeć</Text>
-                      <Text style={styles.textundergray}>{profilinfo.sex}</Text>
+                      { (profilinfo.sex==='mezczyzna') ?
+                          <Text style={styles.textundergray}>Mężczyzna</Text>
+                          :
+                          (profilinfo.sex==='kobieta') ?
+                          <Text style={styles.textundergray}>Kobieta</Text>
+                          :
+                          <Text style={styles.textundergray}>Inny</Text>
+                          }
                       </View>
                       <FontAwesome6 name='chevron-down' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
                       </Pressable>
@@ -236,8 +249,8 @@ const [showGender, setShowGender] = useState(false);
                              <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                              </View>
 
-                             <Pressable style={styles.genderOption} onPress={() => {setProfilInfo({...profilinfo,sex:"inne"}); setShowGender(false);}}>
-                               <Text style={styles.text}>Inna</Text>
+                             <Pressable style={styles.genderOption} onPress={() => {setProfilInfo({...profilinfo,sex:"inny"}); setShowGender(false);}}>
+                               <Text style={styles.text}>Inny</Text>
                              </Pressable>
 
                            </Pressable>
@@ -263,7 +276,6 @@ const styles = StyleSheet.create({
   },
  text2:
  {
-     fontSize: 18,
      paddingBottom: '0%',
      fontFamily: 'LeagueSpartan_400Regular',
      color: 'gray',
