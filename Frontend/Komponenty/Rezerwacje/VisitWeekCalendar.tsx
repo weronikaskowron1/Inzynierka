@@ -12,9 +12,8 @@ const VisitWeekCalendar = ({
   date = null,
   company = "",
   duration = "",
-  cellHeight = 60,
 }) => {
-  const height = (duration / 60) * cellHeight;
+  const height = (Number(duration) / 60) * 100;
   const visitDate = date ? new Date(date) : null;
   const day = visitDate?.toLocaleDateString("pl-PL", {
     day: "2-digit",
@@ -25,19 +24,30 @@ const VisitWeekCalendar = ({
   const time = visitDate?.toLocaleTimeString("pl-PL", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Europe/Warsaw",
+  });
+
+  const endTime = new Date(visitDate?.getTime() + Number(duration) * 60 * 1000);
+
+  const endTimeFormatted = endTime.toLocaleTimeString("pl-PL", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Warsaw",
   });
   return (
     <Pressable
       style={({ pressed }) => [
         styles.container,
-        { height: "200%" },
+        { height: `${height}%` },
 
         pressed && pressed_styles.button_pressed,
       ]}
     >
       <View style={styles.content}>
         <View style={styles.time_container}>
-          <Text style={styles.time_text}>9:00</Text>
+          <Text style={styles.time_text}>
+            {time} - {endTimeFormatted}
+          </Text>
         </View>
         <View style={styles.info_container}>
           <Text style={styles.service_text}>{service}</Text>
@@ -59,7 +69,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    gap: '5%',
+    gap: "5%",
   },
   time_container: {},
 
@@ -69,7 +79,7 @@ const styles = StyleSheet.create({
     color: Colors.green1,
   },
   info_container: {
-      gap: '4%'
+    gap: "4%",
   },
   service_text: {
     fontWeight: "500",

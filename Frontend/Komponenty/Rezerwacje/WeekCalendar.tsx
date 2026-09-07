@@ -47,14 +47,13 @@ const WeekCalendar = ({ reservations = [] }) => {
   const calendarDays = [];
 
   for (let i = 0; i < 7; i++) {
-    let dayNumber = firstDayWeek + i;
-    if (dayNumber <= 0) {
-      dayNumber = daysInPreviousMonth + dayNumber;
-    }
-    if (dayNumber > daysInMonth) {
-      dayNumber = dayNumber - daysInMonth;
-    }
-    calendarDays.push(dayNumber);
+    const date = new Date(year, month, firstDayWeek + i);
+
+    calendarDays.push({
+      day: date.getDate(),
+      date: date,
+      weekDay: (date.getDay() + 6) % 7,
+    });
   }
 
   const previousWeek = () => {
@@ -119,7 +118,7 @@ const WeekCalendar = ({ reservations = [] }) => {
           nextSheet={nextWeek}
           currentMonthText={currentMonthText}
           currentYear={year}
-          currentWeek={`${calendarDays[0]} \u2014 ${calendarDays[6]}`}
+          currentWeek={`${calendarDays[0].day} \u2014 ${calendarDays[6].day}`}
         />
         <View style={styles.week}>
           {weekDays.map((item, index) => (
@@ -152,7 +151,7 @@ const WeekCalendar = ({ reservations = [] }) => {
                     index == selectedDayIndex && styles.day_selected,
                   ]}
                 >
-                  {item}
+                  {item.day}
                 </Text>
               </LinearGradient>
             </Pressable>
@@ -174,14 +173,46 @@ const WeekCalendar = ({ reservations = [] }) => {
                     index == selectedDayIndex && styles.cell_selected,
                   ]}
                 >
-                  {index === 2 && hour === "10:00" && (
-                    <VisitWeekCalendar
-                      service="Strzyżenie klasyczne"
-                      date={reservations[0]?.data}
-                      company={reservations[0]?.company_name}
-                      duration={reservations[0]?.duration}
-                    />
-                  )}
+                  {reservations.map((reservation, reservationIndex) => {
+                    const reservationDate = new Date(reservation.data);
+                    const currentDate = calendarDays[index].date;
+
+                    const reservationTime = reservationDate.toLocaleTimeString(
+                      "pl-PL",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        timeZone: "Europe/Warsaw",
+                      },
+                    );
+                    const [reservationHour, reservationMinute] =
+                      reservationTime.split(":");
+
+                    const currentHour = hour.split(":")[0];
+                    const topOffset = (Number(reservationMinute) / 60) * 100;
+
+                    const sameDay =
+                      reservationDate.getDate() === currentDate.getDate() &&
+                      reservationDate.getMonth() === currentDate.getMonth() &&
+                      reservationDate.getFullYear() ===
+                        currentDate.getFullYear();
+
+                    if (sameDay && currentHour === reservationHour) {
+                      return (
+                          <View key={reservation.id ?? reservationIndex} style={{top:`${topOffset}%`}}>
+                        <VisitWeekCalendar
+
+                          service={reservation.service_name}
+                          date={reservation.data}
+                          company={reservation.company_name}
+                          duration={reservation.duration}
+                        />
+                        </View>
+                      );
+                    }
+
+                    return null;
+                  })}
                 </View>
               ))}
             </View>

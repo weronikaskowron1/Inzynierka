@@ -23,6 +23,7 @@ const VisitMonthCalendar = ({
   const time = visitDate?.toLocaleTimeString("pl-PL", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Europe/Warsaw",
   });
   return (
     <Pressable
@@ -33,7 +34,7 @@ const VisitMonthCalendar = ({
       ]}
     >
       <View style={styles.time_container}>
-        <Text style={styles.time_text}>9:00</Text>
+        <Text style={styles.time_text}>{time}</Text>
       </View>
       <View style={styles.info_container}>
         <Text style={styles.service_text}>{service}</Text>
