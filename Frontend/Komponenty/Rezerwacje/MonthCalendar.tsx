@@ -115,7 +115,7 @@ const MonthCalendar = ({ setSelectedDate, reservations = [] }) => {
               }
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              style={styles.day_selected}
+              style={[styles.day_selected, {opacity: 0.9}]}
             >
               <Text
                 style={[

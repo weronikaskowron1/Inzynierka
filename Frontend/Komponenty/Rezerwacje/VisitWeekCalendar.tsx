@@ -7,7 +7,6 @@ import { Colors } from "../../Themes/colors.ts";
 
 import ThreeDotsIcon from "./ThreeDotsIcon.tsx";
 
-
 const VisitWeekCalendar = ({
   service = "",
   date = null,
@@ -15,7 +14,7 @@ const VisitWeekCalendar = ({
   duration = "",
   cellHeight = 60,
 }) => {
-    const height = (duration / 60) * cellHeight;
+  const height = (duration / 60) * cellHeight;
   const visitDate = date ? new Date(date) : null;
   const day = visitDate?.toLocaleDateString("pl-PL", {
     day: "2-digit",
@@ -31,24 +30,18 @@ const VisitWeekCalendar = ({
     <Pressable
       style={({ pressed }) => [
         styles.container,
-        {height: '200%'},
+        { height: "200%" },
 
         pressed && pressed_styles.button_pressed,
       ]}
     >
-      <View style={styles.time_container}>
-        <Text style={styles.time_text}>9:00</Text>
-      </View>
-      <View style={styles.info_container}>
-        <Text style={styles.service_text}>{service}</Text>
-        <Text style={styles.company_text}>{company}</Text>
-        <View style={styles.duration_container}>
-          <MaterialCommunityIcons
-            name="clock-time-four-outline"
-            size={12}
-            color={Colors.green1}
-          />
-          <Text style={styles.duration_text}>{duration} min</Text>
+      <View style={styles.content}>
+        <View style={styles.time_container}>
+          <Text style={styles.time_text}>9:00</Text>
+        </View>
+        <View style={styles.info_container}>
+          <Text style={styles.service_text}>{service}</Text>
+          <Text style={styles.company_text}>{company}</Text>
         </View>
       </View>
     </Pressable>
@@ -60,26 +53,30 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: Colors.green5,
     borderRadius: 6,
-    zIndex: 20
-
-
+    padding: 5,
+    zIndex: 20,
+    overflow: "hidden",
   },
-  time_container: {
+  content: {
+    flex: 1,
+    gap: '5%',
   },
+  time_container: {},
 
   time_text: {
     fontWeight: "500",
-    fontSize: 5,
-    color: Colors.grayText,
+    fontSize: 6,
+    color: Colors.green1,
   },
   info_container: {
+      gap: '4%'
   },
   service_text: {
     fontWeight: "500",
-    fontSize: 5,
+    fontSize: 7,
   },
   company_text: {
-    fontSize: 5,
+    fontSize: 6,
     color: Colors.green1,
   },
   duration_container: {

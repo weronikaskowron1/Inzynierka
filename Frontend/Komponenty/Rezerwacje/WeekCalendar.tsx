@@ -176,7 +176,7 @@ const WeekCalendar = ({ reservations = [] }) => {
                 >
                   {index === 2 && hour === "10:00" && (
                     <VisitWeekCalendar
-                      service="Bla bla "
+                      service="Strzyżenie klasyczne"
                       date={reservations[0]?.data}
                       company={reservations[0]?.company_name}
                       duration={reservations[0]?.duration}
