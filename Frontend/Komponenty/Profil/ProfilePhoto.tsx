@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Aparat from './Aparat';
 
 
-export default function ZdjecieProfilowe({photopath,navigation,imie}) {
+export default function ZdjecieProfilowe({photopath,navigation,imie,ShowChangeImage}) {
     const [fontsLoaded] = useFonts({LeagueSpartan_700Bold});
 
     return (
@@ -28,7 +28,7 @@ export default function ZdjecieProfilowe({photopath,navigation,imie}) {
                       </View>
                       )
           }
-        <Aparat/>
+        <Aparat ShowChangeImage={ShowChangeImage}/>
       </View>
     );}
 

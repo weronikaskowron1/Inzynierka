@@ -3,12 +3,12 @@ import { View, Pressable, StyleSheet } from 'react-native';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Fontisto } from '@expo/vector-icons';
-import { Colors } from '../../Themes/colors.ts'
+import { Colors } from '../../Themes/colors.ts';
 
-export default function Aparat({ navigation }) { // Pamiętaj o przekazaniu navigation w propsach, jeśli stąd nawigujesz
+export default function Aparat({ ShowChangeImage }) {
     return (
         <View style={styles.tloaparatu}>
-            <Pressable style={styles.aparat} onPress={() => { navigation.navigate('Logowanie') }}>
+            <Pressable style={styles.aparat} onPress={ShowChangeImage}>
                 <View style={styles.gradientIconContainer}>
                     <MaskedView
                         style={styles.maskedViewStyle}

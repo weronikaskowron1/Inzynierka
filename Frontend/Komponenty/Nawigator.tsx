@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Colors } from '../Themes/colors.ts';
+import React, { useState, useEffect, Fragment } from "react";
 
 import { View } from 'react-native'
 
@@ -12,6 +13,7 @@ import ProfilNawigator from "./ProfilNawigator";
 const Tab = createBottomTabNavigator();
 
 export default function Nawigator() {
+    const [user_type, setUserType] = useState('employer');
   return (
     <Tab.Navigator
       screenOptions={({ route  }) => ({
@@ -64,10 +66,24 @@ export default function Nawigator() {
             },
       })}
     >
+    { (user_type==='user') ?
+        (
+        <>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Rezerwacje" component={Rezerwacje} />
       <Tab.Screen name="Ulubione" component={Ulubione} />
       <Tab.Screen name="ProfilNawigacja" component={ProfilNawigator} />
+
+        </>
+        )
+        : (user_type==='employer') &&
+        (
+            <>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="ProfilNawigacja" component={ProfilNawigator} />
+            </>
+            )
+        }
     </Tab.Navigator>
   );
 }
