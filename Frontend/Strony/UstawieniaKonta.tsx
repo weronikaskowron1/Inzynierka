@@ -89,13 +89,20 @@ export default function UstawieniaKonta() {
                    <Modal visible={showDeleteAccount} transparent animationType="fade" onRequestClose={() => setshowDeleteAccount(false)}>
                      <Pressable style={styles.modalTlo} onPress={() => setShowDeleteAccount(false)}>
                        <Pressable style={styles.DeleteContainer} onPress={(e) => e.stopPropagation()}>
-                         <Text style={[styles.textbold, {fontSize: 25, fontFamily:'LeagueSpartan_600SemiBold', paddingBottom:'4%', paddingHorizontal: '3%'}]}>Czy na pewno chcesz usunąć swoje konto?</Text>
-                         <View style={{flexDirection:'row', width:'90%',alignItems:'center', justifyContent:'center',gap:'40%'}}>
-                         <Pressable style={styles.Option} onPress={()=> {DeleteUser(); setShowDeleteAccount(false); navigation.navigate('Logowanie');}} >
-                           <Text style={[styles.text, {fontSize: 20, fontFamily:'LeagueSpartan_500Medium'}]}>Tak</Text>
+                         <View style={[styles.tloIconki,{backgroundColor:Colors.pink,width:'18%',borderRadius:99}]}>
+                               <Feather name="trash-2" size={32} color={Colors.lightred} />
+                         </View>
+                         <Text style={[styles.textbold, {fontSize: 25, fontFamily:'LeagueSpartan_600SemiBold', paddingBottom:'4%', paddingHorizontal: '3%'}]}>Usunąć konto?</Text>
+                         <Text style={[styles.textbold, {fontSize: 15, fontFamily:'LeagueSpartan_500Medium', paddingBottom:'4%', paddingHorizontal: '3%',color:"gray"}]}>Tej operacji nie można cofnąć.</Text>
+                         <Text style={[styles.textbold, {fontSize: 15, fontFamily:'LeagueSpartan_500Medium', paddingBottom:'4%', paddingHorizontal: '3%',color:"gray"}]}>Czy na pewno chcesz usunąć konto?</Text>
+                         <View style={{flexDirection:'row', width:'90%',alignItems:'center', justifyContent:'center',gap:'10%',flexGrow:1}}>
+
+                         <Pressable style={[styles.Option,{backgroundColor:Colors.green6}]} onPress={() => {setShowDeleteAccount(false);}}>
+                           <Text style={[styles.text, {fontSize: 20, fontFamily:'LeagueSpartan_500Medium', color:Colors.green2}]}>Nie</Text>
                          </Pressable>
-                         <Pressable style={styles.Option} onPress={() => {setShowDeleteAccount(false);}}>
-                           <Text style={[styles.text, {fontSize: 20, fontFamily:'LeagueSpartan_500Medium'}]}>Nie</Text>
+
+                         <Pressable style={[styles.Option,{backgroundColor:Colors.lightred}]} onPress={()=> {DeleteUser(); setShowDeleteAccount(false); navigation.navigate('Logowanie');}} >
+                           <Text style={[styles.text, {fontSize: 20, fontFamily:'LeagueSpartan_500Medium', color:Colors.white}]}>Tak, usuń</Text>
                          </Pressable>
                          </View>
 
@@ -169,6 +176,7 @@ const styles = StyleSheet.create({
              alignItems:'center'
            },
         Option: {
-             paddingVertical: 18
+             paddingVertical: 18,
+             borderRadius:25,
            },
 });

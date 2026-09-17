@@ -16,4 +16,5 @@ export const Colors = {
   grayText: '#A4A4A4',
   pink: '#FBDFDE',
   red: '#A90B05',
+  lightred:'#C93E35',
 };
