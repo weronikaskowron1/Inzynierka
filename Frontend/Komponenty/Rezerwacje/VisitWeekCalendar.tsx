@@ -66,10 +66,11 @@ const styles = StyleSheet.create({
     padding: 5,
     zIndex: 20,
     overflow: "hidden",
+
   },
   content: {
     flex: 1,
-    gap: "5%",
+//     gap: "5%",
   },
   time_container: {},
 
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     color: Colors.green1,
   },
   info_container: {
-    gap: "4%",
+//     gap: "4%",
   },
   service_text: {
     fontWeight: "500",

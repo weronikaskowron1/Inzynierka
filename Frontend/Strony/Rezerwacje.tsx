@@ -24,7 +24,7 @@ function Rezerwacje() {
   }, []);
   const getReservations = async () => {
     try {
-      const userId = 1;
+      const userId = 3;
 
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_API_URL}/api/visitcards/user/${userId}`,
@@ -42,7 +42,6 @@ function Rezerwacje() {
 
   for (const reservation of reservations) {
     let visitDate = reservation ? new Date(reservation) : null;
-    console.log(visitDate);
   }
   const formattedDate = selectedDate.toLocaleDateString("pl-PL", {
     weekday: "long",

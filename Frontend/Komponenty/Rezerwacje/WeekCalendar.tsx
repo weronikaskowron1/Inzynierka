@@ -199,17 +199,27 @@ const WeekCalendar = ({ reservations = [] }) => {
 
                     if (sameDay && currentHour === reservationHour) {
                       return (
-                          <View key={reservation.id ?? reservationIndex} style={{top:`${topOffset}%`}}>
-                        <VisitWeekCalendar
-
-                          service={reservation.service_name}
-                          date={reservation.data}
-                          company={reservation.company_name}
-                          duration={reservation.duration}
-                        />
+                        <View
+                          key={reservation.id ?? reservationIndex}
+                          style={{
+                            position: "absolute",
+                            top: `${topOffset}%`,
+                            left: 0,
+                            right: 0,
+                            height: "100%",
+                            zIndex: 20,
+                          }}
+                        >
+                          <VisitWeekCalendar
+                            service={reservation.service_name}
+                            date={reservation.data}
+                            company={reservation.company_name}
+                            duration={reservation.duration}
+                          />
                         </View>
                       );
                     }
+                    console.log(reservation.duration);
 
                     return null;
                   })}
