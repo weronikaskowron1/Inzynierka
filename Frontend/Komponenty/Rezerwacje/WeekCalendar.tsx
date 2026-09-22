@@ -131,6 +131,29 @@ const WeekCalendar = ({ reservations = [] }) => {
       topOffset: (Number(reservationMinute) / 60) * 100,
     };
   };
+
+  const hasVisit = (reservations, hour) => {
+    let hasHourVisit = false;
+    for (const reservation of reservations) {
+      const reservationDate = new Date(reservation.data);
+      const reservationTime = reservationDate.toLocaleTimeString("pl-PL", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/Warsaw",
+      });
+      const [reservationHour, reservationMinute] = reservationTime.split(":");
+
+      const currentHour = hour.split(":")[0];
+
+      if (currentHour === reservationHour) {
+        hasHourVisit = true;
+        return hasHourVisit;
+      }
+    }
+
+    return hasHourVisit;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header_container}>
@@ -186,10 +209,7 @@ const WeekCalendar = ({ reservations = [] }) => {
               key={hour}
               style={[
                 styles.row,
-                (hour === "12:00" ||
-                  hour === "13:00" ||
-                  hour === "14:00" ||
-                  hour === "15:00") && { height: 30 },
+                !hasVisit(reservations, hour) && { height: 30 },
               ]}
             >
               <Text style={styles.hourText}>{hour}</Text>
@@ -205,7 +225,11 @@ const WeekCalendar = ({ reservations = [] }) => {
                 >
                   {reservations.map((reservation, reservationIndex) => {
                     const currentDate = calendarDays[index].date;
-                    const {hasVisit, topOffset} = showVisit(reservation, currentDate, hour)
+                    const { hasVisit, topOffset } = showVisit(
+                      reservation,
+                      currentDate,
+                      hour,
+                    );
 
                     if (hasVisit) {
                       return (
