@@ -7,6 +7,8 @@ import { Colors } from "../../Themes/colors.ts";
 
 import ThreeDotsIcon from "./ThreeDotsIcon.tsx";
 
+import { useState } from "react";
+
 const VisitWeekCalendar = ({
   service = "",
   date = null,
@@ -34,6 +36,7 @@ const VisitWeekCalendar = ({
     minute: "2-digit",
     timeZone: "Europe/Warsaw",
   });
+  const [containerHeight, setContainerHeight] = useState(0); //faktyczna wysokosc kafelka
   return (
     <Pressable
       style={({ pressed }) => [
@@ -42,6 +45,9 @@ const VisitWeekCalendar = ({
 
         pressed && pressed_styles.button_pressed,
       ]}
+      onLayout={(event) => {
+        setContainerHeight(event.nativeEvent.layout.height); //nadaje zmiennej faktyczna wysokosc kafelka
+      }}
     >
       <View style={styles.content}>
         <View style={styles.time_container}>
@@ -66,11 +72,10 @@ const styles = StyleSheet.create({
     padding: 5,
     zIndex: 20,
     overflow: "hidden",
-
   },
   content: {
     flex: 1,
-//     gap: "5%",
+    //     gap: "5%",
   },
   time_container: {},
 
@@ -80,7 +85,7 @@ const styles = StyleSheet.create({
     color: Colors.green1,
   },
   info_container: {
-//     gap: "4%",
+    //     gap: "4%",
   },
   service_text: {
     fontWeight: "500",

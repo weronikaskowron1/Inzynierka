@@ -109,7 +109,28 @@ const WeekCalendar = ({ reservations = [] }) => {
     setYear(newYear);
     setSelectedDayIndex(-1);
   };
+  const showVisit = (reservation, currentDate, hour) => {
+    const reservationDate = new Date(reservation.data);
+    const reservationTime = reservationDate.toLocaleTimeString("pl-PL", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Europe/Warsaw",
+    });
+    const [reservationHour, reservationMinute] = reservationTime.split(":");
 
+    const currentHour = hour.split(":")[0];
+    const topOffset = (Number(reservationMinute) / 60) * 100;
+
+    const sameDay =
+      reservationDate.getDate() === currentDate.getDate() &&
+      reservationDate.getMonth() === currentDate.getMonth() &&
+      reservationDate.getFullYear() === currentDate.getFullYear();
+
+    return {
+      hasVisit: sameDay && currentHour === reservationHour,
+      topOffset: (Number(reservationMinute) / 60) * 100,
+    };
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header_container}>
@@ -161,7 +182,16 @@ const WeekCalendar = ({ reservations = [] }) => {
       <View style={styles.scroll}>
         <ScrollView style={styles.calendarContainer}>
           {hours.map((hour) => (
-            <View key={hour} style={styles.row}>
+            <View
+              key={hour}
+              style={[
+                styles.row,
+                (hour === "12:00" ||
+                  hour === "13:00" ||
+                  hour === "14:00" ||
+                  hour === "15:00") && { height: 30 },
+              ]}
+            >
               <Text style={styles.hourText}>{hour}</Text>
 
               {weekDays.map((day, index) => (
@@ -174,30 +204,10 @@ const WeekCalendar = ({ reservations = [] }) => {
                   ]}
                 >
                   {reservations.map((reservation, reservationIndex) => {
-                    const reservationDate = new Date(reservation.data);
                     const currentDate = calendarDays[index].date;
+                    const {hasVisit, topOffset} = showVisit(reservation, currentDate, hour)
 
-                    const reservationTime = reservationDate.toLocaleTimeString(
-                      "pl-PL",
-                      {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        timeZone: "Europe/Warsaw",
-                      },
-                    );
-                    const [reservationHour, reservationMinute] =
-                      reservationTime.split(":");
-
-                    const currentHour = hour.split(":")[0];
-                    const topOffset = (Number(reservationMinute) / 60) * 100;
-
-                    const sameDay =
-                      reservationDate.getDate() === currentDate.getDate() &&
-                      reservationDate.getMonth() === currentDate.getMonth() &&
-                      reservationDate.getFullYear() ===
-                        currentDate.getFullYear();
-
-                    if (sameDay && currentHour === reservationHour) {
+                    if (hasVisit) {
                       return (
                         <View
                           key={reservation.id ?? reservationIndex}
