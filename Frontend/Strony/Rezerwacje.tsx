@@ -33,8 +33,6 @@ function Rezerwacje() {
       const data = await response.json();
 
       setReservations(data);
-
-      console.log(data);
     } catch (error) {
       console.error("Błąd pobierania rezerwacji:", error);
     }

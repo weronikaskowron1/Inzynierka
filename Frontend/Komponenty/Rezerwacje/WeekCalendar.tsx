@@ -132,6 +132,21 @@ const WeekCalendar = ({ reservations = [] }) => {
     };
   };
 
+  const isDateInWeek = (reservationDate, firstDayWeek) => {
+    const firstDate = new Date(year, month, firstDayWeek);
+
+    const lastDate = new Date(year, month, firstDayWeek + 6);
+
+    return (
+      reservationDate >= firstDate &&
+      reservationDate < new Date(
+        lastDate.getFullYear(),
+        lastDate.getMonth(),
+        lastDate.getDate() + 1
+      )
+    );
+  };
+
   const hasVisit = (reservations, hour) => {
     let hasHourVisit = false;
     for (const reservation of reservations) {
@@ -144,8 +159,13 @@ const WeekCalendar = ({ reservations = [] }) => {
       const [reservationHour, reservationMinute] = reservationTime.split(":");
 
       const currentHour = hour.split(":")[0];
+      const finishTime =
+        (Number(reservationHour) * 60 +
+          Number(reservationMinute) +
+          Number(reservation.duration)) /
+        60;
 
-      if (currentHour === reservationHour) {
+      if (isDateInWeek(reservationDate, firstDayWeek) && (currentHour >= reservationHour && currentHour < finishTime)) {
         hasHourVisit = true;
         return hasHourVisit;
       }
@@ -162,7 +182,7 @@ const WeekCalendar = ({ reservations = [] }) => {
           nextSheet={nextWeek}
           currentMonthText={currentMonthText}
           currentYear={year}
-          currentWeek={`${calendarDays[0].day} \u2014 ${calendarDays[6].day}`}
+          currentWeek={`${firstDayWeek} \u2014 ${lastDayWeek}`}
         />
         <View style={styles.week}>
           {weekDays.map((item, index) => (
@@ -253,7 +273,6 @@ const WeekCalendar = ({ reservations = [] }) => {
                         </View>
                       );
                     }
-                    console.log(reservation.duration);
 
                     return null;
                   })}
