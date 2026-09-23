@@ -139,11 +139,12 @@ const WeekCalendar = ({ reservations = [] }) => {
 
     return (
       reservationDate >= firstDate &&
-      reservationDate < new Date(
-        lastDate.getFullYear(),
-        lastDate.getMonth(),
-        lastDate.getDate() + 1
-      )
+      reservationDate <
+        new Date(
+          lastDate.getFullYear(),
+          lastDate.getMonth(),
+          lastDate.getDate() + 1,
+        )
     );
   };
 
@@ -165,13 +166,23 @@ const WeekCalendar = ({ reservations = [] }) => {
           Number(reservation.duration)) /
         60;
 
-      if (isDateInWeek(reservationDate, firstDayWeek) && (currentHour >= reservationHour && currentHour < finishTime)) {
+      if (
+        isDateInWeek(reservationDate, firstDayWeek) &&
+        currentHour >= reservationHour &&
+        currentHour < finishTime
+      ) {
         hasHourVisit = true;
         return hasHourVisit;
       }
     }
 
     return hasHourVisit;
+  };
+  const dayHasVisit = (item) => {
+    return reservations.some(
+      (reservation) =>
+        new Date(reservation.data).toDateString() === item.date.toDateString(),
+    );
   };
 
   return (
@@ -202,7 +213,7 @@ const WeekCalendar = ({ reservations = [] }) => {
               <LinearGradient
                 colors={
                   index == selectedDayIndex
-                    ? [Colors.green1, Colors.green2]
+                    ? [Colors.green2, Colors.green2]
                     : ["transparent", "transparent"]
                 }
                 start={{ x: 0, y: 0 }}
@@ -217,6 +228,9 @@ const WeekCalendar = ({ reservations = [] }) => {
                 >
                   {item.day}
                 </Text>
+                {dayHasVisit(item) && !(index == selectedDayIndex) && (
+                  <View style={styles.dot} />
+                )}
               </LinearGradient>
             </Pressable>
           ))}
@@ -333,6 +347,12 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
     textAlignVertical: "center",
+  },
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: Colors.green2,
   },
 
   day_selected: {
