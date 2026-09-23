@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
 
   visits_container: {
     marginTop: 20,
-    marginLeft: 30,
     gap: 5,
   },
 });
