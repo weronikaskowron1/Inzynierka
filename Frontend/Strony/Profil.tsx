@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, ScrollView, Modal } from 'react-native';
+import { Alert, StyleSheet, Text, View, Pressable, ScrollView, Modal } from 'react-native';
 import { FontAwesome, Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Colors } from '../Themes/colors';
@@ -7,6 +7,8 @@ import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Mediu
 import { useFonts } from 'expo-font';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useState, useEffect } from "react";
+import * as ImagePicker from 'expo-image-picker';
+import { supabase } from '../Images/supabase.js';
 
 import ZdjecieProfilowe from '../Komponenty/Profil/ProfilePhoto';
 import Logowanie from './Strony/Logowanie.tsx';
@@ -18,38 +20,153 @@ export default function Profil() {
   const odbyte_wizyty = 30;
   const polubione_obiekty = 15;
   const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
-    const ip = 3;
-    const [showChangeImage, setShowChangeImage] = useState(false);
-    const [userType,setUserType]=useState("employer")
-      const [profilinfo, setProfilInfo] = useState({
-              created_at: "",
-          });
-      const GetProfileInfo = async () => {
-          try{
-          const url =
-          userType === "user"
-            ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
-            : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+  const ip = 3;
+  const [showChangeImage, setShowChangeImage] = useState(false);
+  const [userType,setUserType]=useState("employer")
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
+  const [profilinfo, setProfilInfo] = useState({
+      created_at: "",
+      });
+  const GetProfileInfo = async () => {
+    try{
+      const url =
+      userType === "user"
+        ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
+        : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
 
-          const response = await fetch(url);
-          const data = await response.json();
+      const response = await fetch(url);
+      const data = await response.json();
 
-          console.log("Dane:", data[0]);
-          setProfilInfo(data[0]);
-        } catch (error) {
-          console.error(error);
-        }
+      console.log("Dane:", data[0]);
+      setProfilInfo(data[0]);
+
+      // Jeżeli użytkownik ma zdjęcie
+      if (data[0].image_path) {
+        const { data: imageData } = supabase.storage
+          .from("avatars")
+          .getPublicUrl(data[0].image_path);
+
+        setProfileImage(imageData.publicUrl);
+      }
+    } catch (error) {
+      console.error(error);
+    }
       };
         useEffect(() => {
           GetProfileInfo();
         }, []);
 
+    //Pobieranie zdjecia profilowego
+        const UpdateImage = async (image_path: string) => {
+          try {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/zdjecie/${ip}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                image_path,
+                user_type: userType,
+              }),
+            });
+
+            const data = await response.json();
+
+            console.log("Zaktualizowano zdjęcie:", data);
+
+          } catch (error) {
+            console.error(error);
+          }
+        };
+
+
+      const pickImage = async () => {
+        const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (!permission.granted) {
+          Alert.alert(
+            'Brak uprawnień',
+            'Musisz zezwolić na dostęp do galerii.'
+          );
+          return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ['images'],
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 0.8,
+        });
+
+        if (!result.canceled) {
+          setImage(result.assets[0]);
+          await uploadImage(image);
+        }
+      };
+
+      const takePhoto = async () => {
+        const permission = await ImagePicker.requestCameraPermissionsAsync();
+
+        if (!permission.granted) {
+          Alert.alert(
+            'Brak uprawnień',
+            'Musisz zezwolić na dostęp do aparatu.'
+          );
+          return;
+        }
+
+        const result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 0.8,
+        });
+
+        if (!result.canceled) {
+          setImage(result.assets[0]);
+          await uploadImage(image);
+        }
+      };
+
+  const uploadImage = async (selectedImage) => {
+    try {
+        console.log("zdjecie",selectedImage);
+      const response = await fetch(selectedImage.uri);
+
+      const arrayBuffer = await response.arrayBuffer();
+
+      const extension =
+        selectedImage.fileName?.split('.').pop() || 'jpg';
+
+      const filePath = `${ip}.${extension}`;
+
+      const { data, error } = await supabase.storage
+        .from('Images')
+        .upload(filePath, arrayBuffer, {
+          contentType: selectedImage.mimeType || 'image/jpeg',
+          upsert: true,
+        });
+
+      if (error) {
+        console.error('SUPABASE ERROR:', error);
+        return;
+      }
+
+      console.log('UPLOAD OK:', data);
+
+      await UpdateImage(filePath);
+
+    } catch (error) {
+      console.error('Błąd uploadu:', error);
+    }
+  };
+
 
   return (
       <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: Colors.creambackground, paddingBottom: tabBarHeight + 80, } }>
-      <View style={styles.containerProfile}>
-          <View style={{flexDirection: 'row', marginTop:'8%'}}>
-              <ZdjecieProfilowe imie='Kuba' ShowChangeImage={() => setShowChangeImage(true)}/>
+      <View style={[styles.containerProfile, {marginBottom: userType === "user" ? "3%" : "-10%",}]}>
+          <View style={{flexDirection: 'row', marginTop: userType === "user" ? "3%" : "-1%"}}>
+              <ZdjecieProfilowe imie={profilinfo.name} photopath={profileImage} ShowChangeImage={() => setShowChangeImage(true)}/>
               <View style={{flexDirection: 'column', alignItems: 'left', justifyContent: 'top', marginLeft: '3%'}}>
                   <Text style={styles.username}>{profilinfo.name} {profilinfo.surname}</Text>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -83,9 +200,9 @@ export default function Profil() {
       ) :
   (     <View style={{width: '100%', height: '5%'}}></View>
       )}
-        <NavigationContainer navigation={navigation}/>
+        <NavigationContainer navigation={navigation} userType={userType}/>
 
-        <Pressable onPress={() => navigation.navigate('Logowanie')} style={styles.buttonwylogujsie}>
+        <Pressable onPress={() => navigation.navigate('Logowanie')} style={[styles.buttonwylogujsie,{marginTop:userType === "user" ? "3%" : "2%"}]}>
         <Feather name="log-out" size={25} color={Colors.green2} style={{paddingRight:'3%'}}/>
         <Text style={{fontSize:17,color: Colors.green2, fontFamily: 'LeagueSpartan_500Medium'}}>Wyloguj się</Text>
         </Pressable>
@@ -96,7 +213,7 @@ export default function Profil() {
              <Text style={[styles.textbold, {fontSize: 25, fontFamily:'LeagueSpartan_600SemiBold', paddingBottom:'2%', paddingHorizontal: '3%'}]}>Dodaj zdjęcie</Text>
              <Text style={[styles.textbold, {fontSize: 15, fontFamily:'LeagueSpartan_500Medium', paddingBottom:'5%', paddingHorizontal: '3%', color:"gray"}]}>Wybierz opcje dodania zdjęcia.</Text>
                <View style={{width: '100%', alignItems:'center'}}>
-               <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%', borderWidth:2,borderColor:Colors.lightgray, borderRadius:10, padding:'5%', paddingHorizontal:'8%', width:'100%'}}>
+               <Pressable onPress={takePhoto} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%', borderWidth:2,borderColor:Colors.lightgray, borderRadius:20, padding:'5%', paddingHorizontal:'8%', width:'100%'}}>
                <View style={styles.tloIconki}>
                      <Feather name="camera" size={28} color={Colors.green2} />
                </View>
@@ -106,7 +223,7 @@ export default function Profil() {
                </View>
                </Pressable>
 
-              <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%', borderWidth:2,borderColor:Colors.lightgray, borderRadius:10, padding:'5%', paddingHorizontal:'8%', width:'100%'}}>
+              <Pressable onPress={pickImage} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%', borderWidth:2,borderColor:Colors.lightgray, borderRadius:20, padding:'5%', paddingHorizontal:'8%', width:'100%'}}>
               <View style={styles.tloIconki}>
                     <Ionicons name="images-outline" size={28} color={Colors.green2} />
               </View>
@@ -142,8 +259,8 @@ const styles = StyleSheet.create({
     containerProfile:
         {
         width:'100%',
-        height: '21%',
-        flexDirection: 'column'
+        height: '120',
+        flexDirection: 'column',
     },
    text:
    {
@@ -191,7 +308,6 @@ const styles = StyleSheet.create({
       borderColor: Colors.lightgray,
       backgroundColor:Colors.greenishwhite,
       borderRadius:15,
-      marginTop:'3%'
       },
       modalTlo: {
            flex: 1,
@@ -202,7 +318,7 @@ const styles = StyleSheet.create({
      ChangeImageContainer: {
            width: '75%',
            backgroundColor: 'white',
-           borderRadius: 15,
+           borderRadius: 25,
            padding: 20,
            alignItems:'center'
          },

@@ -8,7 +8,7 @@ import Aparat from './Aparat';
 
 export default function ZdjecieProfilowe({photopath,navigation,imie,ShowChangeImage}) {
     const [fontsLoaded] = useFonts({LeagueSpartan_700Bold});
-
+    const firstletter=imie?.slice(0,1);
     return (
       <View style={styles.containerImage}>
       { photopath ?
@@ -23,7 +23,7 @@ export default function ZdjecieProfilowe({photopath,navigation,imie,ShowChangeIm
                                 start={{ x: 0, y: 0 }}
                                 end={{ x: 1, y: 1 }}
                                 style={{justifyContent:'center', alignItems:'center', borderRadius:20, aspectRatio:1,width:'100%'}}>
-                        <Text style={{color:Colors.green1,fontSize: 30,fontFamily: 'LeagueSpartan_700Bold', paddingLeft:'5%'}}>{imie.slice(0,1)}</Text>
+                        <Text style={{color:Colors.green1,fontSize: 30,fontFamily: 'LeagueSpartan_700Bold', paddingLeft:'5%'}}>{firstletter}</Text>
                         </LinearGradient>
                       </View>
                       )

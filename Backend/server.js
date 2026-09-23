@@ -9,6 +9,7 @@ import getCategories from "./Api/GetApi/GetCategories.js";
 import putUser from "./Api/PutApi/PutUser.js";
 import putAdressUser from "./Api/PutApi/PutAdressUser.js";
 import DeleteUser from "./Api/DeleteApi/DeleteUser.js";
+import putImage from "./Api/PutApi/PutImage.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -26,6 +27,7 @@ app.use('/api/kategorie',getCategories);
 //PutApi
 app.use('/api/uzytkownicy',putUser);
 app.use('/api/uzytkownicy/adres',putAdressUser);
+app.use('/api/zdjecie',putImage);
 
 //DeleteAPI
 app.use('/api/delete/uzytkownik',DeleteUser);

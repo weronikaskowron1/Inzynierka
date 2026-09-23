@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import { FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, Feather, FontAwesome6, AntDesign, MaterialCommunityIcons, Lucide } from '@expo/vector-icons';
+import { CalendarCog  } from 'lucide-react-native';
 import { Colors } from '../../Themes/colors';
 import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold } from '@expo-google-fonts/league-spartan';
 import { useFonts } from 'expo-font';
 
 
-export default function NavigationContainer({navigation}) {
+export default function NavigationContainer({navigation, userType}) {
     console.log(navigation);
     const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
     return (
@@ -37,7 +38,39 @@ export default function NavigationContainer({navigation}) {
                <View style={{alignItems: 'center', width:'100%'}}>
                 <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                 </View>
+                { (userType==='employer') &&
+                    (   <>
+                        <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+                        <View style={styles.tloIconki}>
+                              <Feather name="users" size={22} color={Colors.green2} />
+                        </View>
+                        <View style={{flexDirection:'column'}}>
+                        <Text style={styles.textbold}>Zespół</Text>
+                        <Text style={styles.textundergray}>Zarządzaj swoimi pracownikami</Text>
+                        </View>
+                        <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
+                        </Pressable>
+                       <View style={{alignItems: 'center', width:'100%'}}>
+                        <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                        </View>
 
+
+                        <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+                        <View style={styles.tloIconki}>
+                              <CalendarCog size={22} color={Colors.green2} />
+                        </View>
+                        <View style={{flexDirection:'column'}}>
+                        <Text style={styles.textbold}>Wizyty</Text>
+                        <Text style={styles.textundergray}>Zarządzaj wizytami w salonach</Text>
+                        </View>
+                        <FontAwesome6 name='chevron-right' size={16} color='gray' style={{right:'5%', position: 'absolute',marginTop:'1%'}}/>
+                        </Pressable>
+                       <View style={{alignItems: 'center', width:'100%'}}>
+                        <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
+                        </View>
+                           </>
+                        )
+                    }
 
                 <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
                 <View style={styles.tloIconki}>
