@@ -187,6 +187,9 @@ const WeekCalendar = ({ reservations = [] }) => {
     );
   };
 
+  const [calendarHeight, setCalendarHeight] = useState(0);
+  const rowHeight = calendarHeight > 0 ? calendarHeight / hours.length : 50;
+
   return (
     <View style={styles.container}>
       <View style={styles.header_container}>
@@ -238,14 +241,20 @@ const WeekCalendar = ({ reservations = [] }) => {
           ))}
         </View>
       </View>
-      <View style={styles.scroll}>
+      <View
+        style={styles.scroll}
+        onLayout={(e) => {
+          setCalendarHeight(e.nativeEvent.layout.height);
+        }}
+      >
         <ScrollView style={styles.calendarContainer}>
           {hours.map((hour) => (
             <View
               key={hour}
               style={[
                 styles.row,
-                !hasVisit(reservations, hour) && { height: 30 },
+                {height: rowHeight},
+                hasVisit(reservations, hour) && { height: rowHeight * 3 },
               ]}
             >
               <Text style={styles.hourText}>{hour}</Text>
@@ -380,7 +389,7 @@ const styles = StyleSheet.create({
 
   row: {
     width: "100%",
-    height: 60,
+//     height: 60,
     flexDirection: "row",
     position: "relative",
 

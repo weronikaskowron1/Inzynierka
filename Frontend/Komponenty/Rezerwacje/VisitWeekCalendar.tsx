@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    //     gap: "5%",
+//     gap: "10%",
   },
   time_container: {},
 

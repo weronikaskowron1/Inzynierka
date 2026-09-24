@@ -24,7 +24,7 @@ function Rezerwacje() {
   }, []);
   const getReservations = async () => {
     try {
-      const userId = 1;
+      const userId = 2;
 
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_API_URL}/api/visitcards/user/${userId}`,
