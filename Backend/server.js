@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 //importy
 import getStudios from "./Api/GetApi/GetStudios.js";
+import getVisitCards from "./Api/GetApi/GetVisitCards.js";
 import getCompany from "./Api/GetApi/GetCompany.js";
 import getUser from "./Api/GetApi/GetUser.js";
 import getCategories from "./Api/GetApi/GetCategories.js";
@@ -18,6 +19,7 @@ app.use(express.json());
 
 //GetApi
 app.use('/api/salony',getStudios);
+app.use('/api/visitcards', getVisitCards );
 app.use('/api/uzytkownicy',getUser);
 app.use('/api/firmy',getCompany);
 app.use('/api/kategorie',getCategories);

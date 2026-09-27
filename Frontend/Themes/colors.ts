@@ -5,6 +5,7 @@ export const Colors = {
   green4: '#A6CB6A',
   green5: '#CADF9C',
   green6: '#EDF3DF',
+  green65: '#E3E9D2',
   green7: '#F9FAF1',
 
   gray: '#babfbc',
@@ -14,6 +15,8 @@ export const Colors = {
   grayText: "#4B4B4B",
 
   backgroundColor: '#FDFDF9',
+
+  lightgrayBorder: "#E5E5E5",
 
   greenishwhite:'#F7F8F2',
 

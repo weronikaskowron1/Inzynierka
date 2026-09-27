@@ -7,12 +7,15 @@ import { Colors } from "../../Themes/colors.ts";
 
 import ThreeDotsIcon from "./ThreeDotsIcon.tsx";
 
-const VisitMonthCalendar = ({
+import { useState } from "react";
+
+const VisitWeekCalendar = ({
   service = "",
   date = null,
   company = "",
   duration = "",
 }) => {
+  const height = (Number(duration) / 60) * 100;
   const visitDate = date ? new Date(date) : null;
   const day = visitDate?.toLocaleDateString("pl-PL", {
     day: "2-digit",
@@ -25,27 +28,36 @@ const VisitMonthCalendar = ({
     minute: "2-digit",
     timeZone: "Europe/Warsaw",
   });
+
+  const endTime = new Date(visitDate?.getTime() + Number(duration) * 60 * 1000);
+
+  const endTimeFormatted = endTime.toLocaleTimeString("pl-PL", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Warsaw",
+  });
+  const [containerHeight, setContainerHeight] = useState(0); //faktyczna wysokosc kafelka
   return (
     <Pressable
       style={({ pressed }) => [
         styles.container,
+        { height: `${height}%` },
 
         pressed && pressed_styles.button_pressed,
       ]}
+      onLayout={(event) => {
+        setContainerHeight(event.nativeEvent.layout.height); //nadaje zmiennej faktyczna wysokosc kafelka
+      }}
     >
-      <View style={styles.time_container}>
-        <Text style={styles.time_text}>{time}</Text>
-      </View>
-      <View style={styles.info_container}>
-        <Text style={styles.service_text}>{service}</Text>
-        <Text style={styles.company_text}>{company}</Text>
-        <View style={styles.duration_container}>
-          <MaterialCommunityIcons
-            name="clock-time-four-outline"
-            size={12}
-            color={Colors.green1}
-          />
-          <Text style={styles.duration_text}>{duration} min</Text>
+      <View style={styles.content}>
+        <View style={styles.time_container}>
+          <Text style={styles.time_text}>
+            {time} - {endTimeFormatted}
+          </Text>
+        </View>
+        <View style={styles.info_container}>
+          <Text style={styles.service_text}>{service}</Text>
+          <Text style={styles.company_text}>{company}</Text>
         </View>
       </View>
     </Pressable>
@@ -55,36 +67,32 @@ const VisitMonthCalendar = ({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 70,
-    backgroundColor: "#EEF3E4",
-    borderRadius: 10,
-    padding: 6,
-    paddingHorizontal: 15,
-
-    flexDirection: "row",
-    justifyContent: "space-between",
+    backgroundColor: Colors.green5,
+    borderRadius: 6,
+    padding: 5,
+    zIndex: 20,
+    overflow: "hidden",
   },
-  time_container: {
+  content: {
     flex: 1,
-    borderRightWidth: 1,
-    borderRightColor: Colors.lightgrayBorder,
+//     gap: "10%",
   },
+  time_container: {},
 
   time_text: {
     fontWeight: "500",
-    fontSize: 13,
-    color: Colors.grayText,
+    fontSize: 6,
+    color: Colors.green1,
   },
   info_container: {
-    flex: 4,
-    paddingLeft: 10,
+    //     gap: "4%",
   },
   service_text: {
     fontWeight: "500",
-    fontSize: 14,
+    fontSize: 7,
   },
   company_text: {
-    fontSize: 12,
+    fontSize: 6,
     color: Colors.green1,
   },
   duration_container: {
@@ -100,4 +108,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VisitMonthCalendar;
+export default VisitWeekCalendar;
