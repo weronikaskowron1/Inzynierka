@@ -13,7 +13,7 @@ import ProfilNawigator from "./ProfilNawigator";
 const Tab = createBottomTabNavigator();
 
 export default function Nawigator() {
-    const [user_type, setUserType] = useState('employer');
+    const [user_type, setUserType] = useState('user');
   return (
     <Tab.Navigator
       screenOptions={({ route  }) => ({
