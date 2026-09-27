@@ -54,7 +54,7 @@ export default function NavigationContainer({navigation, userType}) {
                         <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                         </View>
 
-
+                           {/*
                         <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
                         <View style={styles.tloIconki}>
                               <CalendarCog size={22} color={Colors.green2} />
@@ -68,10 +68,12 @@ export default function NavigationContainer({navigation, userType}) {
                        <View style={{alignItems: 'center', width:'100%'}}>
                         <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                         </View>
+                           */}
                            </>
                         )
                     }
-
+                { (userType==='user') &&
+                    (   <>
                 <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
                 <View style={styles.tloIconki}>
                       <AntDesign name="credit-card" size={22} color={Colors.green2} />
@@ -85,6 +87,8 @@ export default function NavigationContainer({navigation, userType}) {
                <View style={{alignItems: 'center', width:'100%'}}>
                 <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
                 </View>
+                </>
+                )}
 
 
               <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
