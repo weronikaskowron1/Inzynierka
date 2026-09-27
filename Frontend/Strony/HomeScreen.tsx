@@ -64,8 +64,9 @@ function HomeScreen() {
     },
   ];
   return (
-      <ScrollView style={GlobalStyles.body}>
-        <View style={GlobalStyles.container}>
+     <ScrollView>
+      <View style={styles.body}>
+        <View style={styles.container}>
           <View style={styles.header}>
             <Welcome />
             <AlertIcon />
@@ -112,7 +113,8 @@ function HomeScreen() {
           />
           </View>
         </View>
-      </ScrollView>
+      </View>
+     </ScrollView>
   );
 }
 
