@@ -22,5 +22,10 @@ export const Colors = {
 
   white: '#FDFDFB',
   graphite: '#1c1b1b',
-
+  green6: '#EDF3DF',
+  backgroundColor: '#FDFDF9',
+  grayText: '#A4A4A4',
+  pink: '#FBDFDE',
+  red: '#A90B05',
+  lightred:'#C93E35',
 };

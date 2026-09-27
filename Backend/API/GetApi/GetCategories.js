@@ -2,15 +2,15 @@ import { DbConnection } from "../../DbConnect.js";
 import express from "express";
 const router = express.Router();
 
-router.get("/:id", async (req, res) => {
+router.get("/", async (req, res) => {
 try {
     const id = req.params.id;
+
     const results = await DbConnection.query(`
-    SELECT * FROM users u
-    JOIN adresses a
-    ON u.id_adress=a.id
-    WHERE u.id = $1;
-    `,[req.params.id]);
+        SELECT id, name
+        FROM categories
+        `);
+
     res.json(results.rows);
 } catch (err) {
     console.error(err);
