@@ -2,14 +2,21 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "../../Themes/colors.ts";
 
-const DateChanger = ({previousSheet, nextSheet, currentMonthText, currentYear, currentWeek = ""}) => {
+const DateChanger = ({
+  previousSheet,
+  nextSheet,
+  currentMonthText,
+  currentYear,
+  currentWeek = "",
+}) => {
   return (
     <View style={styles.calendar_switch_container}>
       <Pressable style={styles.arrow} onPress={() => previousSheet()}>
-        <Feather name="chevron-left" size={20} color="#5C8A24" />
+        <Feather name="chevron-left" size={20} color={Colors.green1} />
       </Pressable>
       <Text style={styles.date_text}>
-        {currentWeek} {currentMonthText.charAt(0).toUpperCase() + currentMonthText.slice(1)}{" "}
+        {currentWeek}{" "}
+        {currentMonthText.charAt(0).toUpperCase() + currentMonthText.slice(1)}{" "}
         {currentYear}
       </Text>
       <Pressable style={styles.arrow} onPress={() => nextSheet()}>
@@ -37,6 +44,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-})
+  arrow: {
+    backgroundColor: Colors.green7,
+    borderRadius: 999,
+    height: 30,
+    width: 20,
+
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  date_text: {
+    fontWeight: "500",
+  },
+});
 
 export default DateChanger;

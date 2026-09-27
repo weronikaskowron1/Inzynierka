@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Feather, Ionicons, Octicons } from "@expo/vector-icons";
 
 import { pressed_styles } from "../../Themes/buton_pressed.tsx";
+import { Colors } from "../../Themes/colors.ts";
 const iconLibraries = {
   Feather,
   Ionicons,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
 
   text: {
     marginTop: 5,
-    color: "#4B4B4B",
+    color: Colors.grayText,
     fontWeight: 500,
     fontSize: 15,
   },

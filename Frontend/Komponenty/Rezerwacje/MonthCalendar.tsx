@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
-
+import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 
 import { Colors } from "../../Themes/colors.ts";
@@ -11,6 +11,7 @@ const MonthCalendar = () => {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+  const today = new Date().getDate();
 
   const daysInPreviousMonth = new Date(year, month, 0).getDate();
 
@@ -18,8 +19,6 @@ const MonthCalendar = () => {
     month: "long",
   });
   const weekDays = ["PON", "WT", "ŚR", "CZW", "PT", "SB", "ND"];
-
-  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
 
   const calendarDays = [];
 
@@ -47,6 +46,11 @@ const MonthCalendar = () => {
     }
   }
 
+  const todayIndex = calendarDays.findIndex(
+    (item) => item.day === today && item.currentMonth,
+  );
+  const [selectedDayIndex, setSelectedDayIndex] = useState(todayIndex);
+
   const previousMonth = () => {
     if (month === 0) {
       setMonth(11);
@@ -54,6 +58,7 @@ const MonthCalendar = () => {
     } else {
       setMonth((prevMonth) => prevMonth - 1);
     }
+    setSelectedDayIndex(-1);
   };
 
   const nextMonth = () => {
@@ -63,12 +68,17 @@ const MonthCalendar = () => {
     } else {
       setMonth((prevMonth) => prevMonth + 1);
     }
+    setSelectedDayIndex(-1);
   };
 
   return (
     <View>
-      <Text>{selectedDayIndex}</Text>
-      <DateChanger previousSheet = {previousMonth} nextSheet = {nextMonth} currentMonthText={currentMonthText} currentYear={year}/>
+      <DateChanger
+        previousSheet={previousMonth}
+        nextSheet={nextMonth}
+        currentMonthText={currentMonthText}
+        currentYear={year}
+      />
 
       <View style={styles.week}>
         {weekDays.map((item, index) => (
@@ -85,7 +95,16 @@ const MonthCalendar = () => {
             style={styles.day}
             onPress={() => setSelectedDayIndex(index)}
           >
-            <View>
+            <LinearGradient
+              colors={
+                index == selectedDayIndex
+                  ? [Colors.green1, Colors.green2]
+                  : ["transparent", "transparent"]
+              }
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.day_selected}
+            >
               <Text
                 style={[
                   styles.dayText,
@@ -95,7 +114,7 @@ const MonthCalendar = () => {
               >
                 {item.day}
               </Text>
-            </View>
+            </LinearGradient>
           </Pressable>
         ))}
       </View>
@@ -162,20 +181,21 @@ const styles = StyleSheet.create({
   },
 
   day_selected: {
-    backgroundColor: Colors.green2,
     color: "white",
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 999,
 
-    textAlign: "center",
-    textAlignVertical: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   dayText: {
-    fontSize: 15,
-    fontWeight: "500",
     color: "#333",
+    fontSize: 16,
+    fontWeight: "500",
+    textAlign: "center",
+    textAlignVertical: "center",
   },
 
   otherMonthText: {

@@ -191,11 +191,93 @@ export default function Profil() {
             <View style={{height:'80%', width: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
 
             </View>
-            <View style={{ flexDirection:'column', alignItems:'center', justifyContent:'center', width:'45%'}}>
-                <Ionicons name="heart-outline" size={22} color={Colors.green2} style={{marginBottom:'-1%'}}/>
-                <Text style={[styles.textbold,{fontSize:16}]}>{polubione_obiekty}</Text>
-                <Text style={[styles.textundergray,{fontSize:16, marginLeft:'0.5%'}]}>Ulubione</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Mail
+                size={15}
+                color={Colors.gray}
+                style={{ marginRight: "4%", marginTop: "3%" }}
+              />
+              <Text style={styles.text2}>{email}</Text>
             </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={[
+          styles.container,
+          {
+            flexDirection: "row",
+            height: "10%",
+            width: "90%",
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "45%",
+            marginTop: "3%",
+            marginBottom: "3%",
+          }}
+        >
+          <CalendarCheck
+            size={22}
+            strokeWidth={1.4}
+            color={Colors.green2}
+            style={{ marginBottom: "-1%" }}
+          />
+          <Text style={[styles.textbold, { fontSize: 16 }]}>
+            {odbyte_wizyty}
+          </Text>
+          <Text
+            style={[styles.textundergray, { fontSize: 16, marginLeft: "0.5%" }]}
+          >
+            Wizyty
+          </Text>
+        </View>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "5%",
+          }}
+        >
+          <View
+            style={{
+              height: "80%",
+              width: 2,
+              backgroundColor: Colors.light_gray,
+              borderRadius: 99,
+            }}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "45%",
+          }}
+        >
+          <Ionicons
+            name="heart-outline"
+            size={22}
+            color={Colors.green2}
+            style={{ marginBottom: "-1%" }}
+          />
+          <Text style={[styles.textbold, { fontSize: 16 }]}>
+            {polubione_obiekty}
+          </Text>
+          <Text
+            style={[styles.textundergray, { fontSize: 16, marginLeft: "0.5%" }]}
+          >
+            Ulubione
+          </Text>
+        </View>
       </View>
       ) :
   (     <View style={{width: '100%', height: '5%'}}></View>
