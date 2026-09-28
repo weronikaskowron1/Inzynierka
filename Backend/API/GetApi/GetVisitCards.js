@@ -10,14 +10,14 @@ router.get("/user/:userId", async (req, res) => {
       SELECT
         r.id,
         r.data,
-        c.name AS company_name,
+        st.name AS studio_name,
         s.name AS service_name,
         s.duration
 
       FROM reservations r
 
-      JOIN companies c
-        ON r.id_company = c.id
+      JOIN studios st
+        ON r.id_studio = st.id_studio
 
       JOIN services s
         ON r.id_service = s.id
