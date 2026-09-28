@@ -15,6 +15,7 @@
     "expo": "~56.0.19",
     "expo-blob": "^57.0.2",
     "expo-checkbox": "~56.0.1",
+    "expo-file-system": "~56.0.11",
     "expo-font": "~56.0.7",
     "expo-image-picker": "~56.0.25",
     "expo-linear-gradient": "~56.0.4",

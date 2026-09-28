@@ -22,6 +22,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { supabase } from "../Images/supabase.js";
+import { File } from "expo-file-system";
 
 import ZdjecieProfilowe from "../Komponenty/Profil/ProfilePhoto";
 import Logowanie from "./Strony/Logowanie.tsx";
@@ -40,7 +41,7 @@ export default function Profil() {
   });
   const ip = 3;
   const [showChangeImage, setShowChangeImage] = useState(false);
-  const [userType, setUserType] = useState("employer");
+  const [userType, setUserType] = useState("user");
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const [profilinfo, setProfilInfo] = useState({
@@ -52,20 +53,16 @@ export default function Profil() {
         userType === "user"
           ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
           : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
-
       const response = await fetch(url);
       const data = await response.json();
-
       console.log("Dane:", data[0]);
       setProfilInfo(data[0]);
-
       // Jeżeli użytkownik ma zdjęcie
       if (data[0].image_path) {
         const { data: imageData } = supabase.storage
-          .from("avatars")
+          .from("Images")
           .getPublicUrl(data[0].image_path);
-
-        setProfileImage(imageData.publicUrl);
+        setProfileImage(`${imageData.publicUrl}?v=${Date.now()}`);
       }
     } catch (error) {
       console.error(error);
@@ -95,6 +92,11 @@ export default function Profil() {
       const data = await response.json();
 
       console.log("Zaktualizowano zdjęcie:", data);
+
+      const { data: imageData } = supabase.storage
+        .from("Images")
+        .getPublicUrl(profilinfo.image_path);
+      setProfileImage(`${imageData.publicUrl}?v=${Date.now()}`);
     } catch (error) {
       console.error(error);
     }
@@ -116,8 +118,9 @@ export default function Profil() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0]);
-      await uploadImage(image);
+      const selectedImage = result.assets[0];
+      setImage(selectedImage);
+      await uploadImage(selectedImage);
     }
   };
 
@@ -136,26 +139,34 @@ export default function Profil() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0]);
-      await uploadImage(image);
+      const selectedImage = result.assets[0];
+      setImage(selectedImage);
+      await uploadImage(selectedImage);
     }
   };
 
   const uploadImage = async (selectedImage) => {
     try {
-      console.log("zdjecie", selectedImage);
-      const response = await fetch(selectedImage.uri);
+      if (!selectedImage?.uri) {
+        console.log("Brak zdjęcia");
+        return;
+      }
 
-      const arrayBuffer = await response.arrayBuffer();
+      const file = new File(selectedImage.uri);
+      if (!file.exists) {
+        console.error("Plik nie istnieje!");
+        return;
+      }
 
-      const extension = selectedImage.fileName?.split(".").pop() || "jpg";
+      const arrayBuffer = await file.arrayBuffer();
+      const extension = selectedImage.fileName?.split(".").pop()?.toLowerCase() || "jpg";
+      const filePath = `${ip}-${userType}.${extension}`;
 
-      const filePath = `${ip}.${extension}`;
-
+      const mimeType = selectedImage.mimeType || "image/jpeg";
       const { data, error } = await supabase.storage
         .from("Images")
         .upload(filePath, arrayBuffer, {
-          contentType: selectedImage.mimeType || "image/jpeg",
+          contentType: mimeType,
           upsert: true,
         });
 
@@ -163,10 +174,10 @@ export default function Profil() {
         console.error("SUPABASE ERROR:", error);
         return;
       }
-
       console.log("UPLOAD OK:", data);
 
       await UpdateImage(filePath);
+
     } catch (error) {
       console.error("Błąd uploadu:", error);
     }
@@ -257,7 +268,7 @@ export default function Profil() {
               style={{ marginBottom: "-1%" }}
             />
             <Text style={[styles.textbold, { fontSize: 16 }]}>
-              {odbyte_wizyty}
+              {profilinfo.przyszle_rezerwacje}
             </Text>
             <Text
               style={[
@@ -300,7 +311,7 @@ export default function Profil() {
               style={{ marginBottom: "-1%" }}
             />
             <Text style={[styles.textbold, { fontSize: 16 }]}>
-              {polubione_obiekty}
+              {profilinfo.polubione}
             </Text>
             <Text
               style={[
