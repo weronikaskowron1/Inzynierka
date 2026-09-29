@@ -27,8 +27,8 @@ function HomeScreen() {
 
   const getSalony = async () => {
     try {
-      const location = await getUserLocation();
-      console.log(location);
+      //       const location = await getUserLocation(); //narazie na emulatorze pobieranie lokalizacji nie dziala
+      //       console.log(location);
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_API_URL}/api/salony`,
       );
@@ -36,6 +36,7 @@ function HomeScreen() {
       const data = await response.json();
 
       console.log("Dane:", data);
+      setSalony(data);
     } catch (error) {
       console.error(error);
     }
@@ -96,14 +97,14 @@ function HomeScreen() {
 
           <View style={styles.service_container}>
             <ServiceCard
-              service_name="Studio Glam"
-              rating="5.0"
-              distance="2 km"
+              service_name={salony[0]?.name}
+              rating={salony[0]?.avg_rating}
+              distance={`${calculateDistance(18.5418, 50.0971, salony[0]?.longitude, salony[0]?.latitude)} km`}
             />
             <ServiceCard
-              service_name="Hairlook"
-              rating="4.9"
-              distance="1.5 km"
+              service_name={salony[1]?.name}
+              rating={salony[1]?.avg_rating}
+              distance={`${calculateDistance(18.5418, 50.0971, salony[1]?.longitude, salony[1]?.latitude)} km`}
             />
           </View>
 
