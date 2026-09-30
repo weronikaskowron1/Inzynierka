@@ -19,18 +19,16 @@ import { calculateDistance } from "../utils/calculateDistance.js";
 
 const API_URL = process.env.API_URL;
 
-export default HomeScreen;
-function HomeScreen() {
+export default HomeScreenEmployer;
+function HomeScreenEmployer({ userId = 1 }) {
   const navigation = useNavigation();
 
   const [salony, setSalony] = useState([]);
 
   const getSalony = async () => {
     try {
-      //       const location = await getUserLocation(); //narazie na emulatorze pobieranie lokalizacji nie dziala
-      //       console.log(location);
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/salony`,
+        `${process.env.EXPO_PUBLIC_API_URL}/api/salony/company/${userId}`,
       );
 
       const data = await response.json();
@@ -46,29 +44,6 @@ function HomeScreen() {
     getSalony();
   }, []);
 
-  console.log(process.env.EXPO_PUBLIC_API_URL);
-  const categories_icons = [
-    {
-      title: "Fryzjer",
-      icon: "scissors",
-      library: "Feather",
-    },
-    {
-      title: "Paznokcie",
-      icon: "sparkles-outline",
-      library: "Ionicons",
-    },
-    {
-      title: "Kosmetyka",
-      icon: "leaf-outline",
-      library: "Ionicons",
-    },
-    {
-      title: "Makijaż",
-      icon: "paintbrush",
-      library: "Octicons",
-    },
-  ];
   return (
     <ScrollView>
       <View style={GlobalStyles.body}>
@@ -77,21 +52,9 @@ function HomeScreen() {
             <Welcome />
             <AlertIcon />
           </View>
-          <View style={styles.searcharbar}>
-            <Searchbar />
-          </View>
-          <View style={styles.categories_container}>
-            {categories_icons.map((item, index) => (
-              <CategoryIcon
-                key={index}
-                title={item.title}
-                icon={item.icon}
-                library={item.library}
-              />
-            ))}
-          </View>
+
           <View style={styles.recommended_container}>
-            <Text style={styles.polecane_text}> Polecane salony </Text>
+            <Text style={styles.polecane_text}> Twoje salony </Text>
             <WszystkieText />
           </View>
 
@@ -100,6 +63,7 @@ function HomeScreen() {
               service_name={salony[0]?.name}
               rating={salony[0]?.avg_rating}
               distance={`${calculateDistance(18.5418, 50.0971, salony[0]?.longitude, salony[0]?.latitude)} km`}
+              userType = 'employer'
             />
             <StudioCard
               service_name={salony[1]?.name}
@@ -129,18 +93,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-
-  searcharbar: {
-    marginTop: 30,
-  },
-
-  categories_container: {
-    marginTop: 40,
-    gap: 10,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
 
   recommended_container: {

@@ -10,10 +10,12 @@ import Rezerwacje from '../Strony/Rezerwacje';
 import Ulubione from '../Strony/Ulubione';
 import ProfilNawigator from "./ProfilNawigator";
 
+import HomeScreenEmployer from '../Strony/HomeScreenEmployer';
+
 const Tab = createBottomTabNavigator();
 
 export default function Nawigator() {
-    const [user_type, setUserType] = useState('user');
+    const [user_type, setUserType] = useState('employer');
   return (
     <Tab.Navigator
       screenOptions={({ route  }) => ({
@@ -79,7 +81,7 @@ export default function Nawigator() {
         : (user_type==='employer') &&
         (
             <>
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeScreenEmployer} />
       <Tab.Screen name="ProfilNawigacja" component={ProfilNawigator} />
             </>
             )

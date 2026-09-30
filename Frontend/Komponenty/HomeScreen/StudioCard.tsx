@@ -1,18 +1,26 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { SimpleLineIcons, FontAwesome } from "@expo/vector-icons";
+import { SimpleLineIcons, FontAwesome, Entypo } from "@expo/vector-icons";
 import HeartIcon from "../Buttons/HeartIcon.tsx";
 
 import { pressed_styles } from "../../Themes/buton_pressed.tsx";
-import { Colors } from '../../Themes/colors.ts';
+import { Colors } from "../../Themes/colors.ts";
 
-const ServiceCard = ({ service_name, rating, distance }) => {
+const StudioCard = ({
+  service_name,
+  rating,
+  distance,
+  userType = "user",
+  street = "Marszałkowska",
+}) => {
   let image_uploaded = false;
   return (
     <View style={styles.container}>
-      <View style={styles.heart_container}>
-        <HeartIcon />
-      </View>
+      {userType === "user" && (
+        <View style={styles.heart_container}>
+          <HeartIcon />
+        </View>
+      )}
 
       <Pressable
         style={({ pressed }) => [
@@ -27,7 +35,11 @@ const ServiceCard = ({ service_name, rating, distance }) => {
             end={{ x: 2, y: 2 }}
             style={styles.image_container}
           >
-            <SimpleLineIcons name="picture" size={30} color={Colors.lightgrayText} />
+            <SimpleLineIcons
+              name="picture"
+              size={30}
+              color={Colors.lightgrayText}
+            />
           </LinearGradient>
         )}
 
@@ -35,11 +47,21 @@ const ServiceCard = ({ service_name, rating, distance }) => {
 
         <View style={styles.service_info}>
           <Text style={styles.service_name}>{service_name}</Text>
-          <View style={styles.info_container}>
-            <FontAwesome name="star" size={15} color="#E9BB5A" />
-            <Text style={styles.rating}>{rating}</Text>
-            <Text style={styles.distance}>{`\u00B7 ${distance}`}</Text>
-          </View>
+
+          {userType === "user" && (
+            <View style={styles.info_container}>
+              <FontAwesome name="star" size={15} color="#E9BB5A" />
+              <Text style={styles.rating}>{rating}</Text>
+              <Text style={styles.distance}>{`\u00B7 ${distance}`}</Text>
+            </View>
+          )}
+
+          {userType === "employer" && (
+            <View style={styles.info_container_employer}>
+              <Entypo name="location-pin" size={15} color={Colors.lightgrayText} />
+              <Text style={styles.distance}>{street}</Text>
+            </View>
+          )}
         </View>
       </Pressable>
     </View>
@@ -89,6 +111,13 @@ const styles = StyleSheet.create({
     gap: 7,
   },
 
+  info_container_employer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+    left: -5,
+  },
+
   rating: {
     fontWeight: "500",
     fontSize: 15,
@@ -108,4 +137,4 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
 });
-export default ServiceCard;
+export default StudioCard;
