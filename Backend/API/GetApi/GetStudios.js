@@ -5,15 +5,17 @@ const router = express.Router();
 router.get("/", async (req, res) => {
 try {
     const results = await DbConnection.query(`
-    SELECT c.id, c.name, c.image_path,
-        (SELECT AVG(rating)
-        FROM opinions o
-        LEFT JOIN reservations r
-        ON o.id_reservation=r.id
-        WHERE c.id=r.id_company
-        GROUP BY id_company) AS avg_rating
-    FROM companies c
-    GROUP BY c.id;
+    SELECT st.id_studio, st.name, c.image_path, a.latitude, a.longitude,
+            (SELECT ROUND(AVG(o.rating)::numeric, 1)
+            FROM opinions o
+            LEFT JOIN reservations r
+            ON o.id_reservation=r.id
+            WHERE st.id_studio=r.id_studio) AS avg_rating
+        FROM studios st
+        LEFT JOIN companies c
+        ON c.id = st.id_company
+        LEFT JOIN adresses a
+        ON a.id = st.id_adress;
     `);
     res.json(results.rows);
 } catch (err) {

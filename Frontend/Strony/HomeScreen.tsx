@@ -1,19 +1,21 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 
-import Welcome from '../Komponenty/HomeScreen/Welcome.tsx';
-import AlertIcon from '../Komponenty/Buttons/AlertIcon.tsx';
-import CategoryIcon from '../Komponenty/HomeScreen/CategoryIcon.tsx';
-import NextVisitCard from '../Komponenty/HomeScreen/NextVisitCard.tsx';
-import Searchbar from '../Komponenty/HomeScreen/Searchbar.tsx';
-import ServiceCard from '../Komponenty/HomeScreen/ServiceCard.tsx';
-import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
+import Welcome from "../Komponenty/HomeScreen/Welcome.tsx";
+import AlertIcon from "../Komponenty/Buttons/AlertIcon.tsx";
+import CategoryIcon from "../Komponenty/HomeScreen/CategoryIcon.tsx";
+import NextVisitCard from "../Komponenty/HomeScreen/NextVisitCard.tsx";
+import Searchbar from "../Komponenty/HomeScreen/Searchbar.tsx";
+import ServiceCard from "../Komponenty/HomeScreen/ServiceCard.tsx";
+import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
 
-
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 
-import { Colors } from '../Themes/colors.ts';
-import  { styles as GlobalStyles } from '../Themes/global_styles.tsx';
+import { Colors } from "../Themes/colors.ts";
+import { styles as GlobalStyles } from "../Themes/global_styles.tsx";
+
+import { getUserLocation } from "../utils/getUserLocation.js";
+import { calculateDistance } from "../utils/calculateDistance.js";
 
 const API_URL = process.env.API_URL;
 
@@ -23,14 +25,18 @@ function HomeScreen() {
 
   const [salony, setSalony] = useState([]);
 
-
   const getSalony = async () => {
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/salony`);
+      //       const location = await getUserLocation(); //narazie na emulatorze pobieranie lokalizacji nie dziala
+      //       console.log(location);
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/api/salony`,
+      );
 
       const data = await response.json();
 
       console.log("Dane:", data);
+      setSalony(data);
     } catch (error) {
       console.error(error);
     }
@@ -43,28 +49,28 @@ function HomeScreen() {
   console.log(process.env.EXPO_PUBLIC_API_URL);
   const categories_icons = [
     {
-      title: 'Fryzjer',
-      icon: 'scissors',
-      library: 'Feather',
+      title: "Fryzjer",
+      icon: "scissors",
+      library: "Feather",
     },
     {
-      title: 'Paznokcie',
-      icon: 'sparkles-outline',
-      library: 'Ionicons',
+      title: "Paznokcie",
+      icon: "sparkles-outline",
+      library: "Ionicons",
     },
     {
-      title: 'Kosmetyka',
-      icon: 'leaf-outline',
-      library: 'Ionicons',
+      title: "Kosmetyka",
+      icon: "leaf-outline",
+      library: "Ionicons",
     },
     {
-      title: 'Makijaż',
-      icon: 'paintbrush',
-      library: 'Octicons',
+      title: "Makijaż",
+      icon: "paintbrush",
+      library: "Octicons",
     },
   ];
   return (
-     <ScrollView>
+    <ScrollView>
       <View style={GlobalStyles.body}>
         <View style={GlobalStyles.container}>
           <View style={styles.header}>
@@ -85,45 +91,44 @@ function HomeScreen() {
             ))}
           </View>
           <View style={styles.recommended_container}>
-
             <Text style={styles.polecane_text}> Polecane salony </Text>
             <WszystkieText />
           </View>
 
           <View style={styles.service_container}>
             <ServiceCard
-              service_name="Studio Glam"
-              rating="5.0"
-              distance="2 km"
+              service_name={salony[0]?.name}
+              rating={salony[0]?.avg_rating}
+              distance={`${calculateDistance(18.5418, 50.0971, salony[0]?.longitude, salony[0]?.latitude)} km`}
             />
             <ServiceCard
-              service_name="Hairlook"
-              rating="4.9"
-              distance="1.5 km"
+              service_name={salony[1]?.name}
+              rating={salony[1]?.avg_rating}
+              distance={`${calculateDistance(18.5418, 50.0971, salony[1]?.longitude, salony[1]?.latitude)} km`}
             />
           </View>
 
           <Text style={styles.nastepna_wizyta_text}>NASTĘPNA WIZYTA</Text>
           <View style={styles.next_visits_container}>
-          <NextVisitCard
-            service="Manicure hybrydowy"
-            day="Jutro"
-            time="11:00"
-            company="Nails&Co."
-          />
+            <NextVisitCard
+              service="Manicure hybrydowy"
+              day="Jutro"
+              time="11:00"
+              company="Nails&Co."
+            />
           </View>
         </View>
       </View>
-     </ScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   searcharbar: {
@@ -133,34 +138,34 @@ const styles = StyleSheet.create({
   categories_container: {
     marginTop: 40,
     gap: 10,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   recommended_container: {
     marginTop: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   polecane_text: {
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 22,
   },
 
   service_container: {
     marginTop: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   nastepna_wizyta_text: {
     marginTop: 20,
     marginBottom: 10,
     color: Colors.lightgrayText,
-    fontWeight: '700',
+    fontWeight: "700",
     fontSize: 15,
   },
 
