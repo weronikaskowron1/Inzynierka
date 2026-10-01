@@ -7,6 +7,7 @@ import NextVisitCard from "../Komponenty/HomeScreen/NextVisitCard.tsx";
 import Searchbar from "../Komponenty/HomeScreen/Searchbar.tsx";
 import StudioCard from "../Komponenty/HomeScreen/StudioCard.tsx";
 import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
+import DodajSalon from "../Komponenty/HomeScreenEmployer/DodajSalon.tsx";
 
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
@@ -45,8 +46,8 @@ function HomeScreenEmployer({ userId = 1 }) {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={GlobalStyles.body}>
+    <View style={GlobalStyles.body}>
+      <ScrollView>
         <View style={GlobalStyles.container}>
           <View style={styles.header}>
             <Welcome />
@@ -55,7 +56,7 @@ function HomeScreenEmployer({ userId = 1 }) {
 
           <View style={styles.recommended_container}>
             <Text style={styles.polecane_text}> Twoje salony </Text>
-            {salony.length > 4 &&  <WszystkieText />}
+            {salony.length > 4 && <WszystkieText />}
           </View>
 
           <View style={styles.studios_container}>
@@ -76,18 +77,12 @@ function HomeScreenEmployer({ userId = 1 }) {
             />
           </View>
 
-          <Text style={styles.nastepna_wizyta_text}>NASTĘPNA WIZYTA</Text>
           <View style={styles.next_visits_container}>
-            <NextVisitCard
-              service="Manicure hybrydowy"
-              day="Jutro"
-              time="11:00"
-              company="Nails&Co."
-            />
+            <DodajSalon />
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -113,12 +108,13 @@ const styles = StyleSheet.create({
 
   studios_container: {
     marginTop: 15,
+    marginBottom: 15,
   },
 
-studios_row: {
-    justifyContent: 'space-between',
+  studios_row: {
+    justifyContent: "space-between",
     marginBottom: 25,
-    },
+  },
 
   nastepna_wizyta_text: {
     marginTop: 20,
