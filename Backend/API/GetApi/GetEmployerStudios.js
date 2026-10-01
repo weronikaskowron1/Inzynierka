@@ -20,7 +20,8 @@ router.get("/company/:companyId", async (req, res) => {
         LEFT JOIN adresses a
         ON a.id = st.id_adress
 
-        WHERE c.id = $1;
+        WHERE c.id = $1
+        ORDER BY st.id_studio;
     `,
       [companyId],
     );

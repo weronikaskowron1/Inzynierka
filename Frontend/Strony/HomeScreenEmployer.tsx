@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
 
 import Welcome from "../Komponenty/HomeScreen/Welcome.tsx";
 import AlertIcon from "../Komponenty/Buttons/AlertIcon.tsx";
@@ -55,20 +55,24 @@ function HomeScreenEmployer({ userId = 1 }) {
 
           <View style={styles.recommended_container}>
             <Text style={styles.polecane_text}> Twoje salony </Text>
-            <WszystkieText />
+            {salony.length > 4 &&  <WszystkieText />}
           </View>
 
-          <View style={styles.service_container}>
-            <StudioCard
-              service_name={salony[0]?.name}
-              rating={salony[0]?.avg_rating}
-              distance={`${calculateDistance(18.5418, 50.0971, salony[0]?.longitude, salony[0]?.latitude)} km`}
-              userType = 'employer'
-            />
-            <StudioCard
-              service_name={salony[1]?.name}
-              rating={salony[1]?.avg_rating}
-              distance={`${calculateDistance(18.5418, 50.0971, salony[1]?.longitude, salony[1]?.latitude)} km`}
+          <View style={styles.studios_container}>
+            <FlatList
+              columnWrapperStyle={styles.studios_row}
+              data={salony.slice(0, 4)}
+              numColumns={2}
+              keyExtractor={(item) => item.id_studio.toString()}
+              renderItem={({ item }) => (
+                <StudioCard
+                  service_name={item.name}
+                  rating={item.avg_rating}
+                  distance={`${calculateDistance(18.5418, 50.0971, item.longitude, item.latitude)} km`}
+                  userType="employer"
+                  street={item.street}
+                />
+              )}
             />
           </View>
 
@@ -107,11 +111,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
 
-  service_container: {
+  studios_container: {
     marginTop: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
+
+studios_row: {
+    justifyContent: 'space-between',
+    marginBottom: 25,
+    },
 
   nastepna_wizyta_text: {
     marginTop: 20,
