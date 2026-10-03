@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 
 //importy
 import getStudios from "./Api/GetApi/GetStudios.js";
+import getEmployerStudios from "./Api/GetApi/GetEmployerStudios.js";
+import getEmployeeCount from "./Api/GetApi/getEmployeeCount.js";
 import getVisitCards from "./Api/GetApi/GetVisitCards.js";
 import getCompany from "./Api/GetApi/GetCompany.js";
 import getUser from "./Api/GetApi/GetUser.js";
@@ -19,6 +21,8 @@ app.use(express.json());
 
 //GetApi
 app.use('/api/salony',getStudios);
+app.use('/api/salony',getEmployerStudios);
+app.use('/api/employee_count',getEmployeeCount);
 app.use('/api/visitcards', getVisitCards );
 app.use('/api/uzytkownicy',getUser);
 app.use('/api/firmy',getCompany);

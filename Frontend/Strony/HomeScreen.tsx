@@ -5,7 +5,7 @@ import AlertIcon from "../Komponenty/Buttons/AlertIcon.tsx";
 import CategoryIcon from "../Komponenty/HomeScreen/CategoryIcon.tsx";
 import NextVisitCard from "../Komponenty/HomeScreen/NextVisitCard.tsx";
 import Searchbar from "../Komponenty/HomeScreen/Searchbar.tsx";
-import ServiceCard from "../Komponenty/HomeScreen/ServiceCard.tsx";
+import StudioCard from "../Komponenty/HomeScreen/StudioCard.tsx";
 import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
 
 import { useNavigation } from "@react-navigation/native";
@@ -96,12 +96,12 @@ function HomeScreen() {
           </View>
 
           <View style={styles.service_container}>
-            <ServiceCard
+            <StudioCard
               service_name={salony[0]?.name}
               rating={salony[0]?.avg_rating}
               distance={`${calculateDistance(18.5418, 50.0971, salony[0]?.longitude, salony[0]?.latitude)} km`}
             />
-            <ServiceCard
+            <StudioCard
               service_name={salony[1]?.name}
               rating={salony[1]?.avg_rating}
               distance={`${calculateDistance(18.5418, 50.0971, salony[1]?.longitude, salony[1]?.latitude)} km`}
