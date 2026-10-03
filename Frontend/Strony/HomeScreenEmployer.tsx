@@ -26,6 +26,7 @@ function HomeScreenEmployer({ userId = 1 }) {
   const navigation = useNavigation();
 
   const [salony, setSalony] = useState([]);
+  const [employeeCount, setEmployeeCount] = useState([]);
 
   const getSalony = async () => {
     try {
@@ -41,9 +42,24 @@ function HomeScreenEmployer({ userId = 1 }) {
       console.error(error);
     }
   };
+const getEmployeeCount = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/api/employee_count/company/${userId}`,
+      );
+
+      const data = await response.json();
+
+      console.log("Dane:", data);
+      setEmployeeCount(Number(data[0]?.count ?? 0));;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     getSalony();
+    getEmployeeCount();
   }, []);
 
   const numberOfStudios = salony.length;
@@ -58,7 +74,7 @@ function HomeScreenEmployer({ userId = 1 }) {
             <AlertIcon />
           </View>
           <View style={styles.panel_container}>
-            <EmployerInfoPanel numberOfStudios={numberOfStudios} />
+            <EmployerInfoPanel numberOfStudios={numberOfStudios} numberOfEmployees={employeeCount}/>
           </View>
           <View style={styles.recommended_container}>
             <Text style={styles.polecane_text}> Twoje salony </Text>
