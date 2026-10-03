@@ -73,6 +73,8 @@ const styles = StyleSheet.create({
     position: "relative",
     width: 160,
     height: 160,
+
+    backgroundColor: 'white',
   },
 
   service_container: {

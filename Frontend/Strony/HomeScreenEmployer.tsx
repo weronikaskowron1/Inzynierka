@@ -8,6 +8,7 @@ import Searchbar from "../Komponenty/HomeScreen/Searchbar.tsx";
 import StudioCard from "../Komponenty/HomeScreen/StudioCard.tsx";
 import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
 import DodajSalon from "../Komponenty/HomeScreenEmployer/DodajSalon.tsx";
+import EmployerInfoPanel from "../Komponenty/HomeScreenEmployer/EmployerInfoPanel.tsx";
 
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
@@ -53,7 +54,9 @@ function HomeScreenEmployer({ userId = 1 }) {
             <Welcome />
             <AlertIcon />
           </View>
-
+          <View style={styles.panel_container}>
+            <EmployerInfoPanel />
+          </View>
           <View style={styles.recommended_container}>
             <Text style={styles.polecane_text}> Twoje salony </Text>
             {salony.length > 4 && <WszystkieText />}
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 20,
   },
 
   recommended_container: {
