@@ -30,7 +30,7 @@ const StudioCard = ({
       >
         {!image_uploaded && (
           <LinearGradient
-            colors={[Colors.green6, Colors.green5]}
+            colors={[Colors.green6, Colors.green4]}
             start={{ x: 1, y: -1 }}
             end={{ x: 2, y: 2 }}
             style={styles.image_container}
@@ -58,7 +58,7 @@ const StudioCard = ({
 
           {userType === "employer" && (
             <View style={styles.info_container_employer}>
-              <Entypo name="location-pin" size={15} color={Colors.lightgrayText} />
+              <Entypo name="location-pin" size={15} color={Colors.green2} />
               <Text style={styles.distance}>{street}</Text>
             </View>
           )}
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 15,
     borderColor: "white",
-    boxShadow: "3px 10px 5px rgba(164, 164, 164, 0.2)",
+    boxShadow: "3px 7px 5px rgba(164, 164, 164, 0.2)",
   },
 
   image_container: {

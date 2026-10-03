@@ -4,7 +4,14 @@ import { Octicons, MaterialCommunityIcons  } from "@expo/vector-icons";
 import { Colors } from "../../Themes/colors.ts";
 
 const EmployerInfoPanel = ({numberOfStudios = 0, numberOfEmployees = 0}) => {
-    const salonyText = numberOfStudios === 1? 'salon': 'salony';
+    const salonyText =
+      numberOfStudios === 1
+        ? "salon"
+        : numberOfStudios % 10 >= 2 &&
+            numberOfStudios % 10 <= 4 &&
+            !(numberOfStudios % 100 >= 12 && numberOfStudios % 100 <= 14)
+          ? "salony"
+          : "salonów";
     const pracownikowText = numberOfEmployees === 1? 'pracownik': 'pracowników';
   return (
     <View style={styles.container}>
