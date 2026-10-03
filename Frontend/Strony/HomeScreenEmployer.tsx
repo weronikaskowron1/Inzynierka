@@ -46,6 +46,9 @@ function HomeScreenEmployer({ userId = 1 }) {
     getSalony();
   }, []);
 
+  const numberOfStudios = salony.length;
+  console.log(numberOfStudios);
+
   return (
     <View style={GlobalStyles.body}>
       <ScrollView>
@@ -55,7 +58,7 @@ function HomeScreenEmployer({ userId = 1 }) {
             <AlertIcon />
           </View>
           <View style={styles.panel_container}>
-            <EmployerInfoPanel />
+            <EmployerInfoPanel numberOfStudios={numberOfStudios} />
           </View>
           <View style={styles.recommended_container}>
             <Text style={styles.polecane_text}> Twoje salony </Text>

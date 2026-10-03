@@ -3,7 +3,9 @@ import { Octicons, MaterialCommunityIcons  } from "@expo/vector-icons";
 
 import { Colors } from "../../Themes/colors.ts";
 
-const EmployerInfoPanel = () => {
+const EmployerInfoPanel = ({numberOfStudios = 0, numberOfEmployees = 0}) => {
+    const salonyText = numberOfStudios === 1? 'salon': 'salony';
+    const pracownikowText = numberOfEmployees === 1? 'pracownik': 'pracowników';
   return (
     <View style={styles.container}>
       <View style={[styles.one_panel, styles.border]}>
@@ -11,8 +13,8 @@ const EmployerInfoPanel = () => {
         <MaterialCommunityIcons  name="storefront-outline" size={24} color={Colors.green2} />
         </View>
         <View style={styles.info_container}>
-          <Text style={styles.number}>2</Text>
-          <Text style={styles.text}>salony</Text>
+          <Text style={styles.number}>{numberOfStudios}</Text>
+          <Text style={styles.text}>{salonyText}</Text>
         </View>
       </View>
 
@@ -21,8 +23,8 @@ const EmployerInfoPanel = () => {
           <Octicons name="people" size={24} color={Colors.green2} />
         </View>
         <View style={styles.info_container}>
-          <Text style={styles.number}>2</Text>
-          <Text style={styles.text}>pracowników</Text>
+          <Text style={styles.number}>{numberOfEmployees}</Text>
+          <Text style={styles.text}>{pracownikowText}</Text>
         </View>
       </View>
     </View>
