@@ -97,12 +97,14 @@ function HomeScreen() {
 
           <View style={styles.service_container}>
             <StudioCard
-              service_name={salony[0]?.name}
+              id_studio={salony[0]?.id_studio}
+              studio_name={salony[0]?.name}
               rating={salony[0]?.avg_rating}
               distance={`${calculateDistance(18.5418, 50.0971, salony[0]?.longitude, salony[0]?.latitude)} km`}
             />
             <StudioCard
-              service_name={salony[1]?.name}
+              id_studio={salony[1]?.id_studio}
+              studio_name={salony[1]?.name}
               rating={salony[1]?.avg_rating}
               distance={`${calculateDistance(18.5418, 50.0971, salony[1]?.longitude, salony[1]?.latitude)} km`}
             />

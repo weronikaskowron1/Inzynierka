@@ -14,6 +14,7 @@ import Nawigator from './Komponenty/Nawigator.tsx'
 import EdytujProfil from './Strony/EdytujProfil.tsx';
 import WszystkieSalony from './Strony/WszystkieSalony'
 import Rejestracja from './Strony/Rejestracja.tsx';
+import StudioPanel from './Strony/StudioPanel.tsx';
 
 
 const Stack = createNativeStackNavigator();
@@ -44,6 +45,12 @@ function RootStack() {
         component={Rejestracja}
         options={{ title: 'Rejestracja' }}
         />
+
+        <Stack.Screen
+                name="StudioPanel"
+                component={StudioPanel}
+                options={{ title: 'StudioPanel' }}
+                />
      </Stack.Navigator>
      </View>
   );
