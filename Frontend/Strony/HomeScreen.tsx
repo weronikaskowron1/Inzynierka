@@ -7,6 +7,7 @@ import NextVisitCard from '../Komponenty/HomeScreen/NextVisitCard.tsx';
 import Searchbar from '../Komponenty/HomeScreen/Searchbar.tsx';
 import ServiceCard from '../Komponenty/HomeScreen/ServiceCard.tsx';
 import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
+import {useAuth} from "../Context/AuthContext"
 
 
 import { useNavigation } from '@react-navigation/native';
@@ -20,7 +21,7 @@ const API_URL = process.env.API_URL;
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
-
+  const {user} = useAuth();
   const [salony, setSalony] = useState([]);
 
 
@@ -91,7 +92,7 @@ function HomeScreen() {
 
           <View style={styles.service_container}>
             <ServiceCard
-              service_name="Studio Glam"
+              service_name={user?.name}
               rating="5.0"
               distance="2 km"
             />

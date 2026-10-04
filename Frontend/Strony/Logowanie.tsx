@@ -6,16 +6,50 @@ import { Colors } from "../Themes/colors.ts";
 import { Ionicons } from "@expo/vector-icons";
 import LoginCard from "../Komponenty/Logowanie/LoginCard.tsx";
 import Checkbox from "expo-checkbox";
+import {useAuth} from "../Context/AuthContext";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
+
+
 export default function Logowanie() {
+  const {login} =  useAuth();
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [checked, setChecked] = useState(false);
+  const [loginError,setLoginError] = useState("");
+
+
+    const handleLogin = async () => {
+      setLoginError("");
+      try {
+        const response = await fetch("http://10.0.2.2:3000/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setLoginError("Niepoprawny email lub hasło");
+          return;
+        }
+
+        await login(data.user,checked);
+        alert("Zalogowano pomyślnie!");
+        navigation.navigate("Nawigator")
+        //console.log("Użytkownik:", data.user);
+      } catch (error) {
+        alert("Błąd połączenia z serwerem");
+        console.log(error);
+      }
+    };
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,7 +66,7 @@ export default function Logowanie() {
           Zaloguj się, aby zarządzać swoimi wizytami.
         </Text>
         <Text style={styles.textDarkSmall}>Adres e-mail</Text>
-        <View style={styles.emailWrapper}>
+        <View style={[styles.emailWrapper, loginError ? styles.inputError:null,]}>
           <Ionicons
             name="mail-outline"
             size={screenWidth * 0.05}
@@ -43,11 +77,11 @@ export default function Logowanie() {
             style={styles.inputEmail}
             placeholder="kuba@appoint.pl"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(text) => { setEmail(text); if (loginError) setLoginError(""); }}
           />
         </View>
         <Text style={styles.textDarkSmall}>Hasło</Text>
-        <View style={styles.passwordWrapper}>
+        <View style={[styles.passwordWrapper,loginError ? styles.inputError:null,]}>
           <Ionicons
             name="lock-closed-outline"
             size={screenWidth * 0.05}
@@ -59,7 +93,7 @@ export default function Logowanie() {
             placeholder="• • • • • • • •"
             secureTextEntry={!showPassword}
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(text) => { setPassword(text); if (loginError) setLoginError(""); }}
           />
 
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
@@ -70,6 +104,7 @@ export default function Logowanie() {
             />
           </TouchableOpacity>
         </View>
+        {loginError ? (<Text style={styles.errorText}>{loginError}</Text>):null}
         <View style={styles.checkbox}>
           <Checkbox
             value={checked}
@@ -83,7 +118,7 @@ export default function Logowanie() {
           </TouchableOpacity>
         </View>
 
-        <LoginCard service="Zaloguj się" />
+        <LoginCard service="Zaloguj się" onPress={handleLogin} />
         <View style={styles.viewContainer}>
           <View style={styles.line} />
           <Text style={styles.normalText1}> lub kontynuuj z </Text>
@@ -356,5 +391,17 @@ const styles = StyleSheet.create({
     //marginBottom: screenHeight * 0.09,
     //paddingLeft: screenWidth * 0.09,
     marginTop: "auto",
+  },
+  inputError: {
+    borderColor: "#e74c3c",
+    borderWidth: 1.5,
+  },
+  errorText: {
+    //fontSize: screenWidth * 0.0035,
+    color: "#e74c3c",
+    fontSize: screenWidth * 0.035,
+    marginTop: -screenHeight * 0.012,
+    marginBottom: screenHeight * 0.015,
+    marginLeft: screenWidth * 0.02,
   },
 });

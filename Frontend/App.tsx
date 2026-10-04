@@ -12,13 +12,19 @@ import { Colors } from './Themes/colors.ts';
 import Logowanie from './Strony/Logowanie.tsx'
 import Nawigator from './Komponenty/Nawigator.tsx'
 import Rejestracja from './Strony/Rejestracja.tsx';
+import {AuthProvider,useAuth} from "./Context/AuthContext";
 
 
 const Stack = createNativeStackNavigator();
 
 
 function RootStack() {
+  const {user, isLoading} = useAuth();
   const insets = useSafeAreaInsets();
+
+  if (isLoading) {
+      return null;
+  }
   return (
     <View style={{backgroundColor: 'white', paddingBottom: insets.bottom, paddingTop: insets.top, height: '100%', width: '100%'}}>
     <Stack.Navigator
@@ -51,9 +57,11 @@ function RootStack() {
 export default function App() {
   return (
     <SafeAreaProvider>
-        <NavigationContainer>
-           <RootStack />
-        </NavigationContainer>
+        <AuthProvider>
+            <NavigationContainer>
+               <RootStack />
+            </NavigationContainer>
+        </AuthProvider>
     </SafeAreaProvider>
 
 

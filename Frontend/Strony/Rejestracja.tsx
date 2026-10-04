@@ -1,4 +1,4 @@
-import {StyleSheet,Text,ScrollView,Image,Dimensions,TextInput,TouchableOpacity,View} from "react-native";
+import {StyleSheet,Text,ScrollView,Image,Dimensions,TextInput,TouchableOpacity,View,Modal} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+const Letters_only=/^[A-Za-złąćęłńóśżźĄĆĘŁŃÓŚŹŻ]+$/;
 
 export default function Rejestracja() {
 
@@ -26,6 +27,12 @@ export default function Rejestracja() {
   const [checked, setChecked] = useState(false);
   const [birthDate, setBirthDate] = useState(null);
   const [showBirthPicker, setShowBirthPicker] = useState(false);
+  const [nameError,setNameError] = useState("");
+  const [phoneError,setPhoneError] = useState("");
+  const [surnameError,setSurnameError] = useState("");
+  const [showEmailTakenModal,setShowEmailTakenModal] = useState("");
+  const [passwordError,setPasswordError] = useState("");
+
   const getPasswordStrength=(password)=>{
       let score=0;
       if (password.length >6) score++;
@@ -39,6 +46,59 @@ export default function Rejestracja() {
       "#A9C39A",
       "#7FA86F",
       "#2F5D3A",];
+
+  const handleRegister = async() => {
+      let hasError = false;
+      setNameError(""),
+      setSurnameError(""),
+      setPhoneError(""),
+      setPasswordError("");
+
+      //let hasError = true;
+
+      if (!Letters_only.test(name)) {
+          setNameError("Imię może zawierać tylko litery");
+          hasError = true;
+          }
+      if (!Letters_only.test(surname)) {
+          setSurnameError("Nazwisko może zawierać tylko litery");
+          hasError = true;
+          }
+      if (password != password2) {
+          setPasswordError("Hasła się różnią");
+          hasError = true;
+          }
+      if (hasError) return;
+
+      try {
+          const response = await fetch("http://10.0.2.2:3000/api/register",{
+              method: "POST",
+              headers: {"Content-Type":"application/json"},
+              body: JSON.stringify({name,surname,phoneNumber,email,password,birthDate})
+              });
+
+          const data = await response.json();
+
+          if(!response.ok) {
+              if(data.field == "email") {
+                  setShowEmailTakenModal(true);
+                  hasError = true;
+                  }
+              else if (data.field == "phone") {
+                  setPhoneError(data.message);
+                  hasError = true;
+                  }
+              return;
+              }
+
+          navigation.navigate("Logowanie");
+      }
+  catch (error) {
+      console.log(error);
+      setPasswordError("Błąd połączenia z serwerem");
+      }
+
+  };
 
 
   return (
@@ -73,7 +133,7 @@ export default function Rejestracja() {
                 <Text style={styles.textDarkSmall}>Nazwisko</Text>
               </View>
               <View style={[styles.content1,{gap:screenWidth*0.04}]}>
-                  <View style={styles.NameSurnameWrapper}>
+                  <View style={[styles.NameSurnameWrapper, nameError ? styles.inputError : null]}>
                      <Ionicons
                        name="person-outline"
                        size={screenWidth * 0.05}
@@ -84,18 +144,24 @@ export default function Rejestracja() {
                         style={styles.inputNameSurname}
                         placeholder="Imię"
                         value={name}
-                        onChangeText={setName}
+                        onChangeText={(text) => {setName(text); if (nameError) setNameError("");}}
                      />
                   </View>
-                  <View style={styles.NameSurnameWrapper}>
+                  <View style={[styles.NameSurnameWrapper, surnameError ? styles.inputError : null]}>
                      <TextInput
                          style={styles.inputNameSurname}
                          placeholder="Nazwisko"
                          value={surname}
-                         onChangeText={setSurname}
+                         onChangeText={(text) => {setSurname(text); if (surnameError) setSurnameError("");}}
                      />
                   </View>
               </View>
+              {(nameError || surnameError) && (
+                  <View style={[styles.content1,{gap:screenWidth*0.04, marginBottom: screenHeight*0.01}]}>
+                    <Text style={[styles.errorText, {width: "48%"}]}>{nameError}</Text>
+                    <Text style={[styles.errorText, {width: "48%"}]}>{surnameError}</Text>
+                  </View>
+                  )}
               <Text style={styles.textDarkSmall}>Numer telefonu</Text>
               <View style={styles.emailWrapper}>
                 <Ionicons
@@ -108,9 +174,10 @@ export default function Rejestracja() {
                   style={styles.inputEmail}
                   placeholder="798 345 123"
                   value={phoneNumber}
-                  onChangeText={setPhoneNumber}
+                  onChangeText={(text) => {setPhoneNumber(text); if (phoneError) setPhoneError("");}}
                 />
               </View>
+              {phoneError ? <Text style = {styles.errorText}>{phoneError}</Text> : null}
               <Text style={styles.textDarkSmall}>Data Urodzenia</Text>
               <View style={styles.emailWrapper}>
                  <Ionicons
@@ -153,7 +220,7 @@ export default function Rejestracja() {
                 />
               </View>
               <Text style={styles.textDarkSmall}>Hasło</Text>
-              <View style={styles.passwordWrapper}>
+              <View style={[styles.passwordWrapper, passwordError ? styles.inputError : null]}>
                 <Ionicons
                   name="lock-closed-outline"
                   size={screenWidth * 0.05}
@@ -165,7 +232,7 @@ export default function Rejestracja() {
                   placeholder="• • • • • • • •"
                   secureTextEntry={!showPassword}
                   value={password}
-                  onChangeText={setPassword}
+                  onChangeText={(text) =>  {setPassword(text);if (passwordError) setPasswordError("");}}
                 />
 
                 <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
@@ -177,7 +244,7 @@ export default function Rejestracja() {
                 </TouchableOpacity>
               </View>
               <Text style={styles.textDarkSmall}>Powtórz hasło</Text>
-              <View style={styles.passwordWrapper}>
+              <View style={[styles.passwordWrapper, passwordError ? styles.inputError : null]}>
                 <Ionicons
                   name="lock-closed-outline"
                   size={screenWidth * 0.05}
@@ -200,6 +267,7 @@ export default function Rejestracja() {
                   />
                 </TouchableOpacity>
               </View>
+              {passwordError ? <Text style = {styles.errorText}>{passwordError}</Text> : null}
               <View style={styles.passwordStrengthContainer}>
                 {[0,1,2,3].map((i)=>(
                     <View
@@ -236,7 +304,7 @@ export default function Rejestracja() {
                 </TouchableOpacity>
               </View>
 
-              <LoginCard service="Utwórz konto" />
+              <LoginCard service="Utwórz konto" onPress = {handleRegister}/>
               <View style={styles.ZarejestrujContainer}>
                 <Text style={styles.normalText}>Masz już konto?</Text>
                 <TouchableOpacity
@@ -254,6 +322,28 @@ export default function Rejestracja() {
 
             </View>
           </ScrollView>
+
+          <Modal
+            visible = {showEmailTakenModal}
+            transparent
+            animationType = "fade"
+            onRequestClose = {() => setShowEmailTakenModal(false)}
+          >
+            <View style = {styles.modalOverlay}>
+                <View style = {styles.modalBox}>
+                    <Text style = {styles.modalTitle}> Ten adres e-mail jest juz zarejestrowany</Text>
+                    <Text style = {styles.modalText}> Popraw dane albo zaloguj się na istniejące konto</Text>
+                    <View style = {styles.modalButtons}>
+                        <TouchableOpacity style = {styles.modalButtonSecondary} onPress = {() => setShowEmailTakenModal(false)}>
+                            <Text style = {styles.modalButtonSecondaryText}>Wróć, poprawię</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style = {styles.modalButtonPrimary} onPress = {() => {setShowEmailTakenModal(false), navigation.navigate("Logowanie");}}>
+                            <Text style = {styles.modalButtonPrimaryText}>Zaloguj się</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+          </Modal>
       </SafeAreaView>
     );
   }
@@ -262,37 +352,22 @@ export default function Rejestracja() {
     container: {
       flex: 1,
       backgroundColor: Colors.backgroundColor,
-      //paddingTop: screenHeight * 0.02,
       paddingTop: screenHeight * -0.03,
-      //paddingVertical: screenHeight * 0.02,
-
     },
 
     headerContainer: {
-      //width: "100%",
       alignItems: "flex-start",
-      //justifyContent: "flex-end",
       flex: 1,
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-end',
       paddingHorizontal: screenWidth * 0.07,
       paddingBottom: screenHeight * 0.02,
-      //gap: screenHeight * 0.02,
-      //transform: [{ translateY: -20 }],
-      //minHeight: screenHeight * 1.01,
-      //paddingVertical: screenHeight * 0.001,
     },
     logo: {
       width: screenWidth * 0.08,
       height: screenWidth * 0.08,
-      //borderRadius: (screenWidth * 0.12) / 2,
-      //marginBottom:screenHeight*0.025
     },
     logoSmall: {
       width: screenWidth * 0.06,
       height: screenWidth * 0.06,
-      //borderRadius: (screenWidth * 0.12) / 2,
-      //marginBottom:screenHeight*0.025
     },
     headerText: {
       fontSize: screenWidth * 0.072,
@@ -304,20 +379,15 @@ export default function Rejestracja() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      //gap: screenHeight * 0.02,
     },
     content1: {
-      //flex: 1,
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "row",
-
-      //gap: screenHeight * 0.08,
     },
     normalText: {
       fontSize: screenWidth * 0.04,
       color: "#999999",
-      //marginBottom: screenHeight * 0.025,
     },
     textDarkSmall: {
       fontSize: screenWidth * 0.04,
@@ -328,7 +398,6 @@ export default function Rejestracja() {
       width: "100%",
       fontSize: screenWidth * 0.05,
       color: "#000",
-      //paddingVertical: screenHeight*0.07;
     },
     inputNameSurname: {
       width: "100%",
@@ -379,7 +448,6 @@ export default function Rejestracja() {
     },
     inputPassword: {
       width: "100%",
-      //paddingVertical: screenHeight * 0.015,
       fontSize: screenWidth * 0.05,
       color: "#000",
     },
@@ -391,8 +459,6 @@ export default function Rejestracja() {
       borderColor: "#bfbfbf",
       borderRadius: 20,
       height:screenWidth*0.12,
-      //height: screenHeight * 0.045,
-      //paddingHorizontal: screenWidth*0.03,
       paddingLeft: screenWidth * 0.02,
       paddingRight: screenWidth * 0.14,
       marginTop: screenHeight * 0.01,
@@ -443,10 +509,8 @@ export default function Rejestracja() {
       width: "100%",
       flexDirection: "row",
       gap: screenWidth * 0.015,
-      //paddingVertical: screenHeight * 0.015,
       fontSize: screenWidth * 0.05,
       color: "#000",
-      //marginBottom: screenHeight * 0.03,
       paddingLeft: screenWidth * 0.02,
     },
 
@@ -481,42 +545,25 @@ export default function Rejestracja() {
     ZarejestrujContainer: {
       width: "100%",
       flexDirection: "row",
-      //alignItems: 'center',
       justifyContent: "center",
       gap: screenWidth * 0.02,
-      //paddingVertical: screenHeight * 0.03,
       fontSize: screenWidth * 0.05,
       color: "#000",
-      //marginTop: "auto",
       marginTop: screenHeight * 0.04,
-      //paddingLeft: screenWidth * 0.09,
-      //marginTop: "auto",
     },
     FirmaContainer: {
       width: "100%",
       flexDirection: "row",
-      //alignItems: 'center',
       justifyContent: "center",
       gap: screenWidth * 0.02,
-      //paddingVertical: screenHeight * 0.03,
       fontSize: screenWidth * 0.05,
       color: "#000",
-      //marginTop: "auto",
       marginTop: screenHeight * 0.01,
-      //paddingLeft: screenWidth * 0.09,
-      //marginTop: "auto",
     },
     CofnijContainer: {
       width: "100%",
       flexDirection: "row",
-      //alignItems: 'center',
-      //justifyContent: "center",
       gap: screenWidth * 0.06,
-      //paddingVertical: screenHeight * 0.015,
-      //fontSize: screenWidth * 0.05,
-      //color: "#000",
-      //marginBottom: screenHeight * 0.09,
-      //paddingLeft: screenWidth * 0.09,
     },
     BackButtonConteiner: {
       width: screenWidth * 0.12,
@@ -535,7 +582,6 @@ export default function Rejestracja() {
       justifyContent: "center",
       alignItems: "center",
       marginBottom: screenHeight * 0.017,
-      //opacity: 0.8;
     },
     logoConteinerSmall: {
       width: screenWidth * 0.12,
@@ -559,7 +605,6 @@ export default function Rejestracja() {
         flexDirection:"row",
         alignItems:"center",
         gap:screenWidth*0.02,
-        //justifyContent: "center",
         marginBottom:screenHeight*0.01,
     },
     strengthSegment:{
@@ -572,4 +617,60 @@ export default function Rejestracja() {
         fontWeight:"600",
         fontSize:screenWidth*0.037,
     },
+    inputError:{
+        color:"#e74c3c",
+        borderWidth: 1.5,
+    },
+    errorText:{
+        color:"#e74c3c",
+        fontSize: screenWidth*0.035,
+        marginBottom:screenWidth*0.01,
+        marginLeft:screenWidth*0.02,
+    },
+    modalOverlay:{
+        flex:1,
+        backgroundColor: "rgba(0,0,0,0.5)",
+        justifyContent:"center",
+        alignItems:"center",
+        paddingHorizontal:screenWidth*0.08,
+    },
+    modalBox:{
+        width:"100%",
+        backgroundColor: "white",
+        borderRadius:20,
+        padding:screenWidth*0.06,
+    },
+    modalText: {
+      fontSize: screenWidth * 0.04,
+      color: "#999999",
+      marginBottom: screenHeight*0.03,
+    },
+    modalButtons: {
+      flexDirection: "row",
+      gap: screenWidth*0.03,
+    },
+    modalButtonSecondary: {
+      flex: 1,
+      paddingVertical: screenHeight*0.015,
+      borderRadius:14,
+      borderWidth:1,
+      borderColor: "bfbfbf",
+      alignItems: "center",
+    },
+    modalButtonSecondaryText: {
+      color: "1a1a1a",
+      fontWeight: "600",
+    },
+    modalButtonPrimary: {
+      flex: 1,
+      paddingVertical: screenHeight*0.015,
+      borderRadius: 14,
+      backgroundColor: "#81b525ff",
+      alignItems: "center"
+    },
+    modalButtonPrimaryText: {
+      color: "white",
+      fontWeight: "600",
+    },
+
   });
