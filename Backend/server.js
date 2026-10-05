@@ -8,6 +8,16 @@ dotenv.config();
 
 
 import getStudios from "./Api/GetApi/GetStudios.js";
+import getEmployerStudios from "./Api/GetApi/GetEmployerStudios.js";
+import getEmployeeCount from "./Api/GetApi/getEmployeeCount.js";
+import getVisitCards from "./Api/GetApi/GetVisitCards.js";
+import getCompany from "./Api/GetApi/GetCompany.js";
+import getUser from "./Api/GetApi/GetUser.js";
+import getCategories from "./Api/GetApi/GetCategories.js";
+import putUser from "./Api/PutApi/PutUser.js";
+import putAdressUser from "./Api/PutApi/PutAdressUser.js";
+import DeleteUser from "./Api/DeleteApi/DeleteUser.js";
+import putImage from "./Api/PutApi/PutImage.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,8 +28,22 @@ app.use(express.json());
 app.use('/api/salony',getStudios);
 app.use("/api/login",LoginUser);
 app.use("/api/register",RegisterUser);
+app.use('/api/salony',getEmployerStudios);
+app.use('/api/employee_count',getEmployeeCount);
+app.use('/api/visitcards', getVisitCards );
+app.use('/api/uzytkownicy',getUser);
+app.use('/api/firmy',getCompany);
+app.use('/api/kategorie',getCategories);
 
 //PostApi
+
+//PutApi
+app.use('/api/uzytkownicy',putUser);
+app.use('/api/uzytkownicy/adres',putAdressUser);
+app.use('/api/zdjecie',putImage);
+
+//DeleteAPI
+app.use('/api/delete/uzytkownik',DeleteUser);
 
 app.listen(PORT,"0.0.0.0", () => {
   console.log(`Backend działa na http://localhost:${PORT}`);

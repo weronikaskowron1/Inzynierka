@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Colors } from "../../Themes/colors.ts";
 import DateChanger from "./DateChanger";
 
-const MonthCalendar = () => {
+const MonthCalendar = ({ setSelectedDate, reservations = [] }) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -30,18 +30,21 @@ const MonthCalendar = () => {
       calendarDays.push({
         day: daysInPreviousMonth + dayNumber,
         currentMonth: false,
+        date: new Date(year, month, dayNumber),
       });
     } else if (dayNumber > daysInMonth) {
       // następny miesiąc
       calendarDays.push({
         day: dayNumber - daysInMonth,
         currentMonth: false,
+        date: new Date(year, month, dayNumber),
       });
     } else {
       // obecny miesiąc
       calendarDays.push({
         day: dayNumber,
         currentMonth: true,
+        date: new Date(year, month, dayNumber),
       });
     }
   }
@@ -70,6 +73,12 @@ const MonthCalendar = () => {
     }
     setSelectedDayIndex(-1);
   };
+  const hasVisit = (item) => {
+    return reservations.some(
+      (reservation) =>
+        new Date(reservation.data).toDateString() === item.date.toDateString(),
+    );
+  };
 
   return (
     <View>
@@ -93,17 +102,20 @@ const MonthCalendar = () => {
           <Pressable
             key={index}
             style={styles.day}
-            onPress={() => setSelectedDayIndex(index)}
+            onPress={() => {
+              setSelectedDayIndex(index);
+              setSelectedDate(item.date);
+            }}
           >
             <LinearGradient
               colors={
                 index == selectedDayIndex
-                  ? [Colors.green1, Colors.green2]
+                  ? [Colors.green2, Colors.green2]
                   : ["transparent", "transparent"]
               }
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              style={styles.day_selected}
+              style={[styles.day_selected, {opacity: 0.9}]}
             >
               <Text
                 style={[
@@ -114,6 +126,7 @@ const MonthCalendar = () => {
               >
                 {item.day}
               </Text>
+              {hasVisit(item) && !(index == selectedDayIndex) && <View style={styles.dot} />}
             </LinearGradient>
           </Pressable>
         ))}
@@ -197,9 +210,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "center",
   },
+  hasVisitText: {
+    color: "red",
+  },
 
-  otherMonthText: {
-    color: "#A4A4A4",
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: Colors.green2,
   },
 });
 
