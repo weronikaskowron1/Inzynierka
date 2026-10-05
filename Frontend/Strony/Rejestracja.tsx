@@ -1,4 +1,4 @@
-import {StyleSheet,Text,View,Image,Dimensions,TextInput,TouchableOpacity,} from "react-native";
+import {StyleSheet,Text,ScrollView,Image,Dimensions,TextInput,TouchableOpacity,View,Modal} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -10,19 +10,29 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+const Letters_only=/^[A-Za-złąćęłńóśżźĄĆĘŁŃÓŚŹŻ]+$/;
 
 export default function Rejestracja() {
 
   const navigation = useNavigation();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [checked, setChecked] = useState(false);
   const [birthDate, setBirthDate] = useState(null);
   const [showBirthPicker, setShowBirthPicker] = useState(false);
+  const [nameError,setNameError] = useState("");
+  const [phoneError,setPhoneError] = useState("");
+  const [surnameError,setSurnameError] = useState("");
+  const [showEmailTakenModal,setShowEmailTakenModal] = useState("");
+  const [passwordError,setPasswordError] = useState("");
+
   const getPasswordStrength=(password)=>{
       let score=0;
       if (password.length >6) score++;
@@ -37,172 +47,303 @@ export default function Rejestracja() {
       "#7FA86F",
       "#2F5D3A",];
 
+  const handleRegister = async() => {
+      let hasError = false;
+      setNameError(""),
+      setSurnameError(""),
+      setPhoneError(""),
+      setPasswordError("");
+
+      //let hasError = true;
+
+      if (!Letters_only.test(name)) {
+          setNameError("Imię może zawierać tylko litery");
+          hasError = true;
+          }
+      if (!Letters_only.test(surname)) {
+          setSurnameError("Nazwisko może zawierać tylko litery");
+          hasError = true;
+          }
+      if (password != password2) {
+          setPasswordError("Hasła się różnią");
+          hasError = true;
+          }
+      if (hasError) return;
+
+      try {
+          const response = await fetch("http://10.0.2.2:3000/api/register",{
+              method: "POST",
+              headers: {"Content-Type":"application/json"},
+              body: JSON.stringify({name,surname,phoneNumber,email,password,birthDate})
+              });
+
+          const data = await response.json();
+
+          if(!response.ok) {
+              if(data.field == "email") {
+                  setShowEmailTakenModal(true);
+                  hasError = true;
+                  }
+              else if (data.field == "phone") {
+                  setPhoneError(data.message);
+                  hasError = true;
+                  }
+              return;
+              }
+
+          navigation.navigate("Logowanie");
+      }
+  catch (error) {
+      console.log(error);
+      setPasswordError("Błąd połączenia z serwerem");
+      }
+
+  };
+
 
   return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.headerContainer}>
-            <View style={styles.CofnijContainer}>
-              <TouchableOpacity
-                 onPress={() => navigation.navigate("Logowanie")}>
-                 <View style={styles.BackButtonConteiner}>
+          <ScrollView>
+            <View style={styles.headerContainer}>
+                <View style={styles.CofnijContainer}>
+                  <TouchableOpacity
+                     onPress={() => navigation.navigate("Logowanie")}>
+                     <View style={styles.BackButtonConteiner}>
+                         <Ionicons
+                            name="chevron-back"
+                            size={screenWidth * 0.07}
+                            color="#2F5D3A"
+                     />
+                     </View>
+                  </TouchableOpacity>
+                  <View style={styles.logoConteinerSmall}>
+                    <Image
+                      source={require("../assets/logo.png")}
+                      style={styles.logoSmall}
+                      resizeMode="contain"
+                    />
+                  </View>
+                </View>
+              <Text style={styles.headerText}>Załóż konto</Text>
+              <Text style={[styles.normalText,{marginBottom: screenHeight * 0.02}]}>
+                Kilka kroków i umawiasz następną wizytę
+              </Text>
+              <View style={[styles.content1,{gap: screenHeight * 0.17}]}>
+                <Text style={styles.textDarkSmall}>Imię</Text>
+                <Text style={styles.textDarkSmall}>Nazwisko</Text>
+              </View>
+              <View style={[styles.content1,{gap:screenWidth*0.04}]}>
+                  <View style={[styles.NameSurnameWrapper, nameError ? styles.inputError : null]}>
                      <Ionicons
-                        name="chevron-back"
-                        size={screenWidth * 0.07}
-                        color="#2F5D3A"
-                 />
-                 </View>
-              </TouchableOpacity>
-              <View style={styles.logoConteinerSmall}>
-                <Image
-                  source={require("../assets/logo.png")}
-                  style={styles.logoSmall}
-                  resizeMode="contain"
+                       name="person-outline"
+                       size={screenWidth * 0.05}
+                       color="#999999"
+                       style={{ marginRight: screenWidth * 0.02 }}
+                     />
+                     <TextInput
+                        style={styles.inputNameSurname}
+                        placeholder="Imię"
+                        value={name}
+                        onChangeText={(text) => {setName(text); if (nameError) setNameError("");}}
+                     />
+                  </View>
+                  <View style={[styles.NameSurnameWrapper, surnameError ? styles.inputError : null]}>
+                     <TextInput
+                         style={styles.inputNameSurname}
+                         placeholder="Nazwisko"
+                         value={surname}
+                         onChangeText={(text) => {setSurname(text); if (surnameError) setSurnameError("");}}
+                     />
+                  </View>
+              </View>
+              {(nameError || surnameError) && (
+                  <View style={[styles.content1,{gap:screenWidth*0.04, marginBottom: screenHeight*0.01}]}>
+                    <Text style={[styles.errorText, {width: "48%"}]}>{nameError}</Text>
+                    <Text style={[styles.errorText, {width: "48%"}]}>{surnameError}</Text>
+                  </View>
+                  )}
+              <Text style={styles.textDarkSmall}>Numer telefonu</Text>
+              <View style={styles.emailWrapper}>
+                <Ionicons
+                  name="call-outline"
+                  size={screenWidth * 0.05}
+                  color="#999999"
+                  style={{ marginRight: screenWidth * 0.02 }}
+                />
+                <TextInput
+                  style={styles.inputEmail}
+                  placeholder="798 345 123"
+                  value={phoneNumber}
+                  onChangeText={(text) => {setPhoneNumber(text); if (phoneError) setPhoneError("");}}
                 />
               </View>
-            </View>
-          <Text style={styles.headerText}>Załóż konto</Text>
-          <Text style={[styles.normalText,{marginBottom: screenHeight * 0.02}]}>
-            Kilka kroków i umawiasz następną wizytę
-          </Text>
-          <View style={[styles.content1,{gap: screenHeight * 0.17}]}>
-            <Text style={styles.textDarkSmall}>Imię</Text>
-            <Text style={styles.textDarkSmall}>Nazwisko</Text>
-          </View>
-          <View style={[styles.content1,{gap:screenWidth*0.04}]}>
-              <View style={styles.NameSurnameWrapper}>
+              {phoneError ? <Text style = {styles.errorText}>{phoneError}</Text> : null}
+              <Text style={styles.textDarkSmall}>Data Urodzenia</Text>
+              <View style={styles.emailWrapper}>
                  <Ionicons
-                   name="mail-outline"
-                   size={screenWidth * 0.05}
-                   color="#999999"
-                   style={{ marginRight: screenWidth * 0.02 }}
+                    name="calendar-outline"
+                    size={screenWidth * 0.05}
+                    color="#999999"
+                    style={{ marginRight: screenWidth * 0.02 }}
                  />
-                 <TextInput
-                    style={styles.inputNameSurname}
-                    placeholder="Imię"
-                    value={name}
-                    onChangeText={setName}
-                 />
+                 <TouchableOpacity
+                    onPress={() => setShowBirthPicker(true)}>
+                     <Text style={styles.inputEmail}>
+                       {birthDate ? birthDate.toLocaleDateString() : "4/6/2004"}
+                     </Text>
+                   </TouchableOpacity>
               </View>
-              <View style={styles.NameSurnameWrapper}>
-                 <TextInput
-                     style={styles.inputNameSurname}
-                     placeholder="Nazwisko"
-                     value={surname}
-                     onChangeText={setSurname}
-                 />
-              </View>
-          </View>
-          <Text style={styles.textDarkSmall}>Data Urodzenia</Text>
-          <View style={styles.emailWrapper}>
-             <Ionicons
-                name="calendar-outline"
-                size={screenWidth * 0.05}
-                color="#999999"
-                style={{ marginRight: screenWidth * 0.02 }}
-             />
-             <TouchableOpacity
-                onPress={() => setShowBirthPicker(true)}>
-                 <Text style={styles.inputEmail}>
-                   {birthDate ? birthDate.toLocaleDateString() : "4/6/2004"}
-                 </Text>
-               </TouchableOpacity>
-          </View>
-           {showBirthPicker && (
-               <DateTimePicker
-                   value={birthDate || new Date(2000,0,1)}
-                   mode="date"
-                   display="spinner"
-                   maximumDate={new Date()}
-                   onChange={(event,selected)=>{
-                       setShowBirthPicker(false);
-                           if (selected) setBirthDate(selected);
-                                }}/>
-           )}
-          <Text style={styles.textDarkSmall}>Adres e-mail</Text>
-          <View style={styles.emailWrapper}>
-            <Ionicons
-              name="mail-outline"
-              size={screenWidth * 0.05}
-              color="#999999"
-              style={{ marginRight: screenWidth * 0.02 }}
-            />
-            <TextInput
-              style={styles.inputEmail}
-              placeholder="kuba@appoint.pl"
-              value={email}
-              onChangeText={setEmail}
-            />
-          </View>
-          <Text style={styles.textDarkSmall}>Hasło</Text>
-          <View style={styles.passwordWrapper}>
-            <Ionicons
-              name="lock-closed-outline"
-              size={screenWidth * 0.05}
-              color="#999999"
-              style={{ marginRight: screenWidth * 0.01 }}
-            />
-            <TextInput
-              style={styles.inputPassword}
-              placeholder="• • • • • • • •"
-              secureTextEntry={!showPassword}
-              value={password}
-              onChangeText={setPassword}
-            />
-
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Ionicons
-                name={showPassword ? "eye-off-outline" : "eye-outline"}
-                size={screenWidth * 0.05}
-                color="#999999"
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.passwordStrengthContainer}>
-            {[0,1,2,3].map((i)=>(
-                <View
-                key={i}
-                style={[
-                    styles.strengthSegment,
-                    {backgroundColor: i<getPasswordStrength(password)?strengthColors[i]:"#E5E5E5"}
-                    ]}
+               {showBirthPicker && (
+                   <DateTimePicker
+                       value={birthDate || new Date(2000,0,1)}
+                       mode="date"
+                       display="spinner"
+                       maximumDate={new Date()}
+                       onChange={(event,selected)=>{
+                           setShowBirthPicker(false);
+                               if (selected) setBirthDate(selected);
+                                    }}/>
+               )}
+              <Text style={styles.textDarkSmall}>Adres e-mail</Text>
+              <View style={styles.emailWrapper}>
+                <Ionicons
+                  name="mail-outline"
+                  size={screenWidth * 0.05}
+                  color="#999999"
+                  style={{ marginRight: screenWidth * 0.02 }}
                 />
-                ))}
-                <Text style={styles.strengthLabel}>
-                    {["Słabe","OK","Średnie","Dobre","Świetne"][getPasswordStrength(password)]}
-                </Text>
+                <TextInput
+                  style={styles.inputEmail}
+                  placeholder="kuba@appoint.pl"
+                  value={email}
+                  onChangeText={setEmail}
+                />
+              </View>
+              <Text style={styles.textDarkSmall}>Hasło</Text>
+              <View style={[styles.passwordWrapper, passwordError ? styles.inputError : null]}>
+                <Ionicons
+                  name="lock-closed-outline"
+                  size={screenWidth * 0.05}
+                  color="#999999"
+                  style={{ marginRight: screenWidth * 0.01 }}
+                />
+                <TextInput
+                  style={styles.inputPassword}
+                  placeholder="• • • • • • • •"
+                  secureTextEntry={!showPassword}
+                  value={password}
+                  onChangeText={(text) =>  {setPassword(text);if (passwordError) setPasswordError("");}}
+                />
+
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                  <Ionicons
+                    name={showPassword ? "eye-off-outline" : "eye-outline"}
+                    size={screenWidth * 0.05}
+                    color="#999999"
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.textDarkSmall}>Powtórz hasło</Text>
+              <View style={[styles.passwordWrapper, passwordError ? styles.inputError : null]}>
+                <Ionicons
+                  name="lock-closed-outline"
+                  size={screenWidth * 0.05}
+                  color="#999999"
+                  style={{ marginRight: screenWidth * 0.01 }}
+                />
+                <TextInput
+                  style={styles.inputPassword}
+                  placeholder="• • • • • • • •"
+                  secureTextEntry={!showPassword2}
+                  value={password2}
+                  onChangeText={setPassword2}
+                />
+
+                <TouchableOpacity onPress={() => setShowPassword2(!showPassword2)}>
+                  <Ionicons
+                    name={showPassword2 ? "eye-off-outline" : "eye-outline"}
+                    size={screenWidth * 0.05}
+                    color="#999999"
+                  />
+                </TouchableOpacity>
+              </View>
+              {passwordError ? <Text style = {styles.errorText}>{passwordError}</Text> : null}
+              <View style={styles.passwordStrengthContainer}>
+                {[0,1,2,3].map((i)=>(
+                    <View
+                    key={i}
+                    style={[
+                        styles.strengthSegment,
+                        {backgroundColor: i<getPasswordStrength(password)?strengthColors[i]:"#E5E5E5"}
+                        ]}
+                    />
+                    ))}
+                    <Text style={styles.strengthLabel}>
+                        {["Słabe","OK","Średnie","Dobre","Świetne"][getPasswordStrength(password)]}
+                    </Text>
+                </View>
+              <View style={styles.checkbox}>
+                <Checkbox
+                  value={checked}
+                  onValueChange={setChecked}
+                  color={checked ? "#81b525ff" : "#ccc"}
+                  style={styles.checkboxBox}
+                />
+                <Text style={styles.normalText}>Akceptuję</Text>
+                <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
+                  <Text style={styles.textClick}>Regulamin</Text>
+                </TouchableOpacity>
+                <Text style={styles.normalText}>oraz</Text>
+                <TouchableOpacity onPress={() => console.log("Home")}>
+                   <Text style={[styles.textClick,{marginBottom: screenHeight * 0.004}]}>Politykę</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.checkbox}>
+                <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
+                   <Text style={[styles.textClick,{paddingLeft: screenWidth * 0.07},{marginBottom: screenHeight * 0.03}]}>Prywatności.</Text>
+                </TouchableOpacity>
+              </View>
+
+              <LoginCard service="Utwórz konto" onPress = {handleRegister}/>
+              <View style={styles.ZarejestrujContainer}>
+                <Text style={styles.normalText}>Masz już konto?</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Logowanie")}>
+                  <Text style={styles.textClick}>Zaloguj się</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.FirmaContainer}>
+                 <Text style={styles.normalText}>Prowadzisz działalność?</Text>
+                     <TouchableOpacity
+                        onPress={() => navigation.navigate("Logowanie")}>
+                        <Text style={styles.textClick}>Zarejestruj firmę</Text>
+                     </TouchableOpacity>
+              </View>
+
             </View>
-          <View style={styles.checkbox}>
-            <Checkbox
-              value={checked}
-              onValueChange={setChecked}
-              color={checked ? "#81b525ff" : "#ccc"}
-              style={styles.checkboxBox}
-            />
-            <Text style={styles.normalText}>Akceptuję</Text>
-            <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
-              <Text style={styles.textClick}>Regulamin</Text>
-            </TouchableOpacity>
-            <Text style={styles.normalText}>oraz</Text>
-            <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
-               <Text style={[styles.textClick,{marginBottom: screenHeight * 0.004}]}>Politykę</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.checkbox}>
-            <TouchableOpacity onPress={() => console.log("Kliknieto zapamietaj")}>
-               <Text style={[styles.textClick,{paddingLeft: screenWidth * 0.07},{marginBottom: screenHeight * 0.03}]}>Prywatności.</Text>
-            </TouchableOpacity>
-          </View>
+          </ScrollView>
 
-          <LoginCard service="Utwórz konto" />
-          <View style={styles.ZarejestrujContainer}>
-            <Text style={styles.normalText}>Masz już konto?</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Logowanie")}>
-              <Text style={styles.textClick}>Zaloguj się</Text>
-            </TouchableOpacity>
-          </View>
-
-        </View>
+          <Modal
+            visible = {showEmailTakenModal}
+            transparent
+            animationType = "fade"
+            onRequestClose = {() => setShowEmailTakenModal(false)}
+          >
+            <View style = {styles.modalOverlay}>
+                <View style = {styles.modalBox}>
+                    <Text style = {styles.modalTitle}> Ten adres e-mail jest juz zarejestrowany</Text>
+                    <Text style = {styles.modalText}> Popraw dane albo zaloguj się na istniejące konto</Text>
+                    <View style = {styles.modalButtons}>
+                        <TouchableOpacity style = {styles.modalButtonSecondary} onPress = {() => setShowEmailTakenModal(false)}>
+                            <Text style = {styles.modalButtonSecondaryText}>Wróć, poprawię</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style = {styles.modalButtonPrimary} onPress = {() => {setShowEmailTakenModal(false), navigation.navigate("Logowanie");}}>
+                            <Text style = {styles.modalButtonPrimaryText}>Zaloguj się</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+          </Modal>
       </SafeAreaView>
     );
   }
@@ -211,33 +352,22 @@ export default function Rejestracja() {
     container: {
       flex: 1,
       backgroundColor: Colors.backgroundColor,
-      //paddingTop: screenHeight * 0.02,
+      paddingTop: screenHeight * -0.03,
     },
 
     headerContainer: {
-      //width: "100%",
       alignItems: "flex-start",
-      //justifyContent: "flex-end",
       flex: 1,
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-end',
       paddingHorizontal: screenWidth * 0.07,
       paddingBottom: screenHeight * 0.02,
-      //gap: screenHeight * 0.02,
-      transform: [{ translateY: -20 }],
-      //minHeight: screenHeight * 1.01,
     },
     logo: {
       width: screenWidth * 0.08,
       height: screenWidth * 0.08,
-      //borderRadius: (screenWidth * 0.12) / 2,
-      //marginBottom:screenHeight*0.025
     },
     logoSmall: {
       width: screenWidth * 0.06,
       height: screenWidth * 0.06,
-      //borderRadius: (screenWidth * 0.12) / 2,
-      //marginBottom:screenHeight*0.025
     },
     headerText: {
       fontSize: screenWidth * 0.072,
@@ -249,20 +379,15 @@ export default function Rejestracja() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      //gap: screenHeight * 0.02,
     },
     content1: {
-      //flex: 1,
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "row",
-
-      //gap: screenHeight * 0.08,
     },
     normalText: {
       fontSize: screenWidth * 0.04,
       color: "#999999",
-      //marginBottom: screenHeight * 0.025,
     },
     textDarkSmall: {
       fontSize: screenWidth * 0.04,
@@ -273,7 +398,6 @@ export default function Rejestracja() {
       width: "100%",
       fontSize: screenWidth * 0.05,
       color: "#000",
-      //paddingVertical: screenHeight*0.07;
     },
     inputNameSurname: {
       width: "100%",
@@ -324,7 +448,6 @@ export default function Rejestracja() {
     },
     inputPassword: {
       width: "100%",
-      //paddingVertical: screenHeight * 0.015,
       fontSize: screenWidth * 0.05,
       color: "#000",
     },
@@ -336,8 +459,6 @@ export default function Rejestracja() {
       borderColor: "#bfbfbf",
       borderRadius: 20,
       height:screenWidth*0.12,
-      //height: screenHeight * 0.045,
-      //paddingHorizontal: screenWidth*0.03,
       paddingLeft: screenWidth * 0.02,
       paddingRight: screenWidth * 0.14,
       marginTop: screenHeight * 0.01,
@@ -388,10 +509,8 @@ export default function Rejestracja() {
       width: "100%",
       flexDirection: "row",
       gap: screenWidth * 0.015,
-      //paddingVertical: screenHeight * 0.015,
       fontSize: screenWidth * 0.05,
       color: "#000",
-      //marginBottom: screenHeight * 0.03,
       paddingLeft: screenWidth * 0.02,
     },
 
@@ -426,28 +545,25 @@ export default function Rejestracja() {
     ZarejestrujContainer: {
       width: "100%",
       flexDirection: "row",
-      //alignItems: 'center',
       justifyContent: "center",
       gap: screenWidth * 0.02,
-      //paddingVertical: screenHeight * 0.03,
       fontSize: screenWidth * 0.05,
       color: "#000",
-      //marginTop: "auto",
-      marginTop: screenHeight * 0.06,
-      //paddingLeft: screenWidth * 0.09,
-      //marginTop: "auto",
+      marginTop: screenHeight * 0.04,
+    },
+    FirmaContainer: {
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: screenWidth * 0.02,
+      fontSize: screenWidth * 0.05,
+      color: "#000",
+      marginTop: screenHeight * 0.01,
     },
     CofnijContainer: {
       width: "100%",
       flexDirection: "row",
-      //alignItems: 'center',
-      //justifyContent: "center",
       gap: screenWidth * 0.06,
-      //paddingVertical: screenHeight * 0.015,
-      //fontSize: screenWidth * 0.05,
-      //color: "#000",
-      //marginBottom: screenHeight * 0.09,
-      //paddingLeft: screenWidth * 0.09,
     },
     BackButtonConteiner: {
       width: screenWidth * 0.12,
@@ -466,7 +582,6 @@ export default function Rejestracja() {
       justifyContent: "center",
       alignItems: "center",
       marginBottom: screenHeight * 0.017,
-      //opacity: 0.8;
     },
     logoConteinerSmall: {
       width: screenWidth * 0.12,
@@ -490,7 +605,6 @@ export default function Rejestracja() {
         flexDirection:"row",
         alignItems:"center",
         gap:screenWidth*0.02,
-        //justifyContent: "center",
         marginBottom:screenHeight*0.01,
     },
     strengthSegment:{
@@ -503,4 +617,60 @@ export default function Rejestracja() {
         fontWeight:"600",
         fontSize:screenWidth*0.037,
     },
+    inputError:{
+        color:"#e74c3c",
+        borderWidth: 1.5,
+    },
+    errorText:{
+        color:"#e74c3c",
+        fontSize: screenWidth*0.035,
+        marginBottom:screenWidth*0.01,
+        marginLeft:screenWidth*0.02,
+    },
+    modalOverlay:{
+        flex:1,
+        backgroundColor: "rgba(0,0,0,0.5)",
+        justifyContent:"center",
+        alignItems:"center",
+        paddingHorizontal:screenWidth*0.08,
+    },
+    modalBox:{
+        width:"100%",
+        backgroundColor: "white",
+        borderRadius:20,
+        padding:screenWidth*0.06,
+    },
+    modalText: {
+      fontSize: screenWidth * 0.04,
+      color: "#999999",
+      marginBottom: screenHeight*0.03,
+    },
+    modalButtons: {
+      flexDirection: "row",
+      gap: screenWidth*0.03,
+    },
+    modalButtonSecondary: {
+      flex: 1,
+      paddingVertical: screenHeight*0.015,
+      borderRadius:14,
+      borderWidth:1,
+      borderColor: "bfbfbf",
+      alignItems: "center",
+    },
+    modalButtonSecondaryText: {
+      color: "1a1a1a",
+      fontWeight: "600",
+    },
+    modalButtonPrimary: {
+      flex: 1,
+      paddingVertical: screenHeight*0.015,
+      borderRadius: 14,
+      backgroundColor: "#81b525ff",
+      alignItems: "center"
+    },
+    modalButtonPrimaryText: {
+      color: "white",
+      fontWeight: "600",
+    },
+
   });

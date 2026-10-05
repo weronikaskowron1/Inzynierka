@@ -1,7 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
+import LoginUser from "./API/PostUser/LoginUser.js";
+import RegisterUser from "./API/PostUser/RegisterUser.js";
 
-//importy
+dotenv.config();
+
+
+
 import getStudios from "./Api/GetApi/GetStudios.js";
 import getEmployerStudios from "./Api/GetApi/GetEmployerStudios.js";
 import getEmployeeCount from "./Api/GetApi/getEmployeeCount.js";
@@ -15,12 +20,14 @@ import DeleteUser from "./Api/DeleteApi/DeleteUser.js";
 import putImage from "./Api/PutApi/PutImage.js";
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
 //GetApi
 app.use('/api/salony',getStudios);
+app.use("/api/login",LoginUser);
+app.use("/api/register",RegisterUser);
 app.use('/api/salony',getEmployerStudios);
 app.use('/api/employee_count',getEmployeeCount);
 app.use('/api/visitcards', getVisitCards );
