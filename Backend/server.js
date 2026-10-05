@@ -6,7 +6,7 @@ import RegisterUser from "./API/PostUser/RegisterUser.js";
 dotenv.config();
 
 
-//importy
+
 import getStudios from "./Api/GetApi/GetStudios.js";
 
 const app = express();
