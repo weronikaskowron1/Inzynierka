@@ -8,10 +8,19 @@ import { styles as GlobalStyles } from "../Themes/global_styles.tsx";
 
 import { SimpleLineIcons, FontAwesome, Entypo } from "@expo/vector-icons";
 
+import {
+  useSafeAreaInsets,
+  SafeAreaProvider,
+} from "react-native-safe-area-context";
+
 import GoBackButton from "../Komponenty/StudioPanel/GoBackButton.tsx";
+import HeartButton from "../Komponenty/StudioPanel/HeartButton.tsx";
+import ServiceCard from "../Komponenty/StudioPanel/ServiceCard.tsx";
+
 export default StudioPanel;
 function StudioPanel({ id_studio }) {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const [salony, setSalony] = useState([]);
   const [zakladka, setZakladka] = useState(0);
@@ -41,7 +50,10 @@ function StudioPanel({ id_studio }) {
   return (
     <View style={styles.body}>
       <View style={styles.image_container}>
-        <GoBackButton />
+        <View style={{ paddingTop: insets.top, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <GoBackButton />
+          <HeartButton />
+        </View>
       </View>
       <View style={styles.container}>
         <Text style={styles.name}>Studio Glam</Text>
@@ -71,7 +83,10 @@ function StudioPanel({ id_studio }) {
           ))}
         </View>
         <View style={styles.main_container}>
-          {zakladka === 0 && <Text>Uslugi</Text>}
+          {zakladka === 0 && (
+              <ServiceCard />
+
+              )}
           {zakladka === 1 && <Text>Pracownicy</Text>}
           {zakladka === 2 && (
             <View>
@@ -103,7 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    backgroundColor: "white",
+    backgroundColor: Colors.backgroundColor,
 
     paddingTop: 30,
     paddingHorizontal: 20,

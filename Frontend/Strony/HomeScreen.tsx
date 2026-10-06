@@ -9,6 +9,7 @@ import StudioCard from "../Komponenty/HomeScreen/StudioCard.tsx";
 import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
 
 import { useNavigation } from "@react-navigation/native";
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useState, useEffect } from "react";
 
 import { Colors } from "../Themes/colors.ts";
@@ -22,6 +23,7 @@ const API_URL = process.env.API_URL;
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const [salony, setSalony] = useState([]);
 
@@ -70,7 +72,7 @@ function HomeScreen() {
     },
   ];
   return (
-    <View style={GlobalStyles.body}>
+    <View style={[GlobalStyles.body, {paddingTop:insets.top}]}>
       <ScrollView>
         <View style={GlobalStyles.container}>
           <View style={styles.header}>

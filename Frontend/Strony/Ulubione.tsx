@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 
 import { Colors } from "../Themes/colors.ts";
 import { styles as GlobalStyles } from "../Themes/global_styles.tsx";
-
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 import FilterIcon from "../Komponenty/Buttons/FilterIcon.tsx";
 import Searchbar from "../Komponenty/HomeScreen/Searchbar.tsx";
 import ServiceCardUlubione from "../Komponenty/Ulubione/ServiceCardUlubione.tsx";
@@ -16,8 +16,9 @@ import WszystkieText from '../Komponenty/HomeScreen/WszystkieText.tsx';
 
 function Ulubione() {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   return (
-    <ScrollView style={GlobalStyles.body}>
+    <ScrollView style={[GlobalStyles.body, {paddingTop:insets.top}]}>
       <View style={GlobalStyles.container}>
         <View style={styles.header}>
           <Text style={GlobalStyles.header_text}>Ulubione</Text>
