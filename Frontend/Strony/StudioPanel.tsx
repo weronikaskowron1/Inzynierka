@@ -16,6 +16,8 @@ import {
 import GoBackButton from "../Komponenty/StudioPanel/GoBackButton.tsx";
 import HeartButton from "../Komponenty/StudioPanel/HeartButton.tsx";
 import ServiceCard from "../Komponenty/StudioPanel/ServiceCard.tsx";
+import EmployeeCard from "../Komponenty/StudioPanel/EmployeeCard.tsx";
+import AvatarIcon from "../Komponenty/Buttons/AvatarIcon.tsx";
 
 export default StudioPanel;
 function StudioPanel({ id_studio }) {
@@ -49,12 +51,34 @@ function StudioPanel({ id_studio }) {
 
   return (
     <View style={styles.body}>
-      <View style={styles.image_container}>
-        <View style={{ paddingTop: insets.top, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+      <View style={[styles.image_container, { paddingHorizontal: 20 }]}>
+        <View
+          style={{
+            paddingTop: insets.top,
+
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <GoBackButton />
           <HeartButton />
         </View>
+        <View style={styles.logo_container}>
+          <AvatarIcon
+            name="Studio"
+            name2="Glam"
+            color1={Colors.green6}
+            color2={Colors.green6}
+            text_color={Colors.green1}
+            size={90}
+            text_size={40}
+            borderRadius={999}
+            fontWeight="400"
+          ></AvatarIcon>
+        </View>
       </View>
+
       <View style={styles.container}>
         <Text style={styles.name}>Studio Glam</Text>
         <View style={styles.info_container}>
@@ -83,11 +107,8 @@ function StudioPanel({ id_studio }) {
           ))}
         </View>
         <View style={styles.main_container}>
-          {zakladka === 0 && (
-              <ServiceCard />
-
-              )}
-          {zakladka === 1 && <Text>Pracownicy</Text>}
+          {zakladka === 0 && <ServiceCard />}
+          {zakladka === 1 && <EmployeeCard />}
           {zakladka === 2 && (
             <View>
               <Text>Informacje o salonie</Text>
@@ -112,6 +133,15 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "25%",
     backgroundColor: Colors.green2,
+  },
+  logo_container: {
+    position: 'absolute',
+    bottom: -10,
+    left: 20,
+    zIndex: 20,
+    borderWidth: 5,
+    borderRadius: 999,
+    borderColor: Colors.backgroundColor,
   },
   container: {
     top: -20,
