@@ -7,16 +7,31 @@ import { Colors } from "../../Themes/colors.ts";
 
 import AvatarIcon from "../Buttons/AvatarIcon.tsx";
 const EmployeeCard = ({
-  name = "Manicure hybrydowy",
-  surname = "20",
+  name = "Weronika",
+  surname = "Skowron",
   image_path = "",
 }) => {
   return (
     <View style={styles.container}>
       <View style={styles.image_container}>
-        <AvatarIcon />
+        <AvatarIcon
+          name={name}
+          name2={surname}
+          color1={Colors.green6}
+          color2={Colors.green6}
+          text_color={Colors.green1}
+          size={52}
+          text_size={22}
+          borderRadius={999}
+          fontWeight="500"
+        />
       </View>
-      <View style={styles.info_container}></View>
+      <View style={styles.info_container}>
+        <Text style={styles.name_text}>
+          {name} {surname}
+        </Text>
+        <Text style={styles.role_text}>Wizażystka</Text>
+      </View>
     </View>
   );
 };
@@ -28,37 +43,21 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 15,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    gap: 10,
     padding: 12,
     paddingHorizontal: 20,
     boxShadow: "2px 3px 2px rgba(164, 164, 164, 0.1)",
   },
 
-  arrow_button: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  service_type_text: {
-    fontWeight: "700",
+  name_text: {
     fontSize: 18,
+    fontWeight: "500",
   },
 
-  detail_container: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-
-  duration_text: {
+  role_text: {
+    fontSize: 12,
     color: Colors.grayText,
-    fontSize: 15,
-  },
-
-  price_text: {
-    color: Colors.grayText,
-    fontSize: 15,
   },
 });
 
