@@ -23,7 +23,7 @@ const Stack = createNativeStackNavigator();
 function RootStack() {
   const insets = useSafeAreaInsets();
   return (
-    <View style={{backgroundColor: 'white', paddingBottom: insets.bottom, height: '100%', width: '100%'}}>
+    <View style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
     <Stack.Navigator
      screenOptions={{
             headerShown: false,

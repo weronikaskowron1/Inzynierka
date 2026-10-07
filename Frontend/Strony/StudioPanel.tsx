@@ -6,7 +6,14 @@ import { useState, useEffect } from "react";
 import { Colors } from "../Themes/colors.ts";
 import { styles as GlobalStyles } from "../Themes/global_styles.tsx";
 
-import { SimpleLineIcons, FontAwesome, Entypo } from "@expo/vector-icons";
+import {
+  SimpleLineIcons,
+  FontAwesome,
+  Entypo,
+  MaterialCommunityIcons,
+  Ionicons,
+  Feather,
+} from "@expo/vector-icons";
 
 import {
   useSafeAreaInsets,
@@ -44,6 +51,15 @@ function StudioPanel({ id_studio }) {
     }
   };
   const zakladki = ["Usługi", "Pracownicy", "Informacje", "Opinie"];
+  const weekDays = [
+    "Poniedziałek",
+    "Wtorek",
+    "Środa",
+    "Czwartek",
+    "Piątek",
+    "Sobota",
+    "Niedziela",
+  ];
 
   useEffect(() => {
     getSalony();
@@ -88,7 +104,11 @@ function StudioPanel({ id_studio }) {
           <Text style={styles.distance}>{` \u00B7  12km`}</Text>
         </View>
         <View style={styles.adres_container}>
-          <Entypo name="location-pin" size={20} color={Colors.lightgrayText} />
+          <Entypo
+            name="location-pin"
+            size={20}
+            color={Colors.lightgrayText}
+          />
           <Text style={styles.distance}>ul.Kościuszki 12, Rybnik</Text>
         </View>
 
@@ -110,13 +130,80 @@ function StudioPanel({ id_studio }) {
           {zakladka === 0 && <ServiceCard />}
           {zakladka === 1 && <EmployeeCard />}
           {zakladka === 2 && (
-            <View>
-              <Text>Informacje o salonie</Text>
-              <Text>
-                Informacje bllaaaaaaaaaaaaaaaaaaaaa blaaaaaaaaaaaaaaaaaaaaaa
-                blaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-              </Text>
-            </View>
+            <ScrollView style={styles.zakladka_informacje}>
+              <View>
+                <Text style={styles.informacje_text}>Informacje o salonie</Text>
+                <Text style={styles.description}>
+                  Nowoczecny salon kosmetyczny i coś tam bla bla.
+                </Text>
+              </View>
+              <View style={styles.opening_hours_container}>
+                <MaterialCommunityIcons
+                  name="clock-time-four-outline"
+                  size={28}
+                  color={Colors.green1}
+                />
+
+                <View style={styles.opening_hours_content}>
+                  <Text style={styles.opening_hours_title}>
+                    Godziny otwarcia
+                  </Text>
+
+                  {weekDays.map((item, index) => (
+                    <View key={index} style={styles.row}>
+                      <Text style={styles.weekDays_text}>{item}</Text>
+
+                      <Text style={styles.weekDays_text}>8:00 — 20:00</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+              <View
+                style={{ flexDirection: "row", gap: 17, alignItems: "center", marginBottom: 5 }}
+              >
+                <Entypo
+                  name="location-pin"
+                  size={30}
+                  color={Colors.green1}
+                />
+                <View>
+                  <Text style={styles.title_text}>Adres</Text>
+                  <Text style={styles.content_text}>
+                    ul.Kościuszki 12, Rybnik
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ flexDirection: "row", gap: 17, alignItems: "center", marginBottom: 5 }}
+              >
+                <Feather
+                  name="phone"
+                  size={27}
+                  color={Colors.green1}
+                />
+                <View>
+                  <Text style={styles.title_text}>Telefon</Text>
+                  <Text style={styles.content_text}>
+                   +48 123 456 789
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{ flexDirection: "row", gap: 17, alignItems: "center" }}
+              >
+                <MaterialCommunityIcons
+                  name="web"
+                  size={28}
+                  color={Colors.green1}
+                />
+                <View>
+                  <Text style={styles.title_text}>Strona internetowa</Text>
+                  <Text style={styles.content_text}>
+                    www.studioglam.pl
+                  </Text>
+                </View>
+              </View>
+            </ScrollView>
           )}
           {zakladka === 3 && <Text>Opinie</Text>}
         </View>
@@ -135,7 +222,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.green2,
   },
   logo_container: {
-    position: 'absolute',
+    position: "absolute",
     bottom: -10,
     left: 20,
     zIndex: 20,
@@ -181,7 +268,7 @@ const styles = StyleSheet.create({
     left: -5,
   },
   zakladki_container: {
-    marginTop: 40,
+    marginTop: 25,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -203,6 +290,66 @@ const styles = StyleSheet.create({
   },
 
   main_container: {
-    marginTop: 30,
+    marginTop: 17,
+    flex: 1,
+  },
+
+  zakladka_informacje: {
+    width: "100%",
+    flex: 1,
+  },
+  informacje_text: {
+    fontSize: 20,
+    fontWeight: "700",
+  },
+
+  description: {
+    color: Colors.grayText,
+    width: "100%",
+    fontSize: 15,
+    marginTop: 5,
+    marginBottom: 13,
+  },
+  opening_hours_container: {
+    flexDirection: "row",
+    gap: 17,
+    alignItems: "flex-start",
+    marginBottom: 9,
+  },
+
+  opening_hours_content: {
+    flex: 1,
+  },
+
+  opening_hours_title: {
+    fontSize: 17,
+    fontWeight: "700",
+    marginBottom: 5,
+  },
+
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+
+    paddingVertical: 6,
+
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.lightgrayBorder,
+  },
+
+  weekDays_text: {
+    width: 140,
+    fontSize: 16,
+    color: Colors.grayText,
+  },
+
+  title_text: {
+    fontWeight: "500",
+    fontSize: 15,
+  },
+
+  content_text: {
+    color: Colors.grayText,
+    fontSize: 14,
   },
 });
