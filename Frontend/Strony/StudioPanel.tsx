@@ -25,6 +25,7 @@ import HeartButton from "../Komponenty/StudioPanel/HeartButton.tsx";
 import ServiceCard from "../Komponenty/StudioPanel/ServiceCard.tsx";
 import EmployeeCard from "../Komponenty/StudioPanel/EmployeeCard.tsx";
 import AvatarIcon from "../Komponenty/Buttons/AvatarIcon.tsx";
+import RatePanel from "../Komponenty/StudioPanel/RatePanel.tsx";
 
 export default StudioPanel;
 function StudioPanel({ id_studio }) {
@@ -205,7 +206,9 @@ function StudioPanel({ id_studio }) {
               </View>
             </ScrollView>
           )}
-          {zakladka === 3 && <Text>Opinie</Text>}
+          {zakladka === 3 && (
+              <RatePanel />
+              )}
         </View>
       </View>
     </View>
