@@ -5,22 +5,49 @@ import { pressed_styles } from "../../Themes/buton_pressed.tsx";
 import { Colors } from "../../Themes/colors.ts";
 
 const RatePanel = ({
-  avg_rating = '4.8',
-  numberOfReviews = '120',
-  five_stars = '78%',
-  four_stars = '16%',
-  three_stars = '4%',
-  two_stars = '1%',
-  one_star = '1%'
+  avg_rating = "4.8",
+  numberOfReviews = "120",
+  five_stars = 78,
+  four_stars = 16,
+  three_stars = 4,
+  two_stars = 1,
+  one_star = 1,
 }) => {
+    const reviews = [
+        {stars: '5', amount: five_stars},
+        {stars: '4', amount: four_stars},
+        {stars: '3', amount: three_stars},
+        {stars: '2', amount: two_stars},
+        {stars: '1', amount: one_star},
+        ];
   return (
     <View style={styles.container}>
-    <View style={styles.avg_rating_container}>
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-    <FontAwesome name="star" size={30} color="#E9BB5A" />
-        <Text style={{fontSize: 40, fontWeight: '500', }}>4.8</Text>
-    </View>
-    </View>
+      <View style={styles.avg_rating_container}>
+      <Text style={{ fontSize: 40, fontWeight: "500" }}>4.8</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", width: '100%', marginTop: -4, marginBottom: 3 }}>
+          <FontAwesome name="star" size={20} color="#E9BB5A" />
+          <FontAwesome name="star" size={20} color="#E9BB5A" />
+          <FontAwesome name="star" size={20} color="#E9BB5A" />
+          <FontAwesome name="star" size={20} color="#E9BB5A" />
+          <FontAwesome name="star" size={20} color="#E9BB5A" />
+        </View>
+        <Text style={{color: Colors.lightgrayText}}>({numberOfReviews} opinii)</Text>
+      </View>
+      <View style={styles.bar_rating_container}>
+      {reviews.map((item) => (
+        <View key={item.stars} style={styles.row}>
+          <View style={styles.rating_text}>
+            <Text style={{fontWeight: '500', fontSize: 15}}>{item.stars}</Text>
+          </View>
+          <View style={styles.bar}>
+            <View style={[styles.bar_green, {width: `${item.amount}%`}]}></View>
+          </View>
+          <View style={styles.rating_percentage}>
+            <Text style={{color: Colors.lightgrayText}}>{item.amount}%</Text>
+          </View>
+        </View>
+        ))}
+      </View>
     </View>
   );
 };
@@ -30,13 +57,58 @@ const styles = StyleSheet.create({
     height: 150,
     width: "100%",
     backgroundColor: "white",
+    alignItems: 'center',
     borderRadius: 15,
     flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    padding: 12,
-    paddingHorizontal: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 0,
     boxShadow: "2px 3px 2px rgba(164, 164, 164, 0.1)",
+  },
+  avg_rating_container: {
+    flex: 1,
+    height: "100%",
+    borderRightWidth: 1,
+    borderRightColor: Colors.lightgrayBorder,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  bar_rating_container: {
+    flex: 2,
+    width: "100%",
+    height: "100%",
+    justifyContent: 'space-between',
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  rating_text: {
+    flex: 1,
+    alignItems: "center",
+    //     backgroundColor: 'gray',
+    marginHorizontal: 5,
+  },
+  bar_green: {
+
+    height: 8,
+    backgroundColor: Colors.green2,
+    borderRadius: 3,
+  },
+  bar: {
+    flex: 4,
+    width: "100%",
+    height: 8,
+    backgroundColor: Colors.lightgrayBorder,
+    borderRadius: 3,
+  },
+  rating_percentage: {
+    flex: 1,
+    alignItems: "center",
+    //     backgroundColor: 'gray',
+    marginHorizontal: 9,
   },
 });
 
