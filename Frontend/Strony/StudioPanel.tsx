@@ -26,6 +26,7 @@ import ServiceCard from "../Komponenty/StudioPanel/ServiceCard.tsx";
 import EmployeeCard from "../Komponenty/StudioPanel/EmployeeCard.tsx";
 import AvatarIcon from "../Komponenty/Buttons/AvatarIcon.tsx";
 import RatePanel from "../Komponenty/StudioPanel/RatePanel.tsx";
+import Stars from "../Komponenty/StudioPanel/Stars.tsx";
 
 export default StudioPanel;
 function StudioPanel({ id_studio }) {
@@ -105,11 +106,7 @@ function StudioPanel({ id_studio }) {
           <Text style={styles.distance}>{` \u00B7  12km`}</Text>
         </View>
         <View style={styles.adres_container}>
-          <Entypo
-            name="location-pin"
-            size={20}
-            color={Colors.lightgrayText}
-          />
+          <Entypo name="location-pin" size={20} color={Colors.lightgrayText} />
           <Text style={styles.distance}>ul.Kościuszki 12, Rybnik</Text>
         </View>
 
@@ -160,13 +157,14 @@ function StudioPanel({ id_studio }) {
                 </View>
               </View>
               <View
-                style={{ flexDirection: "row", gap: 17, alignItems: "center", marginBottom: 5 }}
+                style={{
+                  flexDirection: "row",
+                  gap: 17,
+                  alignItems: "center",
+                  marginBottom: 5,
+                }}
               >
-                <Entypo
-                  name="location-pin"
-                  size={30}
-                  color={Colors.green1}
-                />
+                <Entypo name="location-pin" size={30} color={Colors.green1} />
                 <View>
                   <Text style={styles.title_text}>Adres</Text>
                   <Text style={styles.content_text}>
@@ -175,18 +173,17 @@ function StudioPanel({ id_studio }) {
                 </View>
               </View>
               <View
-                style={{ flexDirection: "row", gap: 17, alignItems: "center", marginBottom: 5 }}
+                style={{
+                  flexDirection: "row",
+                  gap: 17,
+                  alignItems: "center",
+                  marginBottom: 5,
+                }}
               >
-                <Feather
-                  name="phone"
-                  size={27}
-                  color={Colors.green1}
-                />
+                <Feather name="phone" size={27} color={Colors.green1} />
                 <View>
                   <Text style={styles.title_text}>Telefon</Text>
-                  <Text style={styles.content_text}>
-                   +48 123 456 789
-                  </Text>
+                  <Text style={styles.content_text}>+48 123 456 789</Text>
                 </View>
               </View>
               <View
@@ -199,16 +196,16 @@ function StudioPanel({ id_studio }) {
                 />
                 <View>
                   <Text style={styles.title_text}>Strona internetowa</Text>
-                  <Text style={styles.content_text}>
-                    www.studioglam.pl
-                  </Text>
+                  <Text style={styles.content_text}>www.studioglam.pl</Text>
                 </View>
               </View>
             </ScrollView>
           )}
           {zakladka === 3 && (
+            <View>
               <RatePanel />
-              )}
+            </View>
+          )}
         </View>
       </View>
     </View>

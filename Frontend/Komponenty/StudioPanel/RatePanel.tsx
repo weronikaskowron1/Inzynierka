@@ -4,6 +4,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { pressed_styles } from "../../Themes/buton_pressed.tsx";
 import { Colors } from "../../Themes/colors.ts";
 
+import Stars from "../StudioPanel/Stars.tsx";
+
 const RatePanel = ({
   avg_rating = 1.5,
   numberOfReviews = "120",
@@ -25,38 +27,7 @@ const starAmount = (1 - avg_rating/5) * 100;
     <View style={styles.container}>
       <View style={styles.avg_rating_container}>
         <Text style={{ fontSize: 40, fontWeight: "500" }}>{avg_rating}</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            marginTop: -4,
-            marginBottom: 3,
-            position: 'relative',
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            <FontAwesome name="star" size={20} color="#E9BB5A" />
-            <FontAwesome name="star" size={20} color="#E9BB5A" />
-            <FontAwesome name="star" size={20} color="#E9BB5A" />
-            <FontAwesome name="star" size={20} color="#E9BB5A" />
-            <FontAwesome name="star" size={20} color="#E9BB5A" />
-          </View>
-          <View
-            style={{
-              backgroundColor: "white",
-              height: 20,
-              width: `${starAmount}%`,
-              right: 0,
-              position: 'absolute',
-            }}
-          ></View>
-        </View>
+        <Stars avg_rating = {avg_rating}/>
         <Text style={{ color: Colors.lightgrayText }}>
           ({numberOfReviews} opinii)
         </Text>
