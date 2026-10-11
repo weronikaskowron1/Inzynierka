@@ -12,8 +12,6 @@ const Stars = ({ avg_rating = 1.5, size = 20 }) => {
     <View
       style={{
         width: "100%",
-        marginTop: -4,
-        marginBottom: 3,
         position: "relative",
       }}
     >

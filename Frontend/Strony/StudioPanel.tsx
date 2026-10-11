@@ -26,7 +26,8 @@ import ServiceCard from "../Komponenty/StudioPanel/ServiceCard.tsx";
 import EmployeeCard from "../Komponenty/StudioPanel/EmployeeCard.tsx";
 import AvatarIcon from "../Komponenty/Buttons/AvatarIcon.tsx";
 import RatePanel from "../Komponenty/StudioPanel/RatePanel.tsx";
-import Stars from "../Komponenty/StudioPanel/Stars.tsx";
+import ReviewPanel from "../Komponenty/StudioPanel/ReviewPanel.tsx";
+
 
 export default StudioPanel;
 function StudioPanel({ id_studio }) {
@@ -103,7 +104,8 @@ function StudioPanel({ id_studio }) {
           <FontAwesome name="star" size={23} color="#E9BB5A" />
           <Text style={styles.rating}>4.8</Text>
           <Text style={styles.distance}>(120 opinii)</Text>
-          <Text style={styles.distance}>{` \u00B7  12km`}</Text>
+          <Text style={{fontSize: 25, color: Colors.lightgrayText}}>{`\u00B7`}</Text>
+          <Text style={styles.distance}>12km</Text>
         </View>
         <View style={styles.adres_container}>
           <Entypo name="location-pin" size={20} color={Colors.lightgrayText} />
@@ -204,6 +206,7 @@ function StudioPanel({ id_studio }) {
           {zakladka === 3 && (
             <View>
               <RatePanel />
+              <ReviewPanel />
             </View>
           )}
         </View>

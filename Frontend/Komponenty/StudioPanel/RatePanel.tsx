@@ -7,7 +7,7 @@ import { Colors } from "../../Themes/colors.ts";
 import Stars from "../StudioPanel/Stars.tsx";
 
 const RatePanel = ({
-  avg_rating = 1.5,
+  avg_rating = 3.5,
   numberOfReviews = "120",
   five_stars = 78,
   four_stars = 16,
@@ -26,7 +26,7 @@ const starAmount = (1 - avg_rating/5) * 100;
   return (
     <View style={styles.container}>
       <View style={styles.avg_rating_container}>
-        <Text style={{ fontSize: 40, fontWeight: "500" }}>{avg_rating}</Text>
+        <Text style={{ fontSize: 40, fontWeight: "500", marginBottom: -4 }}>{avg_rating}</Text>
         <Stars avg_rating = {avg_rating}/>
         <Text style={{ color: Colors.lightgrayText }}>
           ({numberOfReviews} opinii)
