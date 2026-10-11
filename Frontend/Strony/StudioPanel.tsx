@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
-
+import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 
@@ -27,12 +27,14 @@ import EmployeeCard from "../Komponenty/StudioPanel/EmployeeCard.tsx";
 import AvatarIcon from "../Komponenty/Buttons/AvatarIcon.tsx";
 import RatePanel from "../Komponenty/StudioPanel/RatePanel.tsx";
 import ReviewPanel from "../Komponenty/StudioPanel/ReviewPanel.tsx";
-
+import SortingDropDown from "../Komponenty/StudioPanel/SortingDropDown.tsx";
 
 export default StudioPanel;
 function StudioPanel({ id_studio }) {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+
+  const [selectedValue, setSelectedValue] = useState("");
 
   const [salony, setSalony] = useState([]);
   const [zakladka, setZakladka] = useState(0);
@@ -104,7 +106,9 @@ function StudioPanel({ id_studio }) {
           <FontAwesome name="star" size={23} color="#E9BB5A" />
           <Text style={styles.rating}>4.8</Text>
           <Text style={styles.distance}>(120 opinii)</Text>
-          <Text style={{fontSize: 25, color: Colors.lightgrayText}}>{`\u00B7`}</Text>
+          <Text
+            style={{ fontSize: 25, color: Colors.lightgrayText }}
+          >{`\u00B7`}</Text>
           <Text style={styles.distance}>12km</Text>
         </View>
         <View style={styles.adres_container}>
@@ -204,8 +208,12 @@ function StudioPanel({ id_studio }) {
             </ScrollView>
           )}
           {zakladka === 3 && (
-            <View>
+            <View style={{gap:13}}>
               <RatePanel />
+              <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Text style={{fontSize: 16, fontWeight: '500'}}>Sortuj opinie</Text>
+                <SortingDropDown />
+              </View>
               <ReviewPanel />
             </View>
           )}
