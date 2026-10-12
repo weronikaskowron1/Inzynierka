@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import LoginUser from "./API/PostUser/LoginUser.js";
 import RegisterUser from "./API/PostUser/RegisterUser.js";
-
+import GoogleAuthCheck from "./API/PostUser/GoogleAuthCheck.js";
+import RegisterGoogleUser from "./API/PostUser/RegisterGoogleUser.js";
 dotenv.config();
 
 
@@ -28,6 +29,8 @@ app.use(express.json());
 app.use('/api/salony',getStudios);
 app.use("/api/login",LoginUser);
 app.use("/api/register",RegisterUser);
+app.use("/api/google-auth-check",GoogleAuthCheck)
+app.use("/api/register-google",RegisterGoogleUser)
 app.use('/api/salony',getEmployerStudios);
 app.use('/api/employee_count',getEmployeeCount);
 app.use('/api/visitcards', getVisitCards );
