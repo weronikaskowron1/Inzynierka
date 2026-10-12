@@ -5,6 +5,10 @@ import EdytujProfil from "../Strony/EdytujProfil";
 import UstawieniaKonta from "../Strony/UstawieniaKonta";
 import ZmienHaslo from "../Strony/ZmienHaslo";
 import DodajAdres from "../Strony/DodajAdres";
+import Informacje from "../Strony/Informacje";
+import Wsparcie from "../Strony/Wsparcie";
+import Powiadomienia from "../Strony/Powiadomienia";
+import Prywatnosc from "../Strony/Prywatnosc";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +36,23 @@ export default function ProfilNawigator() {
       name="DodajAdres"
       component={DodajAdres}
     />
+    <Stack.Screen
+      name="Informacje"
+      component={Informacje}
+    />
+    <Stack.Screen
+      name="Wsparcie"
+      component={Wsparcie}
+    />
+    <Stack.Screen
+      name="Powiadomienia"
+      component={Powiadomienia}
+    />
+    <Stack.Screen
+      name="Prywatnosc"
+      component={Prywatnosc}
+    />
+
     </Stack.Navigator>
   );
 }
