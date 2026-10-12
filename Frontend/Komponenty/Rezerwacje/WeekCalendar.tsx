@@ -6,8 +6,9 @@ import { useState } from "react";
 import { Colors } from "../../Themes/colors.ts";
 
 import DateChanger from "./DateChanger";
+import VisitWeekCalendar from "./VisitWeekCalendar.tsx";
 
-const WeekCalendar = () => {
+const WeekCalendar = ({ reservations = [] }) => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth());
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -27,6 +28,7 @@ const WeekCalendar = () => {
   });
   const weekDays = ["PON", "WT", "ŚR", "CZW", "PT", "SB", "ND"];
   const hours = [
+    "06:00",
     "07:00",
     "08:00",
     "09:00",
@@ -41,19 +43,19 @@ const WeekCalendar = () => {
     "18:00",
     "19:00",
     "20:00",
+    "21:00",
   ];
 
   const calendarDays = [];
 
   for (let i = 0; i < 7; i++) {
-    let dayNumber = firstDayWeek + i;
-    if (dayNumber <= 0) {
-      dayNumber = daysInPreviousMonth + dayNumber;
-    }
-    if (dayNumber > daysInMonth) {
-      dayNumber = dayNumber - daysInMonth;
-    }
-    calendarDays.push(dayNumber);
+    const date = new Date(year, month, firstDayWeek + i);
+
+    calendarDays.push({
+      day: date.getDate(),
+      date: date,
+      weekDay: (date.getDay() + 6) % 7,
+    });
   }
 
   const previousWeek = () => {
@@ -109,6 +111,84 @@ const WeekCalendar = () => {
     setYear(newYear);
     setSelectedDayIndex(-1);
   };
+  const showVisit = (reservation, currentDate, hour) => {
+    const reservationDate = new Date(reservation.data);
+    const reservationTime = reservationDate.toLocaleTimeString("pl-PL", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Europe/Warsaw",
+    });
+    const [reservationHour, reservationMinute] = reservationTime.split(":");
+
+    const currentHour = hour.split(":")[0];
+    const topOffset = (Number(reservationMinute) / 60) * 100;
+
+    const sameDay =
+      reservationDate.getDate() === currentDate.getDate() &&
+      reservationDate.getMonth() === currentDate.getMonth() &&
+      reservationDate.getFullYear() === currentDate.getFullYear();
+
+    return {
+      hasVisit: sameDay && currentHour === reservationHour,
+      topOffset: (Number(reservationMinute) / 60) * 100,
+    };
+  };
+
+  const isDateInWeek = (reservationDate, firstDayWeek) => {
+    const firstDate = new Date(year, month, firstDayWeek);
+
+    const lastDate = new Date(year, month, firstDayWeek + 6);
+
+    return (
+      reservationDate >= firstDate &&
+      reservationDate <
+        new Date(
+          lastDate.getFullYear(),
+          lastDate.getMonth(),
+          lastDate.getDate() + 1,
+        )
+    );
+  };
+
+  const hasVisit = (reservations, hour) => {
+    let hasHourVisit = false;
+    for (const reservation of reservations) {
+      const reservationDate = new Date(reservation.data);
+      const reservationTime = reservationDate.toLocaleTimeString("pl-PL", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/Warsaw",
+      });
+      const [reservationHour, reservationMinute] = reservationTime.split(":");
+
+      const currentHour = hour.split(":")[0];
+      const finishTime =
+        (Number(reservationHour) * 60 +
+          Number(reservationMinute) +
+          Number(reservation.duration)) /
+        60;
+
+      if (
+        isDateInWeek(reservationDate, firstDayWeek) &&
+        currentHour >= reservationHour &&
+        currentHour < finishTime
+      ) {
+        hasHourVisit = true;
+        return hasHourVisit;
+      }
+    }
+
+    return hasHourVisit;
+  };
+  const dayHasVisit = (item) => {
+    return reservations.some(
+      (reservation) =>
+        new Date(reservation.data).toDateString() === item.date.toDateString(),
+    );
+  };
+
+  const [calendarHeight, setCalendarHeight] = useState(0);
+  const rowHeight = calendarHeight > 0 ? calendarHeight / hours.length : 50;
 
   return (
     <View style={styles.container}>
@@ -118,7 +198,7 @@ const WeekCalendar = () => {
           nextSheet={nextWeek}
           currentMonthText={currentMonthText}
           currentYear={year}
-          currentWeek={`${calendarDays[0]} \u2014 ${calendarDays[6]}`}
+          currentWeek={`${firstDayWeek} \u2014 ${lastDayWeek}`}
         />
         <View style={styles.week}>
           {weekDays.map((item, index) => (
@@ -138,7 +218,7 @@ const WeekCalendar = () => {
               <LinearGradient
                 colors={
                   index == selectedDayIndex
-                    ? [Colors.green1, Colors.green2]
+                    ? [Colors.green2, Colors.green2]
                     : ["transparent", "transparent"]
                 }
                 start={{ x: 0, y: 0 }}
@@ -146,22 +226,37 @@ const WeekCalendar = () => {
                 style={styles.day_selected}
               >
                 <Text
-                  style={
-                    [styles.dayText,
-                    index == selectedDayIndex && styles.day_selected]
-                  }
+                  style={[
+                    styles.dayText,
+                    index == selectedDayIndex && styles.day_selected,
+                  ]}
                 >
-                  {item}
+                  {item.day}
                 </Text>
+                {dayHasVisit(item) && !(index == selectedDayIndex) && (
+                  <View style={styles.dot} />
+                )}
               </LinearGradient>
             </Pressable>
           ))}
         </View>
       </View>
-      <View style={styles.scroll}>
+      <View
+        style={styles.scroll}
+        onLayout={(e) => {
+          setCalendarHeight(e.nativeEvent.layout.height);
+        }}
+      >
         <ScrollView style={styles.calendarContainer}>
           {hours.map((hour) => (
-            <View key={hour} style={styles.row}>
+            <View
+              key={hour}
+              style={[
+                styles.row,
+                {height: rowHeight},
+                hasVisit(reservations, hour) && { height: rowHeight * 3 },
+              ]}
+            >
               <Text style={styles.hourText}>{hour}</Text>
 
               {weekDays.map((day, index) => (
@@ -172,7 +267,41 @@ const WeekCalendar = () => {
                     index === weekDays.length - 1 && styles.right_border,
                     index == selectedDayIndex && styles.cell_selected,
                   ]}
-                />
+                >
+                  {reservations.map((reservation, reservationIndex) => {
+                    const currentDate = calendarDays[index].date;
+                    const { hasVisit, topOffset } = showVisit(
+                      reservation,
+                      currentDate,
+                      hour,
+                    );
+
+                    if (hasVisit) {
+                      return (
+                        <View
+                          key={reservation.id ?? reservationIndex}
+                          style={{
+                            position: "absolute",
+                            top: `${topOffset}%`,
+                            left: 0,
+                            right: 0,
+                            height: "100%",
+                            zIndex: 20,
+                          }}
+                        >
+                          <VisitWeekCalendar
+                            service={reservation.service_name}
+                            date={reservation.data}
+                            company={reservation.company_name}
+                            duration={reservation.duration}
+                          />
+                        </View>
+                      );
+                    }
+
+                    return null;
+                  })}
+                </View>
               ))}
             </View>
           ))}
@@ -226,9 +355,15 @@ const styles = StyleSheet.create({
   dayText: {
     color: "#333",
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     textAlign: "center",
     textAlignVertical: "center",
+  },
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: Colors.green2,
   },
 
   day_selected: {
@@ -237,10 +372,8 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 999,
 
-    justifyContent: 'center',
-    alignItems: 'center',
-
-
+    justifyContent: "center",
+    alignItems: "center",
   },
   cell_selected: {
     backgroundColor: Colors.green7,
@@ -256,7 +389,7 @@ const styles = StyleSheet.create({
 
   row: {
     width: "100%",
-    height: 60,
+//     height: 60,
     flexDirection: "row",
     position: "relative",
 
