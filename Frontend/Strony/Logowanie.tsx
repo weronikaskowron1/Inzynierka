@@ -1,12 +1,13 @@
 import {StyleSheet,Text,View,Image,Dimensions,TextInput,TouchableOpacity,} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { Colors } from "../Themes/colors.ts";
-import { Ionicons } from "@expo/vector-icons";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {useNavigation} from "@react-navigation/native";
+import {useState} from "react";
+import {Colors} from "../Themes/colors.ts";
+import {Ionicons} from "@expo/vector-icons";
 import LoginCard from "../Komponenty/Logowanie/LoginCard.tsx";
 import Checkbox from "expo-checkbox";
 import {useAuth} from "../Context/AuthContext";
+import {useGoogleAuth} from "../Komponenty/Rejestracja/useGoogleAuth"
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -49,6 +50,38 @@ export default function Logowanie() {
       }
     };
 
+    const handleGoogleUserInfo = async (userInfo) => {
+        try {
+            const response = await fetch("http://10.0.2.2:3000/api/google-auth-check", {
+                 method: "POST",
+                 headers: { "Content-Type": "application/json" },
+                 body: JSON.stringify({ email: userInfo.email,googleId: userInfo.id }),
+                 });
+
+                const data = await response.json();
+
+                if (data.exists) {
+                    await longin(data.user, true);
+                    navigation.navigate("Nawigator");
+                    } else {
+                        navigation.navigate("RejestracjaGoogle",{
+                            name: userInfo.given_name,
+                            surname: userInfo.family_name,
+                            email: userInfo.email,
+                            googleId: userInfo.id,
+                            });
+                        }
+            } catch (error) {
+                console.log("Błąd logowania Google:",error);
+                alert("Błąd połączenia z serwerem");
+                }
+        };
+
+        const {request, promptAsync} = useGoogleAuth(handleGoogleUserInfo);
+
+        const handleGoogleLogin = () => {
+            promptAsync();
+            };
 
 
   return (
@@ -125,7 +158,7 @@ export default function Logowanie() {
           <View style={styles.line} />
         </View>
         <View style={styles.AppleGoogleContainer}>
-          <TouchableOpacity style={styles.iconAppleGoogle}>
+          <TouchableOpacity style={styles.iconAppleGoogle} onPress = {handleGoogleLogin} disabled = {!request}>
             <Image
               source={require("../assets/logo-google.webp")}
               style={styles.logoGoogle}

@@ -13,6 +13,7 @@ import Logowanie from './Strony/Logowanie.tsx'
 import Nawigator from './Komponenty/Nawigator.tsx'
 import Rejestracja from './Strony/Rejestracja.tsx';
 import {AuthProvider,useAuth} from "./Context/AuthContext";
+import RejestracjaGoogle from './Strony/RejestracjaGoogle.tsx';
 
 
 const Stack = createNativeStackNavigator();
@@ -36,6 +37,11 @@ function RootStack() {
         <Stack.Screen
          name="Nawigator"
          component={Nawigator}
+        />
+
+        <Stack.Screen
+         name="RejestracjaGoogle"
+         component={RejestracjaGoogle}
         />
 
         <Stack.Screen
