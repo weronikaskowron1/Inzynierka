@@ -1,20 +1,22 @@
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { pressed_styles } from '../../Themes/buton_pressed.tsx'
+import {useAuth} from "../../Context/AuthContext"
 
 import { Colors } from '../../Themes/colors.ts';
 
 import AvatarIcon from '../Buttons/AvatarIcon.tsx';
 
 const Welcome = () => {
-  const name: string = 'Weronika';
+  //const name: string = 'Weronika';
+  const {user} = useAuth();
   return (
     <View style={styles.container}>
       <AvatarIcon />
 
       <View>
         <Text style={styles.greeting}>Cześć,</Text>
-        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.name}>{user?.name}</Text>
       </View>
     </View>
   );

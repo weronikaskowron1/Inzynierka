@@ -7,6 +7,7 @@ import NextVisitCard from "../Komponenty/HomeScreen/NextVisitCard.tsx";
 import Searchbar from "../Komponenty/HomeScreen/Searchbar.tsx";
 import StudioCard from "../Komponenty/HomeScreen/StudioCard.tsx";
 import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
+import {useAuth} from "../Context/AuthContext"
 
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
@@ -22,7 +23,7 @@ const API_URL = process.env.API_URL;
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
-
+  const {user} = useAuth();
   const [salony, setSalony] = useState([]);
 
   const getSalony = async () => {

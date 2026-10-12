@@ -12,6 +12,7 @@ import ProfilNawigator from "./ProfilNawigator";
 
 import HomeScreenEmployer from '../Strony/HomeScreenEmployer';
 
+
 const Tab = createBottomTabNavigator();
 
 export default function Nawigator() {
