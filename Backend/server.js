@@ -13,6 +13,8 @@ import putUser from "./Api/PutApi/PutUser.js";
 import putAdressUser from "./Api/PutApi/PutAdressUser.js";
 import DeleteUser from "./Api/DeleteApi/DeleteUser.js";
 import putImage from "./Api/PutApi/PutImage.js";
+import BlockUnblockUser from "./Api/PutApi/BlockUnblockUser.js";
+import getAllProfiles from "./Api/GetApi/GetAllProfiles.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -27,6 +29,7 @@ app.use('/api/visitcards', getVisitCards );
 app.use('/api/uzytkownicy',getUser);
 app.use('/api/firmy',getCompany);
 app.use('/api/kategorie',getCategories);
+app.use('/api/profile',getAllProfiles);
 
 //PostApi
 
@@ -34,6 +37,7 @@ app.use('/api/kategorie',getCategories);
 app.use('/api/uzytkownicy',putUser);
 app.use('/api/uzytkownicy/adres',putAdressUser);
 app.use('/api/zdjecie',putImage);
+app.use('/api/block/uzytkownik',BlockUnblockUser);
 
 //DeleteAPI
 app.use('/api/delete/uzytkownik',DeleteUser);
