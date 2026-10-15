@@ -42,6 +42,7 @@ export default function Profil() {
     LeagueSpartan_600SemiBold,
   });
   const ip = 3;
+  const [nextVisit, setNextVisit] = useState(null);
   const [showChangeImage, setShowChangeImage] = useState(false);
   const [userType, setUserType] = useState("user");
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -55,6 +56,7 @@ export default function Profil() {
         userType === "user"
           ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
           : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+      console.log("URL:", url);
       const response = await fetch(url);
       const data = await response.json();
       console.log("Dane:", data[0]);
@@ -73,6 +75,21 @@ export default function Profil() {
   useEffect(() => {
     GetProfileInfo();
   }, []);
+
+
+  const GetLastVisit = async() => {
+      try {
+          const url = `${process.env.EXPO_PUBLIC_API_URL}/api/user/${ip}/next`;
+          const response = await fetch(url);
+          const data = await response.json();
+          setNextVisit(data);
+          } catch(error){
+              console.error("Błąd pobierania nastepnej wizyty: ",error);
+              }
+      };
+  useEffect(() => {
+      GetLastVisit();
+      }, []);
 
   //Pobieranie zdjecia profilowego
   const UpdateImage = async (image_path: string) => {

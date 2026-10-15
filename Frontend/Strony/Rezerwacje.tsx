@@ -4,6 +4,7 @@ import FilterIcon from "../Komponenty/Buttons/FilterIcon.tsx";
 import MonthCalendar from "../Komponenty/Rezerwacje/MonthCalendar.tsx";
 import WeekCalendar from "../Komponenty/Rezerwacje/WeekCalendar.tsx";
 import CalendarToggle from "../Komponenty/Rezerwacje/CalendarToggle.tsx";
+import { useAuth } from "../Context/AuthContext";
 import VisitMonthCalendar from "../Komponenty/Rezerwacje/VisitMonthCalendar.tsx";
 import VisitWeekCalendar from "../Komponenty/Rezerwacje/VisitWeekCalendar.tsx";
 
@@ -19,18 +20,26 @@ function Rezerwacje() {
   const insets = useSafeAreaInsets();
 
   const [calendarType, setCalendarType] = useState<"week" | "month">("week");
+  const { user } = useAuth();
   const [reservations, setReservations] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
-    getReservations();
-  }, []);
+    if (user?.id) {
+        getReservations();
+        }
+  }, [user]);
   const getReservations = async () => {
     try {
-      const userId = 1;
+       const userId = user?.id;
+
+       if(!userId) {
+           console.log("Bląd ID użytkownika");
+           return;
+       }
 
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/visitcards/user/${userId}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/api/user/${userId}`,
       );
 
       const data = await response.json();
@@ -87,7 +96,7 @@ function Rezerwacje() {
                   <VisitMonthCalendar
                     service={item.service_name}
                     date={item.data}
-                    company={item.company_name}
+                    company={item.studio_name}
                     duration={item.duration}
                   />
                 )}
