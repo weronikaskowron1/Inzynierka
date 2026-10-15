@@ -104,7 +104,7 @@ function HomeScreen() {
         <View style={GlobalStyles.container}>
           <View style={styles.header}>
             <Welcome />
-            <AlertIcon />
+            <AlertIcon/>
           </View>
           <View style={styles.searcharbar}>
             <Searchbar />

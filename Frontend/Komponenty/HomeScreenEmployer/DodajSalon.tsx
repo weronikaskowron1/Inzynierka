@@ -4,13 +4,18 @@ import { pressed_styles } from "../../Themes/buton_pressed.tsx";
 
 import { Colors } from "../../Themes/colors.ts";
 
+import { useNavigation } from "@react-navigation/native";
 const DodajSalon = () => {
+  const navigation = useNavigation();
   return (
     <Pressable
       style={({ pressed }) => [
         styles.container,
         pressed && pressed_styles.button_pressed,
       ]}
+      onPress={() =>
+        navigation.navigate("DodajStudioPanel")
+      }
     >
       <View style={styles.text_container}>
         <AntDesign name="plus" size={24} color={Colors.green1} />

@@ -12,7 +12,7 @@ const Welcome = () => {
   const {user} = useAuth();
   return (
     <View style={styles.container}>
-      <AvatarIcon />
+      <AvatarIcon name={user?.name}/>
 
       <View>
         <Text style={styles.greeting}>Cześć,</Text>
