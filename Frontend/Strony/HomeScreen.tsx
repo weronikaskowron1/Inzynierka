@@ -19,12 +19,24 @@ import { getUserLocation } from "../utils/getUserLocation.js";
 import { calculateDistance } from "../utils/calculateDistance.js";
 
 const API_URL = process.env.API_URL;
+const API = process.env.EXPO_PUBLIC_API_URL || "http://10.0.2.2:3000";
+const formatDay = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("pl-PL",{
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        });
+    };
+
 
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
   const {user} = useAuth();
   const [salony, setSalony] = useState([]);
+  const [nextVisit,setNextVisit] = useState(null);
 
   const getSalony = async () => {
     try {
@@ -43,8 +55,21 @@ function HomeScreen() {
     }
   };
 
+
+
+  const getNextVisit = async () => {
+      try {
+          const response = await fetch(`${API}/api/user/${user.id}/next`);
+              const data = await response.json();
+              setNextVisit(data);
+          } catch (error) {
+              console.error("Bład pobierania następnej wizyty: ",error);
+              }
+      };
+
   useEffect(() => {
     getSalony();
+    getNextVisit();
   }, []);
 
   console.log(process.env.EXPO_PUBLIC_API_URL);
@@ -96,28 +121,35 @@ function HomeScreen() {
             <WszystkieText />
           </View>
 
-          <View style={styles.service_container}>
-            <StudioCard
-              service_name={salony[0]?.name}
-              rating={salony[0]?.avg_rating}
-              distance={`${calculateDistance(18.5418, 50.0971, salony[0]?.longitude, salony[0]?.latitude)} km`}
-            />
-            <StudioCard
-              service_name={salony[1]?.name}
-              rating={salony[1]?.avg_rating}
-              distance={`${calculateDistance(18.5418, 50.0971, salony[1]?.longitude, salony[1]?.latitude)} km`}
-            />
-          </View>
+          <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator = {false}
+          contentContainerStyle = {styles.service_container}
+          >
+            {salony.slice(0, 5).map((salon, index) => (
+                <StudioCard
+                   key={salon.id ?? index}
+                   service_name={salon.name}
+                   rating={salon.avg_rating}
+                   distance={`${calculateDistance(18.5418, 50.0971, salon.longitude, salon.latitude)} km`}
+                />
+                ))}
+          </ScrollView>
 
           <Text style={styles.nastepna_wizyta_text}>NASTĘPNA WIZYTA</Text>
-          <View style={styles.next_visits_container}>
-            <NextVisitCard
-              service="Manicure hybrydowy"
-              day="Jutro"
-              time="11:00"
-              company="Nails&Co."
-            />
-          </View>
+            {nextVisit && (
+              <View style={styles.next_visits_container}>
+                <NextVisitCard
+                  service = {nextVisit.service_name}
+                  day = {formatDay(nextVisit.data)}
+                  time = {new Date(nextVisit.data).toLocaleTimeString("pl-PL",{
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      })}
+                  company = {nextVisit.studio_name}
+                />
+              </View>
+            )}
         </View>
       </View>
     </ScrollView>

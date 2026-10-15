@@ -20,6 +20,7 @@ import putAdressUser from "./Api/PutApi/PutAdressUser.js";
 import DeleteUser from "./Api/DeleteApi/DeleteUser.js";
 import putImage from "./Api/PutApi/PutImage.js";
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -33,10 +34,11 @@ app.use("/api/google-auth-check",GoogleAuthCheck)
 app.use("/api/register-google",RegisterGoogleUser)
 app.use('/api/salony',getEmployerStudios);
 app.use('/api/employee_count',getEmployeeCount);
-app.use('/api/visitcards', getVisitCards );
+app.use('/api', getVisitCards );
 app.use('/api/uzytkownicy',getUser);
 app.use('/api/firmy',getCompany);
 app.use('/api/kategorie',getCategories);
+
 
 //PostApi
 

@@ -36,4 +36,41 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
+router.get("/user/:userId/next", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const results = await DbConnection.query(`
+      SELECT
+        r.id,
+        r.data,
+        st.name AS studio_name,
+        s.name AS service_name,
+        s.duration
+
+      FROM reservations r
+
+      JOIN studios st
+        ON r.id_studio = st.id_studio
+
+      JOIN services s
+        ON r.id_service = s.id
+
+
+      WHERE r.id_user = $1
+        AND r.data > NOW()
+
+      ORDER BY r.data ASC
+      LIMIT 1;
+    `, [userId]);
+
+    res.json(results.rows[0] || null);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Błąd bazy danych" });
+  }
+});
+
+
 export default router;
