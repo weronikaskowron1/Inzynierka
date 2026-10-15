@@ -20,10 +20,12 @@ import { getUserLocation } from "../utils/getUserLocation.js";
 import { calculateDistance } from "../utils/calculateDistance.js";
 
 const API_URL = process.env.API_URL;
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default HomeScreenEmployer;
 function HomeScreenEmployer({ userId = 1 }) {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const [salony, setSalony] = useState([]);
   const [employeeCount, setEmployeeCount] = useState([]);
@@ -66,7 +68,7 @@ const getEmployeeCount = async () => {
   console.log(numberOfStudios);
 
   return (
-    <View style={GlobalStyles.body}>
+    <View style={[GlobalStyles.body, {paddingTop:insets.top}]}>
       <ScrollView>
         <View style={GlobalStyles.container}>
           <View style={styles.header}>

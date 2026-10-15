@@ -17,8 +17,8 @@ export const Colors = {
   lightgrayBorder: '#E5E5E5',
 
   // Background
-  backgroundColor: '#FDFDF9',
-  creambackground: '#FCFBF9',
+  backgroundColor: '#FAFCF6',
+  creambackground: '#FAFCF6',
   greenishwhite: '#F7F8F2',
   white: '#FDFDFB',
 

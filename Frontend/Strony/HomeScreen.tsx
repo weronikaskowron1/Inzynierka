@@ -10,6 +10,7 @@ import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
 import {useAuth} from "../Context/AuthContext"
 
 import { useNavigation } from "@react-navigation/native";
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useState, useEffect } from "react";
 
 import { Colors } from "../Themes/colors.ts";
@@ -23,6 +24,8 @@ const API_URL = process.env.API_URL;
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+
   const {user} = useAuth();
   const [salony, setSalony] = useState([]);
 
@@ -71,8 +74,8 @@ function HomeScreen() {
     },
   ];
   return (
-    <ScrollView>
-      <View style={GlobalStyles.body}>
+    <View style={[GlobalStyles.body, {paddingTop:insets.top}]}>
+      <ScrollView>
         <View style={GlobalStyles.container}>
           <View style={styles.header}>
             <Welcome />
@@ -98,12 +101,14 @@ function HomeScreen() {
 
           <View style={styles.service_container}>
             <StudioCard
-              service_name={salony[0]?.name}
+              id_studio={salony[0]?.id_studio}
+              studio_name={salony[0]?.name}
               rating={salony[0]?.avg_rating}
               distance={`${calculateDistance(18.5418, 50.0971, salony[0]?.longitude, salony[0]?.latitude)} km`}
             />
             <StudioCard
-              service_name={salony[1]?.name}
+              id_studio={salony[1]?.id_studio}
+              studio_name={salony[1]?.name}
               rating={salony[1]?.avg_rating}
               distance={`${calculateDistance(18.5418, 50.0971, salony[1]?.longitude, salony[1]?.latitude)} km`}
             />
@@ -119,8 +124,8 @@ function HomeScreen() {
             />
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
