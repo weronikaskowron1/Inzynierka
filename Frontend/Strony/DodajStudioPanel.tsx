@@ -11,6 +11,8 @@ import {
 } from "react-native-safe-area-context";
 
 import GoBackButton2 from "../Komponenty/DodajStudioPanel/GoBackButton2.tsx";
+import StepIndicator from "../Komponenty/DodajStudioPanel/StepIndicator.tsx";
+
 export default DodajStudioPanel;
 function DodajStudioPanel() {
   const navigation = useNavigation();
@@ -26,6 +28,9 @@ function DodajStudioPanel() {
             </View>
 
             <Text style={styles.title}>Dodaj salon</Text>
+          </View>
+          <View style={styles.step_container}>
+            <StepIndicator />
           </View>
         </View>
       </ScrollView>
@@ -54,5 +59,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "700",
     textAlign: "center",
+  },
+  step_container: {
+    marginTop: 20,
   },
 });
