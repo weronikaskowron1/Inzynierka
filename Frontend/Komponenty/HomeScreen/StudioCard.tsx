@@ -6,13 +6,18 @@ import HeartIcon from "../Buttons/HeartIcon.tsx";
 import { pressed_styles } from "../../Themes/buton_pressed.tsx";
 import { Colors } from "../../Themes/colors.ts";
 
+import { useNavigation } from "@react-navigation/native";
+import { StudioPanel } from '../../Strony/StudioPanel.tsx';
 const StudioCard = ({
-  service_name,
+  id_studio,
+  studio_name,
   rating,
   distance,
   userType = "user",
   street = "Marszałkowska",
 }) => {
+  const navigation = useNavigation();
+
   let image_uploaded = false;
   return (
     <View style={styles.container}>
@@ -23,6 +28,11 @@ const StudioCard = ({
       )}
 
       <Pressable
+        onPress={() =>
+          navigation.navigate("StudioPanel", {
+            id_studio: id_studio,
+          })
+        }
         style={({ pressed }) => [
           styles.service_container,
           pressed && pressed_styles.button_pressed,
@@ -46,7 +56,7 @@ const StudioCard = ({
         {image_uploaded && <View style={styles.image_container} />}
 
         <View style={styles.service_info}>
-          <Text style={styles.service_name}>{service_name}</Text>
+          <Text style={styles.service_name}>{studio_name}</Text>
 
           {userType === "user" && (
             <View style={styles.info_container}>
@@ -74,7 +84,7 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
 
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
 
   service_container: {

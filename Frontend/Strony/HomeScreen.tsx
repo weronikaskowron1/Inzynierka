@@ -10,6 +10,7 @@ import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
 import {useAuth} from "../Context/AuthContext"
 
 import { useNavigation } from "@react-navigation/native";
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useState, useEffect } from "react";
 
 import { Colors } from "../Themes/colors.ts";
@@ -34,6 +35,8 @@ const formatDay = (dateString) => {
 export default HomeScreen;
 function HomeScreen() {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+
   const {user} = useAuth();
   const [salony, setSalony] = useState([]);
   const [nextVisit,setNextVisit] = useState(null);
@@ -96,8 +99,8 @@ function HomeScreen() {
     },
   ];
   return (
-    <ScrollView>
-      <View style={GlobalStyles.body}>
+    <View style={[GlobalStyles.body, {paddingTop:insets.top}]}>
+      <ScrollView>
         <View style={GlobalStyles.container}>
           <View style={styles.header}>
             <Welcome />
@@ -151,8 +154,8 @@ function HomeScreen() {
               </View>
             )}
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
