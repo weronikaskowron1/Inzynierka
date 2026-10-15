@@ -47,7 +47,7 @@ export default function HomeScreenAdministrator() {
         </View>
         <Searchbar placeholder_text="Szukaj użytkownika" />
         <View style={styles.text_container}>
-          <Text style={styles.salony_text}>Wszycy użytkownicy</Text>
+          <Text style={styles.salony_text}>Wszyscy użytkownicy</Text>
         </View>
         <FlatList
           data={profiles}

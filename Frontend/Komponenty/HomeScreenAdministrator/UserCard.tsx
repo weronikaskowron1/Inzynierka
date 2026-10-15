@@ -91,6 +91,7 @@ const ServiceCardUlubione = ({ image_path, name, surname="", email, id, user_typ
           styles.service_container,
           pressed && pressed_styles.button_pressed,
         ]}
+    onPress={()=>user_type=="user" ? navigation.navigate('EdytujProfil',{id,user_type}) : navigation.navigate('Salony',{userId:id})}
       >
         {!image_uploaded && (
           <AvatarIcon
@@ -157,13 +158,14 @@ const ServiceCardUlubione = ({ image_path, name, surname="", email, id, user_typ
               backgroundColor: Colors.backgroundColor,
               borderRadius: 5,
               width:135,
-              height:135,
+              height: user_type==="employer" ? 135 : 92,
               marginTop:'-8%',
               marginLeft:64
 
             }}
              anchorPosition="top"
           >
+          {(user_type=="employer") &&
             <Menu.Item
               title="Edytuj"
               style={{height:40}}
@@ -181,9 +183,10 @@ const ServiceCardUlubione = ({ image_path, name, surname="", email, id, user_typ
               }}
               onPress={() => {
                 setMenuVisible(false);
-                navigation.navigate('EdytujProfil');
+               navigation.navigate('EdytujProfil',{id,user_type})
               }}
             />
+            }
             {
                 (isblocked) ?
              (
@@ -257,7 +260,7 @@ const ServiceCardUlubione = ({ image_path, name, surname="", email, id, user_typ
           </Menu>
         </View>
       </Pressable>
-         <Modal visible={showDeleteAccount} transparent animationType="fade" onRequestClose={() => setshowDeleteAccount(false)}>
+         <Modal visible={showDeleteAccount} transparent animationType="fade" onRequestClose={() => setShowDeleteAccount(false)}>
            <Pressable style={styles.modalTlo} onPress={() => setShowDeleteAccount(false)}>
              <Pressable style={styles.DeleteContainer} onPress={(e) => e.stopPropagation()}>
                <View style={[styles.tloIconki,{backgroundColor:Colors.pink,width:'18%',borderRadius:99, marginBottom:'1%'}]}>

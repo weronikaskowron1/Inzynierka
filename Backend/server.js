@@ -15,6 +15,7 @@ import DeleteUser from "./Api/DeleteApi/DeleteUser.js";
 import putImage from "./Api/PutApi/PutImage.js";
 import BlockUnblockUser from "./Api/PutApi/BlockUnblockUser.js";
 import getAllProfiles from "./Api/GetApi/GetAllProfiles.js";
+import putCompany from "./Api/PutApi/PutCompany.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -35,6 +36,7 @@ app.use('/api/profile',getAllProfiles);
 
 //PutApi
 app.use('/api/uzytkownicy',putUser);
+app.use('/api/firmy',putCompany);
 app.use('/api/uzytkownicy/adres',putAdressUser);
 app.use('/api/zdjecie',putImage);
 app.use('/api/block/uzytkownik',BlockUnblockUser);

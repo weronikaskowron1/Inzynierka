@@ -7,7 +7,6 @@ import { useFonts } from 'expo-font';
 
 
 export default function NavigationContainer({navigation, userType}) {
-    console.log(navigation);
     const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
     return (
         <View style={[styles.container,{flexDirection:'column'}]}>

@@ -6,6 +6,9 @@ import UstawieniaKonta from "../Strony/UstawieniaKonta";
 //import EdytujProfilAdmin from "../Strony/EdytujProfilAdmin";
 import HomeScreenAdministrator from "../Strony/HomeScreenAdministrator";
 import HomeScreenEmployer from "../Strony/HomeScreenEmployer";
+import EdytujProfilAdministrator from "../Strony/EdytujProfilAdministrator";
+import SalonyAdministrator from "../Strony/SalonyAdministrator";
+import PracownicyAdministrator from "../Strony/PracownicyAdministrator";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,20 +19,20 @@ export default function NawigatorAdmin() {
         name="Profil"
         component={HomeScreenAdministrator}
       />
-{
-//       <Stack.Screen
-//         name="EdytujProfilAdmin"
-//         component={EdytujProfilAdmin}
-//       />
-}
         <Stack.Screen
           name="EdytujProfil"
-          component={EdytujProfil}
+          component={EdytujProfilAdministrator}
         />
         <Stack.Screen
           name="Salony"
-          component={HomeScreenEmployer}
+          component={SalonyAdministrator}
         />
+        {
+//         <Stack.Screen
+//           name="Pracownicy"
+//           component={PracownicyAdministrator}
+//         />
+        }
 
     </Stack.Navigator>
   );
