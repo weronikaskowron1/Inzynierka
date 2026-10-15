@@ -7,6 +7,7 @@ import NextVisitCard from "../Komponenty/HomeScreen/NextVisitCard.tsx";
 import Searchbar from "../Komponenty/HomeScreen/Searchbar.tsx";
 import StudioCard from "../Komponenty/HomeScreen/StudioCard.tsx";
 import WszystkieText from "../Komponenty/HomeScreen/WszystkieText.tsx";
+import {useAuth} from "../Context/AuthContext"
 
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -25,6 +26,7 @@ function HomeScreen() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
+  const {user} = useAuth();
   const [salony, setSalony] = useState([]);
 
   const getSalony = async () => {

@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { pressed_styles } from "../../Themes/buton_pressed.tsx";
-
+import {useAuth} from "../../Context/AuthContext"
 import { Colors } from "../../Themes/colors.ts";
 
 const AvatarIcon = ({
@@ -15,6 +15,8 @@ const AvatarIcon = ({
   borderRadius = 20,
   fontWeight = "700"
 }) => {
+    const {user} = useAuth();
+    const displayName = name || user?.name || "?";
   return (
     //     <Pressable
     //       style={({ pressed }) => [pressed && pressed_styles.button_pressed]}

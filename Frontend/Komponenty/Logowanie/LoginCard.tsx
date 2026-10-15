@@ -5,18 +5,20 @@ import { Feather } from '@expo/vector-icons';
 
 import { pressed_styles } from '../../Themes/buton_pressed.tsx'
 import { Colors } from '../../Themes/colors.ts';
-const NextVisitCard = ({ service = '', day = '', time = '', company = '' }) => {
+const NextVisitCard = ({ service = '', day = '', time = '', company = '',onPress }) => {
   return (
-    <LinearGradient
-      colors={[Colors.green2, Colors.green1]}
-      locations={[0, 1]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.visit_container}>
-      <View style={styles.container}>
-        <Text style={styles.service_type_text}>{service}</Text>
-      </View>
-    </LinearGradient>
+      <Pressable onPress={onPress} style={{width:"100%"}}>
+        <LinearGradient
+          colors={[Colors.green2, Colors.green1]}
+          locations={[0, 1]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.visit_container}>
+          <View style={styles.container}>
+            <Text style={styles.service_type_text}>{service}</Text>
+          </View>
+        </LinearGradient>
+      </Pressable>
   );
 };
 

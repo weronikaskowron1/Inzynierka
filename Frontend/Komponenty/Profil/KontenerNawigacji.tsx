@@ -25,7 +25,7 @@ export default function NavigationContainer({navigation, userType}) {
               <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
               </View>
 
-                <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+                <Pressable onPress={() => navigation.navigate('Powiadomienia')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
                 <View style={styles.tloIconki}>
                       <Feather name="bell" size={22} color={Colors.green2} />
                 </View>
@@ -91,7 +91,7 @@ export default function NavigationContainer({navigation, userType}) {
                 )}
 
 
-              <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+              <Pressable onPress={() => navigation.navigate('Prywatnosc')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
               <View style={styles.tloIconki}>
                     <MaterialCommunityIcons name="shield-check-outline" size={22} color={Colors.green2} />
               </View>
@@ -106,7 +106,7 @@ export default function NavigationContainer({navigation, userType}) {
               </View>
 
 
-              <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+              <Pressable onPress={() => navigation.navigate('Wsparcie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
               <View style={styles.tloIconki}>
                     <Feather name="help-circle" size={22} color={Colors.green2} />
               </View>
@@ -120,7 +120,7 @@ export default function NavigationContainer({navigation, userType}) {
               <View style={{width:'90%', height: 2, backgroundColor: Colors.lightgray, borderRadius:99}}/>
               </View>
 
-              <Pressable onPress={() => navigation.navigate('Logowanie')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+              <Pressable onPress={() => navigation.navigate('Informacje')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
               <View style={styles.tloIconki}>
                     <Feather name="info" size={22} color={Colors.green2} />
               </View>

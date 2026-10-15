@@ -15,13 +15,20 @@ import EdytujProfil from './Strony/EdytujProfil.tsx';
 import WszystkieSalony from './Strony/WszystkieSalony'
 import Rejestracja from './Strony/Rejestracja.tsx';
 import StudioPanel from './Strony/StudioPanel.tsx';
+import {AuthProvider,useAuth} from "./Context/AuthContext";
+import RejestracjaGoogle from './Strony/RejestracjaGoogle.tsx';
 
 
 const Stack = createNativeStackNavigator();
 
 
 function RootStack() {
+  const {user, isLoading} = useAuth();
   const insets = useSafeAreaInsets();
+
+  if (isLoading) {
+      return null;
+  }
   return (
     <View style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
     <Stack.Navigator
@@ -33,6 +40,11 @@ function RootStack() {
         <Stack.Screen
          name="Nawigator"
          component={Nawigator}
+        />
+
+        <Stack.Screen
+         name="RejestracjaGoogle"
+         component={RejestracjaGoogle}
         />
 
         <Stack.Screen
@@ -60,9 +72,11 @@ function RootStack() {
 export default function App() {
   return (
     <SafeAreaProvider>
-        <NavigationContainer>
-           <RootStack />
-        </NavigationContainer>
+        <AuthProvider>
+            <NavigationContainer>
+               <RootStack />
+            </NavigationContainer>
+        </AuthProvider>
     </SafeAreaProvider>
 
 
