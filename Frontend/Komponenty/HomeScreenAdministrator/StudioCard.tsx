@@ -3,7 +3,7 @@ import { Menu, Divider } from 'react-native-paper';
 import { LinearGradient } from "expo-linear-gradient";
 import { SimpleLineIcons, FontAwesome, Feather, Octicons } from "@expo/vector-icons";
 import AvatarIcon from "../Buttons/AvatarIcon.tsx";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
 import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold, LeagueSpartan_800ExtraBold, LeagueSpartan_900Black } from '@expo-google-fonts/league-spartan';
 import { useFonts } from 'expo-font';
 import { useNavigation } from '@react-navigation/native';
@@ -17,7 +17,7 @@ import ZdjecieProfilowe from "../../Komponenty/Profil/ProfilePhoto";
 
 import { useState, useEffect } from "react";
 
-export default function SetImage({ image_path }: { image_path: string | null }) {
+function SetImage({ image_path }: { image_path: string | null }) {
   if (!image_path) return null;
 
   const { data } = supabase.storage
@@ -26,24 +26,23 @@ export default function SetImage({ image_path }: { image_path: string | null }) 
 
   return `${data.publicUrl}?v=${Date.now()}`;
 }
-const StudioCard = ({ name, city, id, image_path}) => {
+
+const StudioCard = ({ name, street, id, image_path, userId, employeeCount}) => {
     const navigation = useNavigation();
     const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
     const [menuVisible, setMenuVisible] = useState(false);
     const [showDeleteAccount, setShowDeleteAccount] = useState(false);
     const [visible, setVisible] = useState(true);
     const [profileImage, setProfileImage] = useState<string | null>(null);
-    if (!visible) return null;
-        const DeleteUser = async () => {
+        const DeleteStudio = async () => {
           try {
 
-            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/delete/uzytkownik/${id}`, {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/delete/salon/${id}`, {
               method: "DELETE",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                user_type,
               }),
             });
 
@@ -52,26 +51,6 @@ const StudioCard = ({ name, city, id, image_path}) => {
             console.log("Usunięto:", data);
             setVisible(false);
 
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        const BlockUnblockUser = async () => {
-          try {
-
-            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/block/uzytkownik/${id}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                user_type,
-              }),
-            });
-
-            const data = await response.json();
-
-            console.log("Zablokowano/odblokowano konto:", data);
           } catch (error) {
             console.error(error);
           }
@@ -89,7 +68,7 @@ const StudioCard = ({ name, city, id, image_path}) => {
           styles.service_container,
           pressed && pressed_styles.button_pressed,
         ]}
-    onPress={()=> navigation.navigate('Salony',{id})}
+    onPress={()=> navigation.navigate("Pracownicy",{studioId: id, userId: userId})}
       >
         {!image_uploaded && (
           <AvatarIcon
@@ -116,10 +95,12 @@ const StudioCard = ({ name, city, id, image_path}) => {
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>{name}</Text>
           <View style={styles.info_container}>
               <View style={{flexDirection:'row', alignItems:'center', height:20, marginLeft:'-1%',}}>
-                            <Feather name="user" size={16} color={Colors.gray} />
+                            <Entypo name="location-pin" size={15} color={Colors.green2} />
                               <Text style={styles.user_type}>
-                                {" użytkownik"}
+                                {street}
                               </Text>
+                              <Text style={styles.user_type}>{` \u00B7 ${employeeCount} `}</Text>
+                              <Octicons name="people" size={15} color="gray" />
                   </View>
           </View>
         </View>
@@ -143,7 +124,7 @@ const StudioCard = ({ name, city, id, image_path}) => {
               backgroundColor: Colors.backgroundColor,
               borderRadius: 5,
               width:135,
-              height: 135,
+              height: 92,
               marginTop:'-8%',
               marginLeft:64
 
@@ -168,46 +149,6 @@ const StudioCard = ({ name, city, id, image_path}) => {
               onPress={() => {
                 setMenuVisible(false);
                navigation.navigate('EdytujProfil',{id,user_type})
-              }}
-            />
-                 <Menu.Item
-                   title={`Odblokuj`}
-                   style={{height:40}}
-                   leadingIcon={({ size }) => (
-                                 <MaterialCommunityIcons
-                                   name="account-lock-open-outline"
-                                   size={size}
-                                   color={Colors.green2}
-                                 />
-                               )}
-                   titleStyle={{
-                     color: Colors.graphite,
-                     fontFamily: "LeagueSpartan_500Medium",
-                     fontSize: 17,
-                   }}
-                   onPress={() => {
-                     setMenuVisible(false);
-                     BlockUnblockUser();
-                   }}
-                 />
-            <Menu.Item
-              title={`Zablokuj`}
-              style={{height:40}}
-              leadingIcon={({ size }) => (
-                            <MaterialCommunityIcons
-                              name="account-lock-outline"
-                              size={size}
-                              color={Colors.green2}
-                            />
-                          )}
-              titleStyle={{
-                color: Colors.graphite,
-                fontFamily: "LeagueSpartan_500Medium",
-                fontSize: 17,
-              }}
-              onPress={() => {
-                setMenuVisible(false);
-                BlockUnblockUser();
               }}
             />
 
@@ -251,7 +192,7 @@ const StudioCard = ({ name, city, id, image_path}) => {
                  <Text style={[styles.text, {fontSize: 20, fontFamily:'LeagueSpartan_500Medium', color:Colors.green2, marginTop:'-5%'}]}>Nie</Text>
                </Pressable>
 
-               <Pressable style={[styles.Option,{backgroundColor:Colors.lightred}]} onPress={()=> {DeleteUser(); setShowDeleteAccount(false);}} >
+               <Pressable style={[styles.Option,{backgroundColor:Colors.lightred}]} onPress={()=> {DeleteStudio(); setShowDeleteAccount(false);}} >
                  <Text style={[styles.text, {fontSize: 20, fontFamily:'LeagueSpartan_500Medium', color:Colors.white, marginTop:'-5%'}]}>Tak, usuń</Text>
                </Pressable>
                </View>
@@ -359,3 +300,5 @@ const styles = StyleSheet.create({
        justifyContent:'center'
      },
 });
+
+export default StudioCard;

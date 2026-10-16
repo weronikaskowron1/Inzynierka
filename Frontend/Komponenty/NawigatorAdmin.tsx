@@ -28,10 +28,10 @@ export default function NawigatorAdmin() {
           component={SalonyAdministrator}
         />
         {
-//         <Stack.Screen
-//           name="Pracownicy"
-//           component={PracownicyAdministrator}
-//         />
+        <Stack.Screen
+          name="Pracownicy"
+          component={PracownicyAdministrator}
+        />
         }
 
     </Stack.Navigator>

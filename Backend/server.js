@@ -16,6 +16,9 @@ import putImage from "./Api/PutApi/PutImage.js";
 import BlockUnblockUser from "./Api/PutApi/BlockUnblockUser.js";
 import getAllProfiles from "./Api/GetApi/GetAllProfiles.js";
 import putCompany from "./Api/PutApi/PutCompany.js";
+import getEmployees from "./Api/GetApi/getEmployees.js";
+import DeleteStudio from "./Api/DeleteApi/DeleteStudio.js";
+import DeleteEmployee from "./Api/DeleteApi/DeleteEmployee.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -26,6 +29,7 @@ app.use(express.json());
 app.use('/api/salony',getStudios);
 app.use('/api/salony',getEmployerStudios);
 app.use('/api/employee_count',getEmployeeCount);
+app.use('/api/pracownicy',getEmployees);
 app.use('/api/visitcards', getVisitCards );
 app.use('/api/uzytkownicy',getUser);
 app.use('/api/firmy',getCompany);
@@ -43,6 +47,8 @@ app.use('/api/block/uzytkownik',BlockUnblockUser);
 
 //DeleteAPI
 app.use('/api/delete/uzytkownik',DeleteUser);
+app.use('/api/delete/salon',DeleteStudio);
+app.use('/api/delete/pracownik',DeleteEmployee);
 
 app.listen(PORT,"0.0.0.0", () => {
   console.log(`Backend działa na http://localhost:${PORT}`);

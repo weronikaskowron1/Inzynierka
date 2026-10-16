@@ -26,7 +26,7 @@ function SetImage({ image_path }: { image_path: string | null }) {
 
   return `${data.publicUrl}?v=${Date.now()}`;
 }
-const ServiceCardUlubione = ({ image_path, name, surname="", email, id, user_type, blocked=false}) => {
+const UserCard = ({ image_path, name, surname="", email, id, user_type, blocked=false}) => {
     const navigation = useNavigation();
     const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
     const [menuVisible, setMenuVisible] = useState(false);
@@ -109,7 +109,7 @@ const ServiceCardUlubione = ({ image_path, name, surname="", email, id, user_typ
                 <ZdjecieProfilowe
                   imie={name}
                   photopath={profileImage}
-                  ShowChangeImage={() => setShowChangeImage(true)}
+                  ShowChangeImage={() => {}}
                   showCamera={false}
                 />
                 </View>
@@ -383,4 +383,4 @@ const styles = StyleSheet.create({
        justifyContent:'center'
      },
 });
-export default ServiceCardUlubione;
+export default UserCard;
