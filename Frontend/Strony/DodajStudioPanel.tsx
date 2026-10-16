@@ -20,6 +20,8 @@ import {
 import GoBackButton2 from "../Komponenty/DodajStudioPanel/GoBackButton2.tsx";
 import StepIndicator from "../Komponenty/DodajStudioPanel/StepIndicator.tsx";
 import CategoryDropDown from "../Komponenty/DodajStudioPanel/CategoryDropDown.tsx";
+import DodajZdjecieButton from "../Komponenty/DodajStudioPanel/DodajZdjecieButton.tsx";
+import DalejButton from "../Komponenty/DodajStudioPanel/DalejButton.tsx";
 
 export default DodajStudioPanel;
 function DodajStudioPanel() {
@@ -85,6 +87,17 @@ function DodajStudioPanel() {
               </View>
               <CategoryDropDown />
             </View>
+
+            <View>
+              <Text style={styles.main_text}>Zdjęcie</Text>
+              <Text style={styles.subtitle_text}>
+                Dodaj zdjęcie główne, które będzie widoczne na profilu salonu.
+              </Text>
+              <View style={{ alignItems: "center" }}>
+                <DodajZdjecieButton />
+              </View>
+            </View>
+            <DalejButton step={step} setStep={setStep}/>
           </View>
         </View>
       </ScrollView>

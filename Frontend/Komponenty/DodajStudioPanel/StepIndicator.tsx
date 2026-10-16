@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
   },
 
   circle_container_selected: {
-    borderColor: Colors.green1,
-    backgroundColor: Colors.green1,
+    borderColor: Colors.green12,
+    backgroundColor: Colors.green12,
   },
 
   circle: {
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
 
   line_selected: {
-    backgroundColor: Colors.green1,
+    backgroundColor: Colors.green12,
   },
 
   label: {
