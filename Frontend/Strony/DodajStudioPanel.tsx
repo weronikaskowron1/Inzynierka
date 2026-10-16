@@ -22,6 +22,8 @@ import StepIndicator from "../Komponenty/DodajStudioPanel/StepIndicator.tsx";
 import CategoryDropDown from "../Komponenty/DodajStudioPanel/CategoryDropDown.tsx";
 import DodajZdjecieButton from "../Komponenty/DodajStudioPanel/DodajZdjecieButton.tsx";
 import DalejButton from "../Komponenty/DodajStudioPanel/DalejButton.tsx";
+import WsteczButton from "../Komponenty/DodajStudioPanel/WsteczButton.tsx";
+import DodajButton from "../Komponenty/DodajStudioPanel/DodajButton.tsx";
 
 export default DodajStudioPanel;
 function DodajStudioPanel() {
@@ -46,58 +48,66 @@ function DodajStudioPanel() {
           <View style={styles.step_container}>
             <StepIndicator step={step} />
           </View>
-          <View style={{ marginHorizontal: 20, gap: 20 }}>
-            <View>
-              <Text style={styles.main_text}>Podstawowe informacje</Text>
-              <Text style={styles.subtitle_text}>
-                Podaj podstawowe dane o salonie
-              </Text>
-            </View>
-            <View style={styles.one_input}>
-              <View style={styles.tag_container}>
-                <Text style={styles.tag_text}>Nazwa salonu</Text>
-                <Text style={styles.required}>*</Text>
-              </View>
-              <TextInput maxLength={50} style={styles.input_container} />
-            </View>
-            <View style={styles.one_input}>
-              <Text style={styles.tag_text}>Opis salonu</Text>
-              <TextInput
-                maxLength={300}
-                multiline
-                style={styles.input_container}
-                value={description}
-                onChangeText={setDescription}
-              />
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: Colors.lightgrayText,
-                  alignSelf: "flex-end",
-                }}
-              >
-                {description.length}/300
-              </Text>
-            </View>
 
-            <View style={styles.one_input}>
-              <View style={styles.tag_container}>
-                <Text style={styles.tag_text}>Kategoria</Text>
-                <Text style={styles.required}>*</Text>
+          {step === 1 && (
+            <View style={{ marginHorizontal: 20, gap: 20 }}>
+              <View>
+                <Text style={styles.main_text}>Podstawowe informacje</Text>
+                <Text style={styles.subtitle_text}>
+                  Podaj podstawowe dane o salonie
+                </Text>
               </View>
-              <CategoryDropDown />
-            </View>
+              <View style={styles.one_input}>
+                <View style={styles.tag_container}>
+                  <Text style={styles.tag_text}>Nazwa salonu</Text>
+                  <Text style={styles.required}>*</Text>
+                </View>
+                <TextInput maxLength={50} style={styles.input_container} />
+              </View>
+              <View style={styles.one_input}>
+                <Text style={styles.tag_text}>Opis salonu</Text>
+                <TextInput
+                  maxLength={300}
+                  multiline
+                  style={styles.input_container}
+                  value={description}
+                  onChangeText={setDescription}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: Colors.lightgrayText,
+                    alignSelf: "flex-end",
+                  }}
+                >
+                  {description.length}/300
+                </Text>
+              </View>
 
-            <View>
-              <Text style={styles.main_text}>Zdjęcie</Text>
-              <Text style={styles.subtitle_text}>
-                Dodaj zdjęcie główne, które będzie widoczne na profilu salonu.
-              </Text>
-              <View style={{ alignItems: "center" }}>
-                <DodajZdjecieButton />
+              <View style={styles.one_input}>
+                <View style={styles.tag_container}>
+                  <Text style={styles.tag_text}>Kategoria</Text>
+                  <Text style={styles.required}>*</Text>
+                </View>
+                <CategoryDropDown />
+              </View>
+
+              <View>
+                <Text style={styles.main_text}>Zdjęcie</Text>
+                <Text style={styles.subtitle_text}>
+                  Dodaj zdjęcie główne, które będzie widoczne na profilu salonu.
+                </Text>
+                <View style={{ alignItems: "center" }}>
+                  <DodajZdjecieButton />
+                </View>
               </View>
             </View>
-            <DalejButton step={step} setStep={setStep}/>
+          )}
+
+          <View style={styles.footer}>
+            {step > 1 && <WsteczButton step={step} setStep={setStep} />}
+            {step < 3 && <DalejButton step={step} setStep={setStep} />}
+            {step === 3 && <DodajButton />}
           </View>
         </View>
       </ScrollView>
@@ -160,5 +170,9 @@ const styles = StyleSheet.create({
   required: {
     color: "red",
     fontSize: 14,
+  },
+  footer: {
+    flexDirection: "row",
+    gap: 13,
   },
 });

@@ -16,9 +16,9 @@ export default function DalejButton({ step, setStep }) {
       ]}
       onPress={() => setStep(step + 1)}
     >
-      <View style={{ flexDirection: "row", gap: 8, alignItems: "center" }}>
-        <Text style={{ fontSize: 20, color: "white" }}>Dalej</Text>
-        <Feather name="arrow-right" size={20} color="white" />
+      <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+        <Text style={{ fontSize: 16, color: "white", fontWeight: '500' }}>Dalej</Text>
+        <Feather name="arrow-right" size={16} color="white" />
       </View>
     </Pressable>
   );
@@ -26,6 +26,7 @@ export default function DalejButton({ step, setStep }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     width: "100%",
     height: 50,
     backgroundColor: Colors.green12,
