@@ -2,16 +2,16 @@ import { DbConnection } from "../../DbConnect.js";
 import express from "express";
 const router = express.Router();
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id_employee/:id_studio", async (req, res) => {
   try {
-    const id = req.params.id;
+    const {id_employee, id_studio} = req.params;
      const result = await DbConnection.query(
       `
-      DELETE FROM employees
-      WHERE id = $1
+      DELETE FROM employees_studios
+      WHERE id_employee = $1 AND id_studio=$2
       RETURNING *;
       `,
-      [ id ]
+      [ id_employee, id_studio ]
     );
 
     if (result.rows.length === 0) {

@@ -34,11 +34,10 @@ const EmployeeCard = ({ name, surname, id, id_salon, image_path}) => {
     const [showDeleteAccount, setShowDeleteAccount] = useState(false);
     const [visible, setVisible] = useState(true);
     const [profileImage, setProfileImage] = useState<string | null>(null);
-    const [employeeCount, setEmployeeCount] = useState<number>(0);
         const DeleteEmployee = async () => {
           try {
 
-            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/delete/pracownik/${id}`, {
+            const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/delete/pracownik/${id}/${id_salon}`, {
               method: "DELETE",
               headers: {
                 "Content-Type": "application/json",
@@ -56,29 +55,12 @@ const EmployeeCard = ({ name, surname, id, id_salon, image_path}) => {
             console.error(error);
           }
         };
-    const getEmployeeCount = async () => {
-        try {
-          const response = await fetch(
-            `${process.env.EXPO_PUBLIC_API_URL}/api/employee_count/company/${id}`,
-          );
-
-          const data = await response.json();
-
-          console.log("Dane:", data);
-          setEmployeeCount(Number(data[0]?.count ?? 0));;
-        } catch (error) {
-          console.error(error);
-        }
-      };
 
   const image_uploaded = image_path!=null;
     useEffect(() => {
         const url = SetImage({image_path});
         setProfileImage(url);
     }, [image_path]);
-  useEffect(() => {
-    getEmployeeCount();
-  }, []);
   return (
     <View style={styles.container}>
       <Pressable
@@ -134,33 +116,13 @@ const EmployeeCard = ({ name, surname, id, id_salon, image_path}) => {
               backgroundColor: Colors.backgroundColor,
               borderRadius: 5,
               width:135,
-              height: 92,
+              height: 52,
               marginTop:'-8%',
               marginLeft:64
 
             }}
              anchorPosition="top"
           >
-            <Menu.Item
-              title="Edytuj"
-              style={{height:40}}
-              leadingIcon={({ size }) => (
-                <MaterialCommunityIcons
-                  name="pencil-outline"
-                  size={size}
-                  color={Colors.green2}
-                />
-              )}
-              titleStyle={{
-                color: Colors.graphite,
-                fontFamily: "LeagueSpartan_500Medium",
-                fontSize: 17,
-              }}
-              onPress={() => {
-                setMenuVisible(false);
-               navigation.navigate('EdytujProfil',{id,user_type})
-              }}
-            />
 
             <Menu.Item
               title="Usuń"

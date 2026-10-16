@@ -20,7 +20,6 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 export default function PracownicyAdministrator({route}) {
     const { studioId, userId } = route.params;
     const tabBarHeight = useBottomTabBarHeight();
-    console.log("userId: ",userId)
   const navigation = useNavigation();
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
     const [employees, setEmployees] = useState([]);
@@ -66,8 +65,8 @@ export default function PracownicyAdministrator({route}) {
                   <EmployeeCard
                     name={employee.name}
                     surname={employee.surname}
-                    id_studio={employee.id_studio}
-                    id={employee.id_studio}
+                    id_salon={studioId}
+                    id={employee.id}
                     image_path={employee.image_path}
                   />
               </View>)}

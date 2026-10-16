@@ -19,7 +19,6 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 export default function SalonyAdministrator({route}) {
     const { userId } = route.params;
-    console.log("userId: ",userId)
     const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
