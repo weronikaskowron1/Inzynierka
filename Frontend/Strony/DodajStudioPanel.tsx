@@ -35,6 +35,9 @@ function DodajStudioPanel() {
 
   const [description, setDescription] = useState("");
 
+  const [openingHour, setOpeningHour] = useState(8);
+  const [openingMinute, setOpeningMinute] = useState(0);
+
   return (
     <View
       style={[
@@ -183,7 +186,7 @@ function DodajStudioPanel() {
             </View>
           )}
 
-          {step === 3 && <HourWheelPicker />}
+          {step === 3 && <HourWheelPicker hour={openingHour} setHour={setOpeningHour} minute={openingMinute} setMinute={setOpeningMinute} />}
         </View>
       </ScrollView>
       <View style={[styles.footer, { bottom: insets.bottom + 5 }]}>
