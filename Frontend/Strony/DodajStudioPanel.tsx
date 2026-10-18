@@ -5,6 +5,7 @@ import {
   ScrollView,
   Pressable,
   TextInput,
+  Switch,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
@@ -25,6 +26,7 @@ import DalejButton from "../Komponenty/DodajStudioPanel/DalejButton.tsx";
 import WsteczButton from "../Komponenty/DodajStudioPanel/WsteczButton.tsx";
 import DodajButton from "../Komponenty/DodajStudioPanel/DodajButton.tsx";
 import HourWheelPicker from "../Komponenty/DodajStudioPanel/HourWheelPicker.tsx";
+import TimeDropDown from "../Komponenty/DodajStudioPanel/TimeDropDown.tsx";
 
 export default DodajStudioPanel;
 function DodajStudioPanel() {
@@ -37,6 +39,18 @@ function DodajStudioPanel() {
 
   const [openingHour, setOpeningHour] = useState(8);
   const [openingMinute, setOpeningMinute] = useState(0);
+
+  const [enabled, setEnabled] = useState(false);
+
+  const weekDays = [
+    "Poniedziałek",
+    "Wtorek",
+    "Środa",
+    "Czwartek",
+    "Piątek",
+    "Sobota",
+    "Niedziela",
+  ];
 
   return (
     <View
@@ -186,7 +200,36 @@ function DodajStudioPanel() {
             </View>
           )}
 
-          {step === 3 && <HourWheelPicker hour={openingHour} setHour={setOpeningHour} minute={openingMinute} setMinute={setOpeningMinute} />}
+          {step === 3 && (
+            <View style={{ marginHorizontal: 10, gap: 20 }}>
+              <View>
+                <Text style={styles.main_text}>Godzina otwarcia</Text>
+                <Text style={styles.subtitle_text}>
+                  Określ, w jakich godzinach salon jest otwarty.
+                </Text>
+              </View>
+              <View>
+                {weekDays.map((item, index) => (
+                  <View key={index} style={styles.row}>
+                    <Text style={styles.weekday}>{item}</Text>
+                    <View style={styles.switch_container}>
+                      <Switch
+                        value={enabled}
+                        onValueChange={setEnabled}
+                        trackColor={{ false: "red", true: Colors.green12 }}
+                        thumbColor={enabled ? "white" : "white"}
+                      />
+                    </View>
+                    <View style={styles.time_container}>
+                    <TimeDropDown />
+                    <Text>-</Text>
+                    <TimeDropDown />
+                    </View>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
         </View>
       </ScrollView>
       <View style={[styles.footer, { bottom: insets.bottom + 5 }]}>
@@ -252,8 +295,31 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 14,
   },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  weekday: {
+    width: "33%",
+    fontWeight: "500",
+  },
+  switch_container: {
+    width: "20%",
+   alignItems: 'center',
+   justifyContent: 'center',
+   marginLeft: -10,
+  },
+time_container: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    marginLeft: 20,
+    },
   footer: {
     flexDirection: "row",
     gap: 13,
   },
+
 });
