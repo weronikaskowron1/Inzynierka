@@ -52,6 +52,20 @@ function DodajStudioPanel() {
     "Niedziela",
   ];
 
+  const [openingHours, setOpeningHours] = useState(
+    weekDays.map(() => ({
+      enabled: true,
+      open: "08:00",
+      close: "16:00",
+    })),
+  );
+
+  const updateOpeningHours = (index, field, value) => {
+    setOpeningHours((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
+    );
+  };
+
   return (
     <View
       style={[
@@ -212,18 +226,34 @@ function DodajStudioPanel() {
                 {weekDays.map((item, index) => (
                   <View key={index} style={styles.row}>
                     <Text style={styles.weekday}>{item}</Text>
+
                     <View style={styles.switch_container}>
                       <Switch
-                        value={enabled}
-                        onValueChange={setEnabled}
+                        value={openingHours[index].enabled}
+                        onValueChange={(value) =>
+                          updateOpeningHours(index, "enabled", value)
+                        }
                         trackColor={{ false: "red", true: Colors.green12 }}
-                        thumbColor={enabled ? "white" : "white"}
+                        thumbColor="white"
                       />
                     </View>
+
                     <View style={styles.time_container}>
-                    <TimeDropDown />
-                    <Text>-</Text>
-                    <TimeDropDown />
+                      <TimeDropDown
+                        value={openingHours[index].open}
+                        onChange={(value) =>
+                          updateOpeningHours(index, "open", value)
+                        }
+                      />
+
+                      <Text>-</Text>
+
+                      <TimeDropDown
+                        value={openingHours[index].close}
+                        onChange={(value) =>
+                          updateOpeningHours(index, "close", value)
+                        }
+                      />
                     </View>
                   </View>
                 ))}
@@ -305,21 +335,20 @@ const styles = StyleSheet.create({
   },
   switch_container: {
     width: "20%",
-   alignItems: 'center',
-   justifyContent: 'center',
-   marginLeft: -10,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: -10,
   },
-time_container: {
+  time_container: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 10,
     marginLeft: 20,
-    },
+  },
   footer: {
     flexDirection: "row",
     gap: 13,
   },
-
 });

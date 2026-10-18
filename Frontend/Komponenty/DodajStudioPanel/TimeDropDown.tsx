@@ -3,19 +3,47 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import { Entypo, FontAwesome6 } from "@expo/vector-icons";
 import { Colors } from "../../Themes/colors.ts";
 
-export default function SortingDropDown({ time = "8:00" }) {
+import HourWheelPicker from "../DodajStudioPanel/HourWheelPicker.tsx";
+
+export default function TimeDropDown({ value = "08:00", onChange }) {
   const [open, setOpen] = useState(false);
+  const [hour, minute] = value.split(":").map(Number);
+
+  const changeHour = (newHour) => {
+    onChange?.(
+      `${String(newHour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`,
+    );
+  };
+
+  const changeMinute = (newMinute) => {
+    onChange?.(
+      `${String(hour).padStart(2, "0")}:${String(newMinute).padStart(2, "0")}`,
+    );
+  };
 
   return (
-    <Pressable style={styles.button} onPress={() => setOpen(!open)}>
-      <Text style={{ fontSize: 13 }}>{time}</Text>
+    <View>
+      <Pressable style={styles.button} onPress={() => setOpen(!open)}>
+        <Text style={{ fontSize: 13 }}>{value}</Text>
 
-      <Entypo
-        name={open ? "chevron-up" : "chevron-down"}
-        size={15}
-        color={Colors.grayText}
-      />
-    </Pressable>
+        <Entypo
+          name={open ? "chevron-up" : "chevron-down"}
+          size={15}
+          color={Colors.grayText}
+        />
+      </Pressable>
+
+      <View>
+        {open && (
+          <HourWheelPicker
+            hour={hour}
+            minute={minute}
+            setHour={changeHour}
+            setMinute={changeMinute}
+          />
+        )}
+      </View>
+    </View>
   );
 }
 
