@@ -34,7 +34,9 @@ function RootStack() {
     <Stack.Navigator
      screenOptions={{
             headerShown: false,
+
           }}
+      initialRouteName="Logowanie"
       >
 
         <Stack.Screen

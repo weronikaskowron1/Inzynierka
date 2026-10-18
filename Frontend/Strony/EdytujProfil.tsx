@@ -15,7 +15,6 @@ export default function EdytujProfil({route}) {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
   const { id, user_type } = route.params;
-  const ip = 3;
   const [userType,setUserType]=useState(user_type);
   const [showGender, setShowGender] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
@@ -93,7 +92,7 @@ export default function EdytujProfil({route}) {
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: Colors.creambackground, paddingBottom: 50 } }>
               <View style={{height:'9%',width:'100%',flexDirection:'row', alignItems:'center', justifyContent: 'center',marginBottom:'0%'}}>
-                              <Pressable onPress={()=>navigation.navigate('UstawieniaKonta')} style={{height:'100%',aspectRatio:1,alignItems:'left', justifyContent: 'center', marginTop:'2%'}}>
+                              <Pressable onPress={()=>navigation.navigate('UstawieniaKonta',{user_type: userType,id: id})} style={{height:'100%',aspectRatio:1,alignItems:'left', justifyContent: 'center', marginTop:'2%'}}>
                                   <AntDesign name='arrow-left' size={24} color={Colors.green2} style={{}}/>
                               </Pressable>
                               <Text style={[styles.textbold, {fontSize: 20,width:'56%', left:'12%'}]}>Dane Osobowe</Text>

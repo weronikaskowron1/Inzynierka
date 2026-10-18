@@ -6,11 +6,12 @@ import { LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Mediu
 import { useFonts } from 'expo-font';
 
 
-export default function NavigationContainer({navigation, userType}) {
+export default function NavigationContainer({navigation, userType, id}) {
     const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
+      console.log(id);
     return (
         <View style={[styles.container,{flexDirection:'column'}]}>
-              <Pressable onPress={() => navigation.navigate('UstawieniaKonta')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
+              <Pressable onPress={() => navigation.navigate('UstawieniaKonta',{ id:id, user_type:userType })} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'3%', marginBottom:'3%'}}>
               <View style={styles.tloIconki}>
                     <Feather name="user" size={22} color={Colors.green2} />
               </View>

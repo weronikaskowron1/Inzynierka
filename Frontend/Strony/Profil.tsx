@@ -41,10 +41,10 @@ export default function Profil() {
     LeagueSpartan_500Medium,
     LeagueSpartan_600SemiBold,
   });
-  const ip = 3;
+  const id = 3;
   const [nextVisit, setNextVisit] = useState(null);
   const [showChangeImage, setShowChangeImage] = useState(false);
-  const [userType, setUserType] = useState("user");
+  const [userType, setUserType] = useState("employer");
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const [profilinfo, setProfilInfo] = useState({
@@ -54,8 +54,8 @@ export default function Profil() {
     try {
       const url =
         userType === "user"
-          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
-          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${id}`
+          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${id}`;
       console.log("URL:", url);
       const response = await fetch(url);
       const data = await response.json();
@@ -348,7 +348,7 @@ export default function Profil() {
       ) : (
         <View style={{ width: "100%", height: "5%" }}></View>
       )}
-      <NavigationContainer navigation={navigation} userType={userType} />
+      <NavigationContainer navigation={navigation} userType={userType} id={id} />
 
       <Pressable
         onPress={() => navigation.navigate("Logowanie")}

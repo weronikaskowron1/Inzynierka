@@ -41,7 +41,7 @@ app.use("/api/register-google",RegisterGoogleUser)
 app.use('/api/salony',getEmployerStudios);
 app.use('/api/employee_count',getEmployeeCount);
 app.use('/api/pracownicy',getEmployees);
-app.use('/api/visitcards', getVisitCards );
+app.use('/api', getVisitCards );
 app.use('/api/uzytkownicy',getUser);
 app.use('/api/firmy',getCompany);
 app.use('/api/kategorie',getCategories);

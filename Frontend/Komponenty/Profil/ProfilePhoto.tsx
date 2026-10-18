@@ -6,11 +6,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Aparat from './Aparat';
 
 
-export default function ZdjecieProfilowe({photopath,navigation,imie,ShowChangeImage, showCamera, width='25%', marginLeft='5%'}) {
+export default function ZdjecieProfilowe({photopath,navigation,imie,ShowChangeImage, showCamera, width='25%', marginLeft='3%'}) {
     const [fontsLoaded] = useFonts({LeagueSpartan_700Bold});
     const firstletter=imie?.slice(0,1);
     return (
-      <View style={[styles.containerImage, {width:{width},marginLeft:{marginLeft}}]}>
+      <View style={[styles.containerImage, {width:width,marginLeft:marginLeft}]}>
       { photopath ?
           <Image
             source={{ uri: photopath }}
