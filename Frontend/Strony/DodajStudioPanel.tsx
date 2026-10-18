@@ -24,6 +24,7 @@ import DodajZdjecieButton from "../Komponenty/DodajStudioPanel/DodajZdjecieButto
 import DalejButton from "../Komponenty/DodajStudioPanel/DalejButton.tsx";
 import WsteczButton from "../Komponenty/DodajStudioPanel/WsteczButton.tsx";
 import DodajButton from "../Komponenty/DodajStudioPanel/DodajButton.tsx";
+import HourWheelPicker from "../Komponenty/DodajStudioPanel/HourWheelPicker.tsx";
 
 export default DodajStudioPanel;
 function DodajStudioPanel() {
@@ -35,22 +36,26 @@ function DodajStudioPanel() {
   const [description, setDescription] = useState("");
 
   return (
-    <View style={[GlobalStyles.body, { paddingTop: insets.top }]}>
-      <ScrollView>
+    <View
+      style={[
+        GlobalStyles.body,
+        { flex: 1, paddingTop: insets.top, paddingHorizontal: 15 },
+      ]}
+    >
+      <ScrollView style={{ flex: 1 }}>
+        <View style={styles.header}>
+          <View style={styles.backButton}>
+            <GoBackButton2 />
+          </View>
+
+          <Text style={styles.title}>Dodaj salon</Text>
+        </View>
+        <View style={styles.step_container}>
+          <StepIndicator step={step} />
+        </View>
         <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.backButton}>
-              <GoBackButton2 />
-            </View>
-
-            <Text style={styles.title}>Dodaj salon</Text>
-          </View>
-          <View style={styles.step_container}>
-            <StepIndicator step={step} />
-          </View>
-
           {step === 1 && (
-            <View style={{ marginHorizontal: 20, gap: 20 }}>
+            <View style={{ marginHorizontal: 10, gap: 20 }}>
               <View>
                 <Text style={styles.main_text}>Podstawowe informacje</Text>
                 <Text style={styles.subtitle_text}>
@@ -104,21 +109,94 @@ function DodajStudioPanel() {
             </View>
           )}
 
-          <View style={styles.footer}>
-            {step > 1 && <WsteczButton step={step} setStep={setStep} />}
-            {step < 3 && <DalejButton step={step} setStep={setStep} />}
-            {step === 3 && <DodajButton />}
-          </View>
+          {step === 2 && (
+            <View style={{ marginHorizontal: 10, gap: 20 }}>
+              <View>
+                <Text style={styles.main_text}>Adres</Text>
+                <Text style={styles.subtitle_text}>
+                  Podaj adres swojego salonu
+                </Text>
+              </View>
+              <View style={styles.one_input}>
+                <View style={styles.tag_container}>
+                  <Text style={styles.tag_text}>Ulica</Text>
+                  <Text style={styles.required}>*</Text>
+                </View>
+                <TextInput maxLength={50} style={styles.input_container} />
+              </View>
+              <View style={{ flexDirection: "row", gap: 20 }}>
+                <View style={[styles.one_input, { flex: 1 }]}>
+                  <View style={styles.tag_container}>
+                    <Text style={styles.tag_text}>Numer budynku</Text>
+                    <Text style={styles.required}>*</Text>
+                  </View>
+                  <TextInput maxLength={50} style={styles.input_container} />
+                </View>
+
+                <View style={[styles.one_input, { flex: 1 }]}>
+                  <Text style={styles.tag_text}>Numer lokalu</Text>
+                  <TextInput maxLength={50} style={styles.input_container} />
+                </View>
+              </View>
+              <View style={{ flexDirection: "row", gap: 20 }}>
+                <View style={[styles.one_input, { flex: 1 }]}>
+                  <View style={styles.tag_container}>
+                    <Text style={styles.tag_text}>Kod pocztowy</Text>
+                    <Text style={styles.required}>*</Text>
+                  </View>
+                  <TextInput maxLength={50} style={styles.input_container} />
+                </View>
+
+                <View style={[styles.one_input, { flex: 1 }]}>
+                  <View style={styles.tag_container}>
+                    <Text style={styles.tag_text}>Miasto</Text>
+                    <Text style={styles.required}>*</Text>
+                  </View>
+                  <TextInput maxLength={50} style={styles.input_container} />
+                </View>
+              </View>
+
+              <View>
+                <Text style={styles.main_text}>Kontakt</Text>
+                <Text style={styles.subtitle_text}>
+                  Podaj dane kontaktowe do salonu
+                </Text>
+              </View>
+              <View style={styles.one_input}>
+                <View style={styles.tag_container}>
+                  <Text style={styles.tag_text}>Telefon</Text>
+                  <Text style={styles.required}>*</Text>
+                </View>
+                <TextInput maxLength={50} style={styles.input_container} />
+              </View>
+              <View style={styles.one_input}>
+                <View style={styles.tag_container}>
+                  <Text style={styles.tag_text}>E-mail</Text>
+                  <Text style={styles.required}>*</Text>
+                </View>
+                <TextInput maxLength={50} style={styles.input_container} />
+              </View>
+              <View style={styles.one_input}>
+                <Text style={styles.tag_text}>Strona internetowa</Text>
+                <TextInput maxLength={50} style={styles.input_container} />
+              </View>
+            </View>
+          )}
+
+          {step === 3 && <HourWheelPicker />}
         </View>
       </ScrollView>
+      <View style={[styles.footer, { bottom: insets.bottom + 5 }]}>
+        {step > 1 && <WsteczButton step={step} setStep={setStep} />}
+        {step < 3 && <DalejButton step={step} setStep={setStep} />}
+        {step === 3 && <DodajButton />}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 15,
-  },
+  container: {},
 
   header: {
     flexDirection: "row",
