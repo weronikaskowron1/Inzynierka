@@ -3,7 +3,14 @@ import { Colors } from "../../Themes/colors.ts";
 import { pressed_styles } from "../../Themes/buton_pressed.tsx";
 import WheelPicker from "@quidone/react-native-wheel-picker";
 
-const HourWheelPicker = ({ hour, setHour, minute, setMinute }) => {
+const HourWheelPicker = ({
+  hour,
+  setHour,
+  minute,
+  setMinute,
+  open,
+  setOpen,
+}) => {
   const hours = [...Array(24).keys()].map((index) => ({
     value: index,
     label: index.toString().padStart(2, "0"),
@@ -47,6 +54,7 @@ const HourWheelPicker = ({ hour, setHour, minute, setMinute }) => {
 
           pressed && pressed_styles.button_pressed,
         ]}
+        onPress={() => setOpen(!open)}
       >
         <Text style={{ fontSize: 16, color: "white", fontWeight: "500" }}>
           OK

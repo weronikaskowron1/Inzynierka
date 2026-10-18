@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Modal } from "react-native";
 import { Entypo, FontAwesome6 } from "@expo/vector-icons";
 import { Colors } from "../../Themes/colors.ts";
 
@@ -32,17 +32,24 @@ export default function TimeDropDown({ value = "08:00", onChange }) {
           color={Colors.grayText}
         />
       </Pressable>
-
-      <View>
-        {open && (
-          <HourWheelPicker
-            hour={hour}
-            minute={minute}
-            setHour={changeHour}
-            setMinute={changeMinute}
-          />
-        )}
-      </View>
+      <Modal
+        visible={open}
+        transparent={true}
+        onRequestClose={() => setOpen(false)}
+      >
+        <View style={styles.picker}>
+          {open && (
+            <HourWheelPicker
+              hour={hour}
+              minute={minute}
+              setHour={changeHour}
+              setMinute={changeMinute}
+              open={open}
+              setOpen={setOpen}
+            />
+          )}
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -51,7 +58,6 @@ const styles = StyleSheet.create({
   button: {
     padding: 7,
     paddingLeft: 10,
-    width: 60,
     height: 35,
     boxShadow: "0px 2px 10px rgba(164, 164, 164, 0.1)",
     borderWidth: 1,
@@ -63,5 +69,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "white",
+  },
+  picker: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
