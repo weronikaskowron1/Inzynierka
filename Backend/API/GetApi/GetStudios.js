@@ -5,7 +5,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
 try {
     const results = await DbConnection.query(`
-    SELECT st.id_studio, st.name, c.image_path, a.latitude, a.longitude,
+    SELECT st.id_studio, st.name, c.image_path, a.latitude, a.longitude
             (SELECT ROUND(AVG(o.rating)::numeric, 1)
             FROM opinions o
             LEFT JOIN reservations r

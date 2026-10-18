@@ -229,6 +229,7 @@ export default function Profil() {
             imie={profilinfo.name}
             photopath={profileImage}
             ShowChangeImage={() => setShowChangeImage(true)}
+            showCamera={true}
           />
           <View
             style={{

@@ -11,11 +11,12 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Colors } from '../Themes/colors';
 
 
-export default function EdytujProfil() {
+export default function EdytujProfil({route}) {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
+  const { id, user_type } = route.params;
   const ip = 3;
-  const [userType,setUserType]=useState("employer");
+  const [userType,setUserType]=useState(user_type);
   const [showGender, setShowGender] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [nip, setNIP] = useState("nipnimm33");
@@ -29,8 +30,8 @@ export default function EdytujProfil() {
         try{
         const url =
         userType === "user"
-          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
-          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${id}`
+          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${id}`;
 
         const response = await fetch(url);
         const data = await response.json();
@@ -46,8 +47,8 @@ export default function EdytujProfil() {
       try {
         const url =
           userType === "user"
-            ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
-            : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+            ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${id}`
+            : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${id}`;
 
         const response = await fetch(url, {
           method: "PUT",
@@ -76,7 +77,6 @@ export default function EdytujProfil() {
         const response = await fetch(url);
         const data = await response.json();
 
-        console.log("Kategeorie:", data);
         setCategories(data);
       } catch (error) {
         console.error(error);
