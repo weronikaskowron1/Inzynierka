@@ -1,7 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
+import LoginUser from "./API/PostUser/LoginUser.js";
+import RegisterUser from "./API/PostUser/RegisterUser.js";
+import GoogleAuthCheck from "./API/PostUser/GoogleAuthCheck.js";
+import RegisterGoogleUser from "./API/PostUser/RegisterGoogleUser.js";
+dotenv.config();
 
-//importy
+
+
 import getStudios from "./Api/GetApi/GetStudios.js";
 import getEmployerStudios from "./Api/GetApi/GetEmployerStudios.js";
 import getEmployeeCount from "./Api/GetApi/getEmployeeCount.js";
@@ -20,13 +26,18 @@ import getEmployees from "./Api/GetApi/getEmployees.js";
 import DeleteStudio from "./Api/DeleteApi/DeleteStudio.js";
 import DeleteEmployee from "./Api/DeleteApi/DeleteEmployee.js";
 
+
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
 //GetApi
 app.use('/api/salony',getStudios);
+app.use("/api/login",LoginUser);
+app.use("/api/register",RegisterUser);
+app.use("/api/google-auth-check",GoogleAuthCheck)
+app.use("/api/register-google",RegisterGoogleUser)
 app.use('/api/salony',getEmployerStudios);
 app.use('/api/employee_count',getEmployeeCount);
 app.use('/api/pracownicy',getEmployees);
@@ -35,6 +46,7 @@ app.use('/api/uzytkownicy',getUser);
 app.use('/api/firmy',getCompany);
 app.use('/api/kategorie',getCategories);
 app.use('/api/profile',getAllProfiles);
+
 
 //PostApi
 

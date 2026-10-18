@@ -17,7 +17,7 @@ import HomeScreenEmployer from '../Strony/HomeScreenEmployer';
 const Tab = createBottomTabNavigator();
 
 export default function Nawigator() {
-    const [user_type, setUserType] = useState('administrator');
+    const [user_type, setUserType] = useState('user');
   return (
     <Tab.Navigator
       screenOptions={({ route  }) => ({

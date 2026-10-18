@@ -2,6 +2,7 @@ import pg from "pg";
 import dotenv from "dotenv";
 
 dotenv.config();
+console.log("DB_PASSWORD:", typeof process.env.DB_PASSWORD, process.env.DB_PASSWORD);
 
 const { Pool } = pg;
 

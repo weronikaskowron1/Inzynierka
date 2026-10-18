@@ -19,6 +19,7 @@ import {
 } from "@expo-google-fonts/league-spartan";
 import { useFonts } from "expo-font";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { supabase } from "../Images/supabase.js";
@@ -31,6 +32,7 @@ import NavigationContainer from "../Komponenty/Profil/KontenerNawigacji";
 export default function Profil() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const odbyte_wizyty = 30;
   const polubione_obiekty = 15;
   const [fontsLoaded] = useFonts({
@@ -40,6 +42,7 @@ export default function Profil() {
     LeagueSpartan_600SemiBold,
   });
   const ip = 3;
+  const [nextVisit, setNextVisit] = useState(null);
   const [showChangeImage, setShowChangeImage] = useState(false);
   const [userType, setUserType] = useState("user");
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -53,6 +56,7 @@ export default function Profil() {
         userType === "user"
           ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
           : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+      console.log("URL:", url);
       const response = await fetch(url);
       const data = await response.json();
       console.log("Dane:", data[0]);
@@ -71,6 +75,21 @@ export default function Profil() {
   useEffect(() => {
     GetProfileInfo();
   }, []);
+
+
+  const GetLastVisit = async() => {
+      try {
+          const url = `${process.env.EXPO_PUBLIC_API_URL}/api/user/${ip}/next`;
+          const response = await fetch(url);
+          const data = await response.json();
+          setNextVisit(data);
+          } catch(error){
+              console.error("Błąd pobierania nastepnej wizyty: ",error);
+              }
+      };
+  useEffect(() => {
+      GetLastVisit();
+      }, []);
 
   //Pobieranie zdjecia profilowego
   const UpdateImage = async (image_path: string) => {
@@ -190,12 +209,14 @@ export default function Profil() {
         alignItems: "center",
         backgroundColor: Colors.creambackground,
         paddingBottom: tabBarHeight + 80,
+        paddingTop:insets.top
       }}
     >
       <View
         style={[
           styles.containerProfile,
           { marginBottom: userType === "user" ? "3%" : "-10%" },
+
         ]}
       >
         <View
