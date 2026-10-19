@@ -233,7 +233,7 @@ function DodajStudioPanel() {
                         onValueChange={(value) =>
                           updateOpeningHours(index, "enabled", value)
                         }
-                        trackColor={{ false: "red", true: Colors.green12 }}
+                        trackColor={{ false: "#b80202", true: Colors.green12 }}
                         thumbColor="white"
                       />
                     </View>
@@ -293,6 +293,7 @@ const styles = StyleSheet.create({
   },
   step_container: {
     marginTop: 20,
+    marginHorizontal: 10,
   },
   main_text: {
     fontSize: 19,
