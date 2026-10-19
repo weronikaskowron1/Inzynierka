@@ -6,6 +6,7 @@ import { Phone, Mail, CalendarCheck } from "lucide-react-native";
 import {LeagueSpartan_700Bold,LeagueSpartan_400Regular,LeagueSpartan_500Medium,LeagueSpartan_600SemiBold,} from "@expo-google-fonts/league-spartan";
 import { useFonts } from "expo-font";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { supabase } from "../Images/supabase.js";
@@ -20,7 +21,11 @@ import NavigationContainer from "../Komponenty/Profil/KontenerNawigacji";
 export default function Profil() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
+<<<<<<< HEAD
   const {user, logout} = useAuth();
+=======
+  const insets = useSafeAreaInsets();
+>>>>>>> 09aa196766ee5232f89001d3aa9e19819300d023
   const odbyte_wizyty = 30;
   const polubione_obiekty = 15;
   const [fontsLoaded] = useFonts({
@@ -188,12 +193,14 @@ export default function Profil() {
         alignItems: "center",
         backgroundColor: Colors.creambackground,
         paddingBottom: tabBarHeight + 80,
+        paddingTop:insets.top
       }}
     >
       <View
         style={[
           styles.containerProfile,
           { marginBottom: userType === "user" ? "3%" : "-10%" },
+
         ]}
       >
         <View

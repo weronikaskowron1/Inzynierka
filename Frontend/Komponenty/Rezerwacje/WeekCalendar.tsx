@@ -198,7 +198,7 @@ const WeekCalendar = ({ reservations = [] }) => {
           nextSheet={nextWeek}
           currentMonthText={currentMonthText}
           currentYear={year}
-          currentWeek={`${firstDayWeek} \u2014 ${lastDayWeek}`}
+          currentWeek={`${calendarDays[0].day} \u2014 ${calendarDays[6].day}`}
         />
         <View style={styles.week}>
           {weekDays.map((item, index) => (

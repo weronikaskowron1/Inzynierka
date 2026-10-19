@@ -9,6 +9,7 @@ import VisitMonthCalendar from "../Komponenty/Rezerwacje/VisitMonthCalendar.tsx"
 import VisitWeekCalendar from "../Komponenty/Rezerwacje/VisitWeekCalendar.tsx";
 
 import { useNavigation } from "@react-navigation/native";
+import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useState, useEffect } from "react";
 import { styles as GlobalStyles } from "../Themes/global_styles.tsx";
 import { Colors } from "../Themes/colors.ts";
@@ -16,6 +17,8 @@ import { Colors } from "../Themes/colors.ts";
 export default Rezerwacje;
 function Rezerwacje() {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+
   const [calendarType, setCalendarType] = useState<"week" | "month">("week");
   const { user } = useAuth();
   const [reservations, setReservations] = useState([]);
@@ -60,7 +63,7 @@ function Rezerwacje() {
     formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
   return (
-    <View style={GlobalStyles.body}>
+    <View style={[GlobalStyles.body, {paddingTop:insets.top}]}>
       <View style={styles.container}>
         <View style={{ marginLeft: 30 }}>
           <View style={styles.header}>

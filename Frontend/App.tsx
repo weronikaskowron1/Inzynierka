@@ -14,6 +14,7 @@ import Nawigator from './Komponenty/Nawigator.tsx'
 import EdytujProfil from './Strony/EdytujProfil.tsx';
 import WszystkieSalony from './Strony/WszystkieSalony'
 import Rejestracja from './Strony/Rejestracja.tsx';
+import StudioPanel from './Strony/StudioPanel.tsx';
 import {AuthProvider,useAuth} from "./Context/AuthContext";
 import RejestracjaGoogle from './Strony/RejestracjaGoogle.tsx';
 
@@ -29,7 +30,7 @@ function RootStack() {
       return null;
   }
   return (
-    <View style={{backgroundColor: 'white', paddingBottom: insets.bottom, paddingTop: insets.top, height: '100%', width: '100%'}}>
+    <View style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
     <Stack.Navigator
      screenOptions={{
             headerShown: false,
@@ -56,6 +57,12 @@ function RootStack() {
         component={Rejestracja}
         options={{ title: 'Rejestracja' }}
         />
+
+        <Stack.Screen
+                name="StudioPanel"
+                component={StudioPanel}
+                options={{ title: 'StudioPanel' }}
+                />
      </Stack.Navigator>
      </View>
   );
