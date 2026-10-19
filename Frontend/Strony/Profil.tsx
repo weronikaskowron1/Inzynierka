@@ -21,11 +21,7 @@ import NavigationContainer from "../Komponenty/Profil/KontenerNawigacji";
 export default function Profil() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
-<<<<<<< HEAD
   const {user, logout} = useAuth();
-=======
-  const insets = useSafeAreaInsets();
->>>>>>> 09aa196766ee5232f89001d3aa9e19819300d023
   const odbyte_wizyty = 30;
   const polubione_obiekty = 15;
   const [fontsLoaded] = useFonts({
@@ -37,7 +33,7 @@ export default function Profil() {
   const ip = user?.id;
   const [nextVisit, setNextVisit] = useState(null);
   const [showChangeImage, setShowChangeImage] = useState(false);
-  const [userType, setUserType] = useState("user");
+  const [userType, setUserType] = useState("employer");
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const [profilinfo, setProfilInfo] = useState({
@@ -51,8 +47,8 @@ export default function Profil() {
     try {
       const url =
         userType === "user"
-          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
-          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${id}`
+          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${id}`;
       console.log("URL:", url);
       const response = await fetch(url);
       const data = await response.json();
@@ -213,6 +209,7 @@ export default function Profil() {
             imie={user?.name}
             photopath={profileImage}
             ShowChangeImage={() => setShowChangeImage(true)}
+            showCamera={true}
           />
           <View
             style={{
@@ -331,7 +328,7 @@ export default function Profil() {
       ) : (
         <View style={{ width: "100%", height: "5%" }}></View>
       )}
-      <NavigationContainer navigation={navigation} userType={userType} />
+      <NavigationContainer navigation={navigation} userType={userType} id={id} />
 
       <Pressable
         onPress={() => navigation.navigate("Logowanie")}

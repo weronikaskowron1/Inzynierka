@@ -9,6 +9,7 @@ import HomeScreen from '../Strony/HomeScreen';
 import Rezerwacje from '../Strony/Rezerwacje';
 import Ulubione from '../Strony/Ulubione';
 import ProfilNawigator from "./ProfilNawigator";
+import NawigatorAdmin from './NawigatorAdmin';
 
 import HomeScreenEmployer from '../Strony/HomeScreenEmployer';
 
@@ -79,12 +80,20 @@ export default function Nawigator() {
 
         </>
         )
-        : (user_type==='employer') &&
+        : (user_type==='employer') ?
         (
             <>
       <Tab.Screen name="Home" component={HomeScreenEmployer} />
       <Tab.Screen name="ProfilNawigacja" component={ProfilNawigator} />
             </>
+            ) :
+        (user_type==='administrator') ?
+        (
+            <Tab.Screen name="Home" component={NawigatorAdmin} />
+            )
+        : (user_type==='employee') &&
+        (
+            <Tab.Screen name="Home" component={HomeScreen} />
             )
         }
     </Tab.Navigator>

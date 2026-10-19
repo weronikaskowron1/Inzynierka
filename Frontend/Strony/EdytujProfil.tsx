@@ -11,10 +11,10 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Colors } from '../Themes/colors';
 
 
-export default function EdytujProfil({user_type}) {
+export default function EdytujProfil({route}) {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
-  const ip = 3;
+  const { id, user_type } = route.params;
   const [userType,setUserType]=useState(user_type);
   const [showGender, setShowGender] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
@@ -29,8 +29,8 @@ export default function EdytujProfil({user_type}) {
         try{
         const url =
         userType === "user"
-          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
-          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${id}`
+          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${id}`;
 
         const response = await fetch(url);
         const data = await response.json();
@@ -46,8 +46,8 @@ export default function EdytujProfil({user_type}) {
       try {
         const url =
           userType === "user"
-            ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
-            : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+            ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${id}`
+            : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${id}`;
 
         const response = await fetch(url, {
           method: "PUT",
@@ -76,7 +76,6 @@ export default function EdytujProfil({user_type}) {
         const response = await fetch(url);
         const data = await response.json();
 
-        console.log("Kategeorie:", data);
         setCategories(data);
       } catch (error) {
         console.error(error);
@@ -93,7 +92,7 @@ export default function EdytujProfil({user_type}) {
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: Colors.creambackground, paddingBottom: 50 } }>
               <View style={{height:'9%',width:'100%',flexDirection:'row', alignItems:'center', justifyContent: 'center',marginBottom:'0%'}}>
-                              <Pressable onPress={()=>navigation.navigate('UstawieniaKonta')} style={{height:'100%',aspectRatio:1,alignItems:'left', justifyContent: 'center', marginTop:'2%'}}>
+                              <Pressable onPress={()=>navigation.navigate('UstawieniaKonta',{user_type: userType,id: id})} style={{height:'100%',aspectRatio:1,alignItems:'left', justifyContent: 'center', marginTop:'2%'}}>
                                   <AntDesign name='arrow-left' size={24} color={Colors.green2} style={{}}/>
                               </Pressable>
                               <Text style={[styles.textbold, {fontSize: 20,width:'56%', left:'12%'}]}>Dane Osobowe</Text>
