@@ -30,7 +30,8 @@ export default function Profil() {
     LeagueSpartan_500Medium,
     LeagueSpartan_600SemiBold,
   });
-  const ip = user?.id;
+    const insets = useSafeAreaInsets();
+  const id = user?.id;
   const [nextVisit, setNextVisit] = useState(null);
   const [showChangeImage, setShowChangeImage] = useState(false);
   const [userType, setUserType] = useState("employer");
