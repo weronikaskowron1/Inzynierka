@@ -133,7 +133,7 @@ function DodajStudioPanel() {
                 <Text style={styles.subtitle_text}>
                   Dodaj zdjęcie główne, które będzie widoczne na profilu salonu.
                 </Text>
-                <View style={{ alignItems: "center" }}>
+                <View style={{ alignItems: "center", marginTop: 30 }}>
                   <DodajZdjecieButton />
                 </View>
               </View>
@@ -225,7 +225,7 @@ function DodajStudioPanel() {
               <View>
                 {weekDays.map((item, index) => (
                   <View key={index} style={styles.row}>
-                    <Text style={styles.weekday}>{item}</Text>
+                    <Text style={[styles.weekday, !openingHours[index].enabled && {color: Colors.lightgrayText}]}>{item}</Text>
 
                     <View style={styles.switch_container}>
                       <Switch
@@ -233,11 +233,11 @@ function DodajStudioPanel() {
                         onValueChange={(value) =>
                           updateOpeningHours(index, "enabled", value)
                         }
-                        trackColor={{ false: "#b80202", true: Colors.green12 }}
+                        trackColor={{ false: Colors.lightgrayText, true: Colors.green12 }}
                         thumbColor="white"
                       />
                     </View>
-
+                    {openingHours[index].enabled ? (
                     <View style={styles.time_container}>
                       <TimeDropDown
                         value={openingHours[index].open}
@@ -255,6 +255,11 @@ function DodajStudioPanel() {
                         }
                       />
                     </View>
+                    ) : (
+                        <View style={{alignItems: 'center', flex: 1}}>
+                        <Text style={styles.zamkniete_text}>Zamknięte</Text>
+                        </View>
+                        )}
                   </View>
                 ))}
               </View>
@@ -333,6 +338,7 @@ const styles = StyleSheet.create({
   weekday: {
     width: "33%",
     fontWeight: "500",
+    fontSize: 16,
   },
   switch_container: {
     width: "20%",
@@ -348,6 +354,10 @@ const styles = StyleSheet.create({
     gap: 10,
     marginLeft: 20,
   },
+zamkniete_text: {
+    color: Colors.lightgrayText,
+    fontSize: 15,
+    },
   footer: {
     flexDirection: "row",
     gap: 13,
