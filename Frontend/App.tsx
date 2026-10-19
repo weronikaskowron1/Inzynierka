@@ -32,11 +32,13 @@ function RootStack() {
     return null;
   }
   return (
-    <View style={{ backgroundColor: "white", height: "100%", width: "100%" }}>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
+    <View style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
+    <Stack.Navigator
+     screenOptions={{
+            headerShown: false,
+
+          }}
+      initialRouteName="Logowanie"
       >
         <Stack.Screen name="Nawigator" component={Nawigator} />
 

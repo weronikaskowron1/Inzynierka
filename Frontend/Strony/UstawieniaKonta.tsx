@@ -11,12 +11,13 @@ import { useState, useEffect } from "react";
 
 import Profil from './Strony/Profil.tsx';
 
-export default function UstawieniaKonta() {
+export default function UstawieniaKonta({route}) {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
-  const ip = 3;
+  const { id, user_type } = route.params;
+  console.log(id);
   const [showDeleteAccount, setShowDeleteAccount] = useState(false);
-  const [userType,setUserType]=useState("user")
+  const [userType,setUserType]=useState(user_type);
   const [fontsLoaded] = useFonts({LeagueSpartan_700Bold, LeagueSpartan_400Regular, LeagueSpartan_500Medium, LeagueSpartan_600SemiBold });
       const DeleteUser = async () => {
         try {
@@ -43,13 +44,13 @@ export default function UstawieniaKonta() {
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: Colors.creambackground, paddingBottom: 20 + 80 } }>
             <View style={{height:'10%',width:'90%',flexDirection:'row', alignItems:'center', justifyContent: 'left',marginBottom:'3%'}}>
-                <Pressable onPress={()=>navigation.navigate('Profil')} style={{height:'100%',aspectRatio:1,alignItems:'left', justifyContent: 'center', marginTop:'2%'}}>
+                <Pressable onPress={()=>navigation.navigate('Profil',{user_type: userType,id: id})} style={{height:'100%',aspectRatio:1,alignItems:'left', justifyContent: 'center', marginTop:'2%'}}>
                     <AntDesign name='arrow-left' size={24} color={Colors.green2} style={{}}/>
                 </Pressable>
                 <Text style={[styles.textbold, {fontSize: 20, width:'62%', left:'12%'}]}>Ustawienia Konta</Text>
             </View>
               <View style={[styles.container,{flexDirection:"column"}]}>
-                    <Pressable onPress={() => navigation.navigate('EdytujProfil')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'5%', marginBottom:'5%'}}>
+                    <Pressable onPress={() => navigation.navigate('EdytujProfil',{user_type: userType,id: id})} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'5%', marginBottom:'5%'}}>
                     <View style={styles.tloIconki}>
                           <Feather name="user" size={22} color={Colors.green2} />
                     </View>

@@ -1,22 +1,9 @@
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  ScrollView,
-  Modal,
-} from "react-native";
+import {Alert,StyleSheet,Text,View,Pressable,ScrollView,Modal,} from "react-native";
 import { FontAwesome, Feather, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../Themes/colors";
 import { Phone, Mail, CalendarCheck } from "lucide-react-native";
-import {
-  LeagueSpartan_700Bold,
-  LeagueSpartan_400Regular,
-  LeagueSpartan_500Medium,
-  LeagueSpartan_600SemiBold,
-} from "@expo-google-fonts/league-spartan";
+import {LeagueSpartan_700Bold,LeagueSpartan_400Regular,LeagueSpartan_500Medium,LeagueSpartan_600SemiBold,} from "@expo-google-fonts/league-spartan";
 import { useFonts } from "expo-font";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -25,6 +12,8 @@ import * as ImagePicker from "expo-image-picker";
 import { supabase } from "../Images/supabase.js";
 import { File } from "expo-file-system";
 
+import {useAuth} from "../Context/AuthContext"
+
 import ZdjecieProfilowe from "../Komponenty/Profil/ProfilePhoto";
 import Logowanie from "./Strony/Logowanie.tsx";
 import NavigationContainer from "../Komponenty/Profil/KontenerNawigacji";
@@ -32,7 +21,7 @@ import NavigationContainer from "../Komponenty/Profil/KontenerNawigacji";
 export default function Profil() {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
+  const {user, logout} = useAuth();
   const odbyte_wizyty = 30;
   const polubione_obiekty = 15;
   const [fontsLoaded] = useFonts({
@@ -41,25 +30,30 @@ export default function Profil() {
     LeagueSpartan_500Medium,
     LeagueSpartan_600SemiBold,
   });
-  const ip = 3;
+  const ip = user?.id;
   const [nextVisit, setNextVisit] = useState(null);
   const [showChangeImage, setShowChangeImage] = useState(false);
-  const [userType, setUserType] = useState("user");
+  const [userType, setUserType] = useState("employer");
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const [profilinfo, setProfilInfo] = useState({
     created_at: "",
+    name: user?.name,
+    surname: user?.surname,
+    phone: user?.phone,
+    email: user?.email,
   });
   const GetProfileInfo = async () => {
     try {
       const url =
         userType === "user"
-          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${ip}`
-          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${ip}`;
+          ? `${process.env.EXPO_PUBLIC_API_URL}/api/uzytkownicy/${id}`
+          : `${process.env.EXPO_PUBLIC_API_URL}/api/firmy/${id}`;
       console.log("URL:", url);
       const response = await fetch(url);
       const data = await response.json();
-      console.log("Dane:", data[0]);
+      console.log("Dane:", data);
+      if (!Array.isArray(data) || !data[0]) return;
       setProfilInfo(data[0]);
       // Jeżeli użytkownik ma zdjęcie
       if (data[0].image_path) {
@@ -73,23 +67,9 @@ export default function Profil() {
     }
   };
   useEffect(() => {
-    GetProfileInfo();
-  }, []);
+    if (user?.id) GetProfileInfo();
+  }, [user?.id]);
 
-
-  const GetLastVisit = async() => {
-      try {
-          const url = `${process.env.EXPO_PUBLIC_API_URL}/api/user/${ip}/next`;
-          const response = await fetch(url);
-          const data = await response.json();
-          setNextVisit(data);
-          } catch(error){
-              console.error("Błąd pobierania nastepnej wizyty: ",error);
-              }
-      };
-  useEffect(() => {
-      GetLastVisit();
-      }, []);
 
   //Pobieranie zdjecia profilowego
   const UpdateImage = async (image_path: string) => {
@@ -114,7 +94,7 @@ export default function Profil() {
 
       const { data: imageData } = supabase.storage
         .from("Images")
-        .getPublicUrl(profilinfo.image_path);
+        .getPublicUrl(image_path);
       setProfileImage(`${imageData.publicUrl}?v=${Date.now()}`);
     } catch (error) {
       console.error(error);
@@ -226,9 +206,10 @@ export default function Profil() {
           }}
         >
           <ZdjecieProfilowe
-            imie={profilinfo.name}
+            imie={user?.name}
             photopath={profileImage}
             ShowChangeImage={() => setShowChangeImage(true)}
+            showCamera={true}
           />
           <View
             style={{
@@ -239,7 +220,7 @@ export default function Profil() {
             }}
           >
             <Text style={styles.username}>
-              {profilinfo.name} {profilinfo.surname}
+              {user?.name} {user?.surname}
             </Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Phone
@@ -247,7 +228,7 @@ export default function Profil() {
                 color={Colors.gray}
                 style={{ marginRight: "4%", marginTop: "3%" }}
               />
-              <Text style={styles.text2}>{profilinfo.phone}</Text>
+              <Text style={styles.text2}>{user?.phone}</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Mail
@@ -255,7 +236,7 @@ export default function Profil() {
                 color={Colors.gray}
                 style={{ marginRight: "4%", marginTop: "3%" }}
               />
-              <Text style={styles.text2}>{profilinfo.email}</Text>
+              <Text style={styles.text2}>{user?.email}</Text>
             </View>
           </View>
         </View>
@@ -289,7 +270,7 @@ export default function Profil() {
               style={{ marginBottom: "-1%" }}
             />
             <Text style={[styles.textbold, { fontSize: 16 }]}>
-              {profilinfo.przyszle_rezerwacje}
+              {profilinfo?.przyszle_rezerwacje ?? 0}
             </Text>
             <Text
               style={[
@@ -332,7 +313,7 @@ export default function Profil() {
               style={{ marginBottom: "-1%" }}
             />
             <Text style={[styles.textbold, { fontSize: 16 }]}>
-              {profilinfo.polubione}
+              {profilinfo?.polubione ?? 0}
             </Text>
             <Text
               style={[
@@ -347,7 +328,7 @@ export default function Profil() {
       ) : (
         <View style={{ width: "100%", height: "5%" }}></View>
       )}
-      <NavigationContainer navigation={navigation} userType={userType} />
+      <NavigationContainer navigation={navigation} userType={userType} id={id} />
 
       <Pressable
         onPress={() => navigation.navigate("Logowanie")}

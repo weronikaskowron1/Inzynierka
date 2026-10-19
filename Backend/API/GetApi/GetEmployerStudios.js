@@ -9,6 +9,7 @@ router.get("/company/:companyId", async (req, res) => {
     const results = await DbConnection.query(
       `
     SELECT st.id_studio, st.name, c.image_path, a.street,
+        (SELECT COUNT(es.id_employee) FROM employees_studios es WHERE es.id_studio=st.id_studio) employees_count,
             (SELECT ROUND(AVG(o.rating)::numeric, 1)
             FROM opinions o
             LEFT JOIN reservations r
