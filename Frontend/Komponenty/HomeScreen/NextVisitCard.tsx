@@ -17,8 +17,7 @@ const NextVisitCard = ({ service = '', day = '', time = '', company = '' }) => {
           <Text style={styles.service_type_text}>{service}</Text>
           <View style={styles.detail_container}>
             <Text style={styles.day_text}>{`${day} \u00B7 `}</Text>
-            <Text style={styles.time_text}>{`${time} \u00B7 `}</Text>
-            <Text style={styles.company_text}>{company}</Text>
+            <Text style={styles.time_text}>{`${time}`}</Text>
           </View>
         </View>
         <Pressable

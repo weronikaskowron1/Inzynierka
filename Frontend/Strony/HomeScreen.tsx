@@ -105,7 +105,7 @@ function HomeScreen() {
         <View style={GlobalStyles.container}>
           <View style={styles.header}>
             <Welcome />
-            <AlertIcon />
+            <AlertIcon/>
           </View>
           <View style={styles.searcharbar}>
             <Searchbar />
@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     flexDirection: "row",
     justifyContent: "space-between",
+    gap: 24,
   },
 
   nastepna_wizyta_text: {

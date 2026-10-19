@@ -5,7 +5,7 @@ import {useAuth} from "../../Context/AuthContext"
 import { Colors } from "../../Themes/colors.ts";
 
 const AvatarIcon = ({
-  name = "Weronika",
+  name = "",
   name2 = "",
   color1 = Colors.green5,
   color2 = Colors.green4,
