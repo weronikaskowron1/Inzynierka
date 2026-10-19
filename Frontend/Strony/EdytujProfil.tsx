@@ -11,11 +11,11 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Colors } from '../Themes/colors';
 
 
-export default function EdytujProfil() {
+export default function EdytujProfil({user_type}) {
   const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation();
   const ip = 3;
-  const [userType,setUserType]=useState("employer");
+  const [userType,setUserType]=useState(user_type);
   const [showGender, setShowGender] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [nip, setNIP] = useState("nipnimm33");

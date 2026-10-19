@@ -49,7 +49,7 @@ export default function UstawieniaKonta() {
                 <Text style={[styles.textbold, {fontSize: 20, width:'62%', left:'12%'}]}>Ustawienia Konta</Text>
             </View>
               <View style={[styles.container,{flexDirection:"column"}]}>
-                    <Pressable onPress={() => navigation.navigate('EdytujProfil')} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'5%', marginBottom:'5%'}}>
+                    <Pressable onPress={() => navigation.navigate('EdytujProfil',{userType})} style={{flexDirection:'row', alignItems: 'center', margin:'1%', marginTop:'5%', marginBottom:'5%'}}>
                     <View style={styles.tloIconki}>
                           <Feather name="user" size={22} color={Colors.green2} />
                     </View>
