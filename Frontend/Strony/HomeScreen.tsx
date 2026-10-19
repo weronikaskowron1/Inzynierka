@@ -28,6 +28,7 @@ const formatDay = (dateString) => {
         day: "numeric",
         month: "long",
         year: "numeric",
+        timeZone: "UTC",
         });
     };
 
@@ -148,6 +149,7 @@ function HomeScreen() {
                   time = {new Date(nextVisit.data).toLocaleTimeString("pl-PL",{
                       hour: "2-digit",
                       minute: "2-digit",
+                      timeZone: "UTC",
                       })}
                   company = {nextVisit.studio_name}
                 />
